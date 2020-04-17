@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "464372046016",
+    "firebase_url": "https://login-c2a5a.firebaseio.com",
+    "project_id": "login-c2a5a",
+    "storage_bucket": "login-c2a5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464372046016:android:fba47fb99bc54160043525",
+        "android_client_info": {
+          "package_name": "com.example.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464372046016-4mdt8use1mchlu43r4rjn1g3cl34n21i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKqJqQyGCiqwlKMTJ9aEXs5cO609ajrQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464372046016-4mdt8use1mchlu43r4rjn1g3cl34n21i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
