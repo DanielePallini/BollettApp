@@ -1,10 +1,12 @@
 package com.example.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +18,7 @@ import com.example.login.fragments.FragmentButtons;
 import com.example.login.fragments.FragmentRegistrazione;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.SignInButton;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrazioneActivity extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentButtons).commit();
 
     }
+
 }
 
 

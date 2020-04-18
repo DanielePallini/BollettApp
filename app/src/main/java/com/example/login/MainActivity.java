@@ -84,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("firstrun", false);
                 editor.apply();
             }
+            if(resultCode == RESULT_FIRST_USER){
+                SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("firstrun", false);
+                editor.apply();
+            }
         }
 
     }

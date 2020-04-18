@@ -18,6 +18,7 @@ public class FragmentButtons extends Fragment {
     private Button btnlogin;
     private Button btnregistra;
     private FragmentRegistrazione fragmentRegistrazione;
+    private FragmentLogin fragmentLogin;
     private SignInButton signInButton;
 
     @Nullable
@@ -32,6 +33,13 @@ public class FragmentButtons extends Fragment {
             public void onClick(View v) {
                 fragmentRegistrazione = new FragmentRegistrazione();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentRegistrazione).commit();
+            }
+        });
+        btnlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentLogin = new FragmentLogin();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentLogin).commit();
             }
         });
         return view;
