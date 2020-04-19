@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.R;
-import com.example.login.entities.Recensione;
+import com.example.login.entities.Bolletta;
+import com.example.login.entities.BollettaLuce;
 import com.example.login.uiutilities.FeedAdapter;
 
 import java.util.ArrayList;
@@ -22,11 +23,12 @@ public class FragmentFeed extends Fragment {
 
     private RecyclerView recyclerView;
     private FeedAdapter feedAdapter;
-    private ArrayList<Recensione> recensioni;
+    private ArrayList<Bolletta> bollette;
     private ImageButton btnAdd;
+    private FragmentSelezioneBolletta fragmentSelezioneBolletta;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        recensioni = new ArrayList<>();
+        bollette = new ArrayList<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -38,26 +40,31 @@ public class FragmentFeed extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv_feed);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        feedAdapter = new FeedAdapter(recensioni);
+        feedAdapter = new FeedAdapter(bollette);
         recyclerView.setAdapter(feedAdapter);
 
         btnAdd = view.findViewById(R.id.button_add);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String titolo =  randomString(15);
-                int voto = 5;
-                String testo = randomString(90);
-                Recensione recensione = new Recensione(titolo, voto, testo);
-                recensioni.add(recensione);
+                /*int id = 0 ;
+                int costo = 5;
+                String dataScadenza = "";
+                String periodo = "";
+                Bolletta bolletta = new BollettaLuce(id, costo, dataScadenza, periodo, consumo, misura);
+                bollette.add(bolletta);
 
                 feedAdapter.notifyDataSetChanged();
+
+                 */
+                fragmentSelezioneBolletta = new FragmentSelezioneBolletta();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentSelezioneBolletta).commit();
             }
         });
 
         return view;
     }
-    private String randomString(int count){
+    /*private String randomString(int count){
         final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder builder = new StringBuilder();
         while (count-- != 0){
@@ -66,4 +73,6 @@ public class FragmentFeed extends Fragment {
         }
         return builder.toString();
     }
+
+     */
 }

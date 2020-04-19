@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".RegistrazioneActivity">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Data di Scadenza"
+        android:layout_marginTop="10dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_data_scadenza"
+            android:inputType="date"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Periodo di Riferimento"
+        android:layout_marginTop="10dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_periodo_riferimento"
+            android:inputType="date"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="302dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Costo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_costo"
+                android:layout_width="302dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/euro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="13dp"
+            android:text="€"
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="302dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Consumo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_consumo"
+                android:layout_width="302dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/misura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="13dp"
+            android:text="Kwh"
+            android:textColor="@android:color/black"
+            android:textSize="25dp" />
+    </LinearLayout>
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Salva"
+        android:id="@+id/btn_salva"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="end"
+        android:background="#06FAF2"
+        android:textColor="@android:color/white"/>
+
+
+
+</LinearLayout>

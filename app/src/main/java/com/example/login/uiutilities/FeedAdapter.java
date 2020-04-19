@@ -1,3 +1,4 @@
+
 package com.example.login.uiutilities;
 
 import android.view.LayoutInflater;
@@ -9,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.R;
-import com.example.login.entities.Recensione;
+import com.example.login.entities.Bolletta;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>{
         }
     }
 
-    private ArrayList<Recensione> struttura;
+    private ArrayList<Bolletta> struttura;
 
-    public FeedAdapter(ArrayList<Recensione> struttura){
+    public FeedAdapter(ArrayList<Bolletta> struttura){
         this.struttura = struttura;
     }
 
@@ -42,9 +44,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull CViewHolder holder, int position) {
-        holder.textTitolo.setText(struttura.get(position).getTitolo());
-        holder.textVoto.setText(struttura.get(position).getVoto()+"");
-        holder.textTesto.setText(struttura.get(position).getTesto());
+        holder.textTitolo.setText(struttura.get(position).getDataScadenza());
+        holder.textVoto.setText(struttura.get(position).getCosto()+"");
+        holder.textTesto.setText(struttura.get(position).getId());
     }
 
     @Override
