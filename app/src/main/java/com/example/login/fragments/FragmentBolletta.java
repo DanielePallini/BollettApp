@@ -1,13 +1,16 @@
 package com.example.login.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,18 +18,33 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.login.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FragmentBolletta extends Fragment {
-    private TextInputEditText textDataScadenza, textPeriodo, textCosto, textConsumo;
+    private TextInputEditText textDataScadenza, textPeriodo, textFine, textCosto, textConsumo;
     private TextView euro, kwh;
     private Button btnSalva;
     private int num = 0;
     final Calendar myCalendar = Calendar.getInstance();
+    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
@@ -34,6 +52,7 @@ public class FragmentBolletta extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bolletta, container, false);
         textDataScadenza = view.findViewById(R.id.text_data_scadenza);
         textPeriodo = view.findViewById(R.id.text_periodo_riferimento);
+        textFine = view.findViewById(R.id.text_fine_riferimento);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -66,12 +85,46 @@ public class FragmentBolletta extends Fragment {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        textFine.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                num = 3;
+                new DatePickerDialog(getActivity(), date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
 
         textCosto = view.findViewById(R.id.text_costo);
         euro = view.findViewById(R.id.euro);
         textConsumo = view.findViewById(R.id.text_consumo);
         kwh = view.findViewById(R.id.misura);
         btnSalva = view.findViewById(R.id.btn_salva);
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        btnSalva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    final String dataScadenza = textDataScadenza.getText().toString();
+                    final String periodo = textPeriodo.getText().toString();
+                    final String fine = textFine.getText().toString();
+                    String tmp = textCosto.getText().toString();
+                    final double costo = Double.parseDouble(tmp);
+                    tmp = textConsumo.getText().toString();
+                    final double consumo = Double.parseDouble(tmp);
+
+                    final String tipo = "Luce";
+                    writeBollettaToDb(dataScadenza, periodo, fine, costo, consumo, tipo, currentUser.getUid());
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         return view;
 
     }
@@ -84,7 +137,39 @@ public class FragmentBolletta extends Fragment {
                 break;
             case 2:
                 textPeriodo.setText(sdf.format(myCalendar.getTime()));
+                break;
+            case 3:
+                textFine.setText(sdf.format(myCalendar.getTime()));
+                break;
+
         }
+
+    }
+
+    private void writeBollettaToDb(String dataScadenza, String periodo, String fine, double costo, double consumo, String tipo, String uid) {
+        Map<String, Object> bolletta = new HashMap<>();
+        bolletta.put("Data Scadenza", dataScadenza );
+        bolletta.put("Da", periodo);
+        bolletta.put("A", fine);
+        bolletta.put("Importo", costo);
+        bolletta.put("Consumo", consumo);
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("utenti").document(uid).collection("bollette").document(tipo + " ").set(bolletta)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
 
     }
     /*
