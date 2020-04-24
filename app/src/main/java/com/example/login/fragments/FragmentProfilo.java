@@ -71,7 +71,7 @@ public class FragmentProfilo extends Fragment {
         }
         else {
             Glide.with(this)
-                    .load(getActivity().getDrawable(R.drawable.ic_person_black_24dp))
+                    .load(getActivity().getDrawable(R.drawable.ic_person_outline_black_24dp))
                     .centerCrop()
                     .into(proPic);
         }

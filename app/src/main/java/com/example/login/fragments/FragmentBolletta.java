@@ -27,13 +27,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -45,6 +51,7 @@ public class FragmentBolletta extends Fragment {
     private int num = 0;
     final Calendar myCalendar = Calendar.getInstance();
     private FirebaseAuth mAuth;
+    private final int codice = 1;
 
     @Nullable
     @Override
@@ -116,7 +123,8 @@ public class FragmentBolletta extends Fragment {
                     tmp = textConsumo.getText().toString();
                     final double consumo = Double.parseDouble(tmp);
 
-                    final String tipo = "Luce";
+                    String tipo = "Luce ";
+                    //tipo += codice;
                     writeBollettaToDb(dataScadenza, periodo, fine, costo, consumo, tipo, currentUser.getUid());
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
@@ -153,11 +161,69 @@ public class FragmentBolletta extends Fragment {
         bolletta.put("A", fine);
         bolletta.put("Importo", costo);
         bolletta.put("Consumo", consumo);
+        Random r = new Random();
+        int codice = r.nextInt(100 - 1) + 1;
+
+        bolletta.put("Codice", codice);
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("utenti").document(uid).collection("bollette").document(tipo + " ").set(bolletta)
+
+        DocumentReference docRef = db.collection("utenti").document(uid).collection("bollette").document("Luce 2");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        //String obj = document.getData().toString();
+                        //String[] str = obj.split(",");
+                        //String[] str1 = str[3].split("=");
+                        //int codice = Integer.parseInt(str1[1]);
+                        Log.d(TAG, "DocumentSnapshot id: " + document.getId());
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        db.collection("utenti").document(uid).collection("bollette")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        String max = "";
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String st = document.getId();
+
+                                if (st.compareTo(max) > 0){
+                                    max = st;
+
+                                }
+                                //Log.d(TAG, document.getId() + " => " + document.getData());
+                                //Log.d(TAG, max);
+                            }
+                            Log.d(TAG, max);
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+
+        //db.collection("utenti").document(uid).collection("bollette").document("Luce 1").get();
+
+        db.collection("utenti").document(uid).collection("bollette").document(tipo + " " + codice).set(bolletta)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
