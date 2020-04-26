@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.login.entities.Bolletta;
 import com.example.login.entities.BollettaLuce;
 import com.example.login.fragments.FragmentFeed;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,46 +120,39 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String max = "";
-                        if (task.isSuccessful()) {
-                            Map<String, Object> bolletta = new HashMap<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String st = document.getId();
-                                String obj = document.getData().toString();
-                                BollettaLuce bollettaLuce = new BollettaLuce(0, 0, "", "", 0, "khw", 0);
-                                bolletta.put("Data Scadenza", dataScadenza );
-                                bolletta.put("Da", periodo);
-                                bolletta.put("A", fine);
-                                bolletta.put("Importo", costo);
-                                bolletta.put("Consumo", consumo);
-                                /*String[] str = obj.split(",");
-                                int j = 0;
-                                String[] str1 = str[0].split("=");
-                                for(j = 0, j<6, j++){
-                                    str1 = str[j].split("=");
 
-                                    j++;
+                        ArrayList<Object> bollette = new ArrayList<Object>();
+                        int max = 0;
+
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //String st = document.getId();
+                                String obj = document.getData().toString();
+                                String[] str = obj.split(",");
+                                String[] Dati = new String[0];
+
+                                for(int i = 0; i < 6; i++)
+                                {
+                                    String[] str1 = str[i].split("=");
+                                    Dati[i] = str1[1];
                                 }
 
-                                 */
+                                BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[1]), Double.parseDouble(Dati[5]), Dati[4], Dati[3], Dati[0], Double.parseDouble(Dati[2]));
+                                bollette.add(bollettaLuce);
 
-                                //int codice = Integer.parseInt(str1[1]);
-
-                                if (st.compareTo(max) > 0) {
-                                    max = st;
-
+                                if (bollettaLuce.getId() > max) {
+                                    max = bollettaLuce.getId();
                                 }
                                 //Log.d(TAG, document.getId() + " => " + document.getData());
                                 //Log.d(TAG, max);
                             }
-                            Log.d(TAG, max);
+                            //Log.d(TAG, max);
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
-
     }
 }
