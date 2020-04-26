@@ -96,5 +96,6 @@ public class FragmentRegistrazione extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("utenti").document(uid).set(user);
+        //db.collection("utenti").document(uid).collection("bollette").document(uid).set(user);
     }
 }
