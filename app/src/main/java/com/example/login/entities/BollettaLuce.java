@@ -3,10 +3,21 @@ package com.example.login.entities;
 public class BollettaLuce extends Bolletta {
     private double consumo = 0;
     private String misura = "kWh";
-    public BollettaLuce(int id, double costo, String dataScadenza, String periodo, double consumo, String misura){
+    private int max = 0;
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public BollettaLuce(int id, double costo, String dataScadenza, String periodo, double consumo, String misura, int max){
         super(id, costo, dataScadenza, periodo);
         this.consumo = consumo;
         this.misura = misura;
+        this.max = max;
     }
 
     public void setConsumo(double consumo) {
