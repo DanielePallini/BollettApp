@@ -13,8 +13,8 @@ public class BollettaLuce extends Bolletta {
         this.max = max;
     }
 
-    public BollettaLuce(int id, double costo, String dataScadenza, String periodo, double consumo, String misura, int max){
-        super(id, costo, dataScadenza, periodo);
+    public BollettaLuce(int id, double costo, String dataScadenza, String periodo, String finePeriodo, double consumo, String misura, int max){
+        super(id, costo, dataScadenza, periodo, finePeriodo);
         this.consumo = consumo;
         this.misura = misura;
         this.max = max;

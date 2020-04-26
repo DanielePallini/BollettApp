@@ -4,12 +4,22 @@ package com.example.login.entities;
     private double costo = 0;
     private String dataScadenza = "";
     private String periodo = "";
+    private String finePeriodo = "";
 
-     public Bolletta(int id, double costo, String dataScadenza, String periodo) {
+     public String getFinePeriodo() {
+         return finePeriodo;
+     }
+
+     public void setFinePeriodo(String finePeriodo) {
+         this.finePeriodo = finePeriodo;
+     }
+
+     public Bolletta(int id, double costo, String dataScadenza, String periodo, String finePeriodo) {
          this.id = id;
          this.costo = costo;
          this.dataScadenza = dataScadenza;
          this.periodo = periodo;
+         this.finePeriodo = finePeriodo;
      }
 
      public void setId(int id) {
