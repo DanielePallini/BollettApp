@@ -25,6 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNav;
     private FragmentProfilo fragmentProfilo;
     private FragmentFeed fragmentFeed;
-    private FirebaseAuth mAuth;
-    int max = 0;
+
     ArrayList<Object> bollette = new ArrayList<Object>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             fragmentFeed = new FragmentFeed();
             fragmentProfilo = new FragmentProfilo();
-            mAuth = FirebaseAuth.getInstance();
-            final FirebaseUser currentUser = mAuth.getCurrentUser();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            scaricaDati(db, currentUser.getUid());
+
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentFeed).commit();
 
@@ -115,62 +112,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void scaricaDati(FirebaseFirestore db, String uid) {
-        String finePeriodo = "";
-        String periodo = "";
-        int codice = 0;
-        double consumo = 0;
-        double costo = 0;
-        String dataScadenza = "";
-        db.collection("utenti").document(uid).collection("bollette")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-
-
-
-                        if (task.isSuccessful()) {
-
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                //String st = document.getId();
-                                String obj = document.getData().toString();
-                                String[] str = obj.split(",");
-                                String[] Dati = new String[6];
-
-                                for(int i = 0; i < 6; i++){
-                                /*{
-                                    switch(i){
-                                        case 0:
-
-                                    }
-
-                                 */
-                                    String[] str1 = str[i].split("=");
-                                    Dati[i] = str1[1];
-                                    //Log.d(TAG, Dati[i]);
-
-                                }
-                                Dati[5] = Dati[5].substring(0, Dati[5].length() - 1); //metodo agricolo ma efficace
-                                BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]));
-                                bollette.add(bollettaLuce);
-                                //Log.d(TAG, bollette.toString());
-                                if (bollettaLuce.getId() > max) {
-                                    max = bollettaLuce.getId();
-                                }
-
-                                //Log.d(TAG, document.getId() + " => " + document.getData());
-                                //Log.d(TAG, max);
-                            }
-                            //Log.d(TAG, max);
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-
-                    }
-                });
-
-    }
 }

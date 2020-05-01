@@ -7,23 +7,44 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:id="@+id/text_titolo"/>
+        android:id="@+id/text_tipo"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="italic"
-        android:textAlignment="textEnd"
-        android:id="@+id/text_voto"/>
+        android:textAlignment="textStart"
+        android:id="@+id/text_costo"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textStyle="italic"
         android:textAlignment="textStart"
-        android:id="@+id/text_testo"/>
+        android:id="@+id/text_data_scadenza"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textAlignment="textStart"
+        android:textStyle="italic"
+        android:id="@+id/text_periodo_riferimento"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:textAlignment="textStart"
+        android:id="@+id/text_fine_riferimento"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:textAlignment="textStart"
+        android:id="@+id/text_consumo"/>
 
 </LinearLayout>

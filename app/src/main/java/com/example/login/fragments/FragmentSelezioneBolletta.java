@@ -15,6 +15,7 @@ import com.example.login.R;
 public class FragmentSelezioneBolletta extends Fragment implements View.OnClickListener {
     private ImageButton btnAddLuce;
     FragmentBolletta fragmentBolletta;
+    int max = 0;
 
     @Nullable
     @Override
@@ -22,6 +23,8 @@ public class FragmentSelezioneBolletta extends Fragment implements View.OnClickL
         View view = inflater.inflate(R.layout.fragment_selezione_bolletta, container, false);
         btnAddLuce = view.findViewById(R.id.button_add_bolletta_luce);
         btnAddLuce.setOnClickListener(this);
+        Bundle args = getArguments();
+        max = args.getInt("max", 0);
         return view;
     }
 
@@ -31,6 +34,9 @@ public class FragmentSelezioneBolletta extends Fragment implements View.OnClickL
         switch (v.getId()){
             case R.id.button_add_bolletta_luce:
                 fragmentBolletta = new FragmentBolletta();
+                Bundle args = new Bundle();
+                args.putInt("max", max);
+                fragmentBolletta.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentBolletta).commit();
                 break;
 

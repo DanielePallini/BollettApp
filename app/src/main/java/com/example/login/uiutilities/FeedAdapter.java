@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.R;
 import com.example.login.entities.Bolletta;
+import com.example.login.entities.BollettaLuce;
 
 
 import java.util.ArrayList;
@@ -19,19 +20,23 @@ import java.util.List;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>{
 
     class CViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitolo, textVoto, textTesto;
+        TextView textTipo, textCosto, textDataScadenza, textPeriodo, textFine, textConsumo;
 
-        CViewHolder(@NonNull View itemView){
+        CViewHolder(@NonNull View itemView) {
             super(itemView);
-            textTitolo = itemView.findViewById(R.id.text_titolo);
-            textVoto = itemView.findViewById(R.id.text_voto);
-            textTesto = itemView.findViewById(R.id.text_testo);
+            textTipo = itemView.findViewById(R.id.text_tipo);
+            textCosto = itemView.findViewById(R.id.text_costo);
+            textDataScadenza = itemView.findViewById(R.id.text_data_scadenza);
+            textPeriodo = itemView.findViewById(R.id.text_periodo_riferimento);
+            textFine = itemView.findViewById(R.id.text_fine_riferimento);
+            textConsumo = itemView.findViewById(R.id.text_consumo);
+
         }
     }
 
-    private ArrayList<Bolletta> struttura;
+    private ArrayList<BollettaLuce> struttura;
 
-    public FeedAdapter(ArrayList<Bolletta> struttura){
+    public FeedAdapter(ArrayList<BollettaLuce> struttura){
         this.struttura = struttura;
     }
 
@@ -44,9 +49,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull CViewHolder holder, int position) {
-        holder.textTitolo.setText(struttura.get(position).getDataScadenza());
-        holder.textVoto.setText(struttura.get(position).getCosto()+"");
-        holder.textTesto.setText(struttura.get(position).getId());
+        holder.textTipo.setText("Luce");
+        holder.textCosto.setText("Costo: € "+ struttura.get(position).getCosto()+"");
+        holder.textDataScadenza.setText("Data di Scadenza: " + struttura.get(position).getDataScadenza());
+        holder.textPeriodo.setText("Da: " + struttura.get(position).getPeriodo());
+        holder.textFine.setText("A: "+ struttura.get(position).getFinePeriodo());
+        holder.textConsumo.setText("Consumo: " +struttura.get(position).getConsumo()+ " kWh");
     }
 
     @Override
