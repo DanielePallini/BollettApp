@@ -19,6 +19,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -48,10 +50,11 @@ public class FragmentGrafici extends Fragment {
 
     private FirebaseAuth mAuth;
     private ArrayList<BollettaLuce> bollette;
-
+    private List<Entry> entries;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
+        entries = new ArrayList<Entry>();
         super.onCreate(savedInstanceState);
     }
 
@@ -66,9 +69,20 @@ public class FragmentGrafici extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         scaricaDati(db, currentUser.getUid());
 
+        //for (BollettaLuce data : bollette) {
+            // turn your data into Entry objects
 
+        //}
+        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+        dataSet.setColor(R.color.colorAccent);
+        dataSet.setValueTextColor(R.color.colorAccent);
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
 
 
         return view;
@@ -108,7 +122,7 @@ public class FragmentGrafici extends Fragment {
                                 Dati[5] = Dati[5].substring(0, Dati[5].length() - 1); //metodo agricolo ma efficace
                                 BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]));
                                 bollette.add(bollettaLuce);
-
+                                entries.add(new Entry((Float.parseFloat(Dati[5])), Float.parseFloat(Dati[5])));
 
                             }
 
