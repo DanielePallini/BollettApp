@@ -14,6 +14,7 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.example.login.entities.Bolletta;
 import com.example.login.entities.BollettaLuce;
 import com.example.login.fragments.FragmentFeed;
+import com.example.login.fragments.FragmentGrafici;
 import com.example.login.fragments.FragmentProfilo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNav;
     private FragmentProfilo fragmentProfilo;
     private FragmentFeed fragmentFeed;
+    private FragmentGrafici fragmentGrafici;
 
     ArrayList<Object> bollette = new ArrayList<Object>();
     @Override
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             fragmentFeed = new FragmentFeed();
             fragmentProfilo = new FragmentProfilo();
-
+            fragmentGrafici = new FragmentGrafici();
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentFeed).commit();
 
@@ -69,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.menu_profilo:
                             selectedFragment = fragmentProfilo;
+                            break;
+                        case R.id.menu_grafici:
+                            selectedFragment = fragmentGrafici;
                             break;
                     }
                     if (selectedFragment != null) {

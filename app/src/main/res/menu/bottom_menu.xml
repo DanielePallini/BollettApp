@@ -9,5 +9,9 @@
         android:id="@+id/menu_profilo"
         android:title="@string/profilo"
         android:icon="@drawable/ic_person_black_24dp"/>
+    <item
+        android:id="@+id/menu_grafici"
+        android:title="@string/grafici"
+        android:icon="@drawable/ic_insert_chart_black_24dp"/>
 
 </menu>

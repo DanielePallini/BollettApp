@@ -5,18 +5,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.R;
-import com.example.login.entities.Bolletta;
 import com.example.login.entities.BollettaLuce;
-import com.example.login.uiutilities.FeedAdapter;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,18 +39,16 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class FragmentFeed extends Fragment {
+public class FragmentGrafici extends Fragment {
 
-    private RecyclerView recyclerView;
-    private FeedAdapter feedAdapter;
-    private ArrayList<BollettaLuce> bollette;
-    private ImageButton btnAdd;
-    private FragmentSelezioneBolletta fragmentSelezioneBolletta;
     private FirebaseAuth mAuth;
-    int max = 0;
+    private ArrayList<BollettaLuce> bollette;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
@@ -46,17 +57,12 @@ public class FragmentFeed extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_grafici, container, false);
 
+        //BarChart chart = view.findViewById(R.id.barchart);
 
-        recyclerView = view.findViewById(R.id.rv_feed);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        feedAdapter = new FeedAdapter(bollette);
-        recyclerView.setAdapter(feedAdapter);
-
-        btnAdd = view.findViewById(R.id.button_add);
-
+        LineChart chart = (LineChart) view.findViewById(R.id.chart);
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -64,20 +70,10 @@ public class FragmentFeed extends Fragment {
 
 
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                fragmentSelezioneBolletta = new FragmentSelezioneBolletta();
-                Bundle args = new Bundle();
-                args.putInt("max", max);
-                fragmentSelezioneBolletta.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentSelezioneBolletta).commit();
-            }
-        });
 
         return view;
     }
+
     public void scaricaDati(FirebaseFirestore db, String uid) {
         db.collection("utenti").document(uid).collection("bollette")
                 .get()
@@ -112,20 +108,11 @@ public class FragmentFeed extends Fragment {
                                 Dati[5] = Dati[5].substring(0, Dati[5].length() - 1); //metodo agricolo ma efficace
                                 BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]));
                                 bollette.add(bollettaLuce);
-                                //Log.d(TAG, bollette.toString());
-                                if (bollettaLuce.getId() > max) {
-                                    max = bollettaLuce.getId();
-
-                                }
-                                //Log.d(TAG, String.valueOf(max));
 
 
-
-                                //Log.d(TAG, document.getId() + " => " + document.getData());
-                                //Log.d(TAG, max);
                             }
-                            feedAdapter.notifyDataSetChanged();
-                            //Log.d(TAG, max);
+
+
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -135,15 +122,4 @@ public class FragmentFeed extends Fragment {
                 });
 
     }
-    /*private String randomString(int count){
-        final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder builder = new StringBuilder();
-        while (count-- != 0){
-            int character = (int) (Math.random()*ALPHA_NUMERIC_STRING.length());
-            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-        }
-        return builder.toString();
-    }
-
-     */
 }
