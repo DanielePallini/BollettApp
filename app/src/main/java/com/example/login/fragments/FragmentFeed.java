@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.login.MainActivity;
 import com.example.login.R;
 import com.example.login.entities.Bolletta;
 import com.example.login.entities.BollettaLuce;
@@ -60,6 +61,7 @@ public class FragmentFeed extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         scaricaDati(db, currentUser.getUid());
 
 
@@ -97,13 +99,6 @@ public class FragmentFeed extends Fragment {
                                 String[] Dati = new String[6];
 
                                 for(int i = 0; i < 6; i++){
-                                /*{
-                                    switch(i){
-                                        case 0:
-
-                                    }
-
-                                 */
                                     String[] str1 = str[i].split("=");
                                     Dati[i] = str1[1];
                                     //Log.d(TAG, Dati[i]);
@@ -125,6 +120,7 @@ public class FragmentFeed extends Fragment {
                                 //Log.d(TAG, max);
                             }
                             feedAdapter.notifyDataSetChanged();
+                            MainActivity.bollette = bollette;
                             //Log.d(TAG, max);
 
                         } else {
@@ -135,15 +131,4 @@ public class FragmentFeed extends Fragment {
                 });
 
     }
-    /*private String randomString(int count){
-        final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder builder = new StringBuilder();
-        while (count-- != 0){
-            int character = (int) (Math.random()*ALPHA_NUMERIC_STRING.length());
-            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-        }
-        return builder.toString();
-    }
-
-     */
 }

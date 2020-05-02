@@ -1,6 +1,7 @@
 package com.example.login.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.login.MainActivity;
 import com.example.login.R;
 import com.example.login.entities.BollettaLuce;
+import com.example.login.uiutilities.FeedAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -50,11 +53,12 @@ public class FragmentGrafici extends Fragment {
 
     private FirebaseAuth mAuth;
     private ArrayList<BollettaLuce> bollette;
-    private List<Entry> entries;
+    public ArrayList<Entry> entries;
+    private FeedAdapter feedAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
-        entries = new ArrayList<Entry>();
+        entries = new ArrayList<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -70,11 +74,24 @@ public class FragmentGrafici extends Fragment {
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        scaricaDati(db, currentUser.getUid());
+        //scaricaDati(db, currentUser.getUid());
 
+
+
+
+        //entries.add(new Entry(15, 15));
+        //entries.add(new Entry(16, 16));
+
+        //entries.add(new Entry(15,15));
         //for (BollettaLuce data : bollette) {
             // turn your data into Entry objects
+        ArrayList<BollettaLuce> list= MainActivity.bollette;
+        for (BollettaLuce data : list) {
 
+            // turn your data into Entry objects
+            entries.add(new Entry((float)data.getConsumo(), (float)data.getCosto()));
+
+        }
         //}
         LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
         dataSet.setColor(R.color.colorAccent);
@@ -122,7 +139,9 @@ public class FragmentGrafici extends Fragment {
                                 Dati[5] = Dati[5].substring(0, Dati[5].length() - 1); //metodo agricolo ma efficace
                                 BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]));
                                 bollette.add(bollettaLuce);
-                                entries.add(new Entry((Float.parseFloat(Dati[5])), Float.parseFloat(Dati[5])));
+                                Entry entry = new Entry(15,15);
+                                entries.add(entry);
+
 
                             }
 
