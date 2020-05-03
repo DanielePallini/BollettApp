@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.login.MainActivity;
 import com.example.login.R;
 import com.example.login.charts.BarChartItem;
 import com.example.login.entities.BollettaLuce;
@@ -139,18 +140,27 @@ public class FragmentGrafici extends Fragment {
      */
     private LineData generateDataLine(int cnt) {
 
-        ArrayList<Entry> values1 = new ArrayList<>();
-
+        ArrayList<Entry> entries = new ArrayList<>();
+        /*
         for (int i = 0; i < 12; i++) {
             values1.add(new Entry(i, (int) (Math.random() * 65) + 40));
         }
 
-        LineDataSet d1 = new LineDataSet(values1, "New DataSet " + cnt + ", (1)");
+         */
+        ArrayList<BollettaLuce> list= MainActivity.bollette;
+        for (BollettaLuce data : list) {
+
+            // turn your data into Entry objects
+            entries.add(new Entry((float)data.getConsumo(), (float)data.getCosto()));
+
+        }
+
+        LineDataSet d1 = new LineDataSet(entries, "New DataSet " + cnt + ", (1)");
         d1.setLineWidth(2.5f);
         d1.setCircleRadius(4.5f);
         d1.setHighLightColor(Color.rgb(244, 117, 117));
         d1.setDrawValues(false);
-
+        /*
         ArrayList<Entry> values2 = new ArrayList<>();
 
         for (int i = 0; i < 12; i++) {
@@ -164,10 +174,10 @@ public class FragmentGrafici extends Fragment {
         d2.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         d2.setDrawValues(false);
-
+        */
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(d1);
-        sets.add(d2);
+        //sets.add(d2);
 
         return new LineData(sets);
     }
@@ -180,10 +190,17 @@ public class FragmentGrafici extends Fragment {
     private BarData generateDataBar(int cnt) {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
+        ArrayList<BollettaLuce> list= MainActivity.bollette;
+        for (BollettaLuce data : list) {
 
-        for (int i = 0; i < 12; i++) {
-            entries.add(new BarEntry(i, (int) (Math.random() * 70) + 30));
+            // turn your data into Entry objects
+            entries.add(new BarEntry((float)data.getId(), (float)data.getCosto()));
+
         }
+
+        //for (int i = 0; i < 12; i++) {
+          //  entries.add(new BarEntry(i, (int) (Math.random() * 70) + 30));
+        //}
 
         BarDataSet d = new BarDataSet(entries, "New DataSet " + cnt);
         d.setColors(ColorTemplate.VORDIPLOM_COLORS);
@@ -200,12 +217,18 @@ public class FragmentGrafici extends Fragment {
      * @return Pie data
      */
     private PieData generateDataPie() {
-
+        ArrayList<BollettaLuce> list= MainActivity.bollette;
         ArrayList<PieEntry> entries = new ArrayList<>();
-
+        /*
         for (int i = 0; i < 4; i++) {
             entries.add(new PieEntry((float) ((Math.random() * 70) + 30), "Quarter " + (i+1)));
         }
+
+         */
+        for (BollettaLuce data : list) {
+            entries.add(new PieEntry((float) (data.getCosto()), "Quarter " + (data.getId())));
+        }
+
 
         PieDataSet d = new PieDataSet(entries, "");
 
