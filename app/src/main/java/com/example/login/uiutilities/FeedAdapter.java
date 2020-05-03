@@ -49,7 +49,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull CViewHolder holder, int position) {
-        holder.textTipo.setText("Luce");
+        holder.textTipo.setText(struttura.get(position).getTipo());
         holder.textCosto.setText("Costo: € "+ struttura.get(position).getCosto()+"");
         holder.textDataScadenza.setText("Data di Scadenza: " + struttura.get(position).getDataScadenza());
         holder.textPeriodo.setText("Da: " + struttura.get(position).getPeriodo());

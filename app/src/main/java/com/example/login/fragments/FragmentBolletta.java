@@ -127,8 +127,10 @@ public class FragmentBolletta extends Fragment {
 
                     Bundle args = getArguments();
                     max = args.getInt("max", 0);
+                    String tipo = args.getString("tipo", "");
                     max= max+1;
-                    String tipo = "Luce ";
+
+                    //String tipo = "Luce ";
                     //tipo += codice;
                     writeBollettaToDb(dataScadenza, periodo, fine, costo, consumo, tipo, currentUser.getUid(), max);
                 } catch (Exception e) {
@@ -170,7 +172,7 @@ public class FragmentBolletta extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("utenti").document(uid).collection("bollette").document(tipo + "" + max).set(bolletta)
+        db.collection("utenti").document(uid).collection("bollette").document(tipo + " " + max).set(bolletta)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

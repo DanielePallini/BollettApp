@@ -14,32 +14,58 @@ import com.example.login.R;
 
 public class FragmentSelezioneBolletta extends Fragment implements View.OnClickListener {
     private ImageButton btnAddLuce;
+    private ImageButton btnAddGas;
+    private ImageButton btnAddInternet;
     FragmentBolletta fragmentBolletta;
-    int max = 0;
+    int maxLuce = 0;
+    int maxGas = 0;
+    int maxInternet = 0;
+    String tipo = "";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_selezione_bolletta, container, false);
         btnAddLuce = view.findViewById(R.id.button_add_bolletta_luce);
+        btnAddGas = view.findViewById(R.id.button_add_bolletta_gas);
+        btnAddInternet = view.findViewById(R.id.button_add_bolletta_internet);
         btnAddLuce.setOnClickListener(this);
+        btnAddGas.setOnClickListener(this);
+        btnAddInternet.setOnClickListener(this);
         Bundle args = getArguments();
-        max = args.getInt("max", 0);
+        maxLuce = args.getInt("maxLuce", 0);
+        maxGas = args.getInt("maxGas", maxGas);
+        maxInternet = args.getInt("maxInternet", maxInternet);
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        Fragment selectedFragment = null;
+        fragmentBolletta = new FragmentBolletta();
+        Bundle args = new Bundle();
         switch (v.getId()){
             case R.id.button_add_bolletta_luce:
-                fragmentBolletta = new FragmentBolletta();
-                Bundle args = new Bundle();
-                args.putInt("max", max);
+                tipo = "Luce";
+                args.putInt("max", maxLuce);
+                args.putString("tipo", tipo);
                 fragmentBolletta.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentBolletta).commit();
+                break;
+            case R.id.button_add_bolletta_gas:
+                tipo = "Gas";
+                args.putInt("max", maxGas);
+                args.putString("tipo", tipo);
+                fragmentBolletta.setArguments(args);
+                break;
+            case R.id.button_add_bolletta_internet:
+                tipo = "Internet";
+                args.putInt("max", maxInternet);
+                args.putString("tipo", tipo);
+                fragmentBolletta.setArguments(args);
                 break;
 
+        }
+        if (args!= null){
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentBolletta).commit();
         }
     }
 }

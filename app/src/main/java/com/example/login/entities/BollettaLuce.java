@@ -5,12 +5,21 @@ import androidx.annotation.NonNull;
 public class BollettaLuce extends Bolletta {
     private double consumo = 0;
     private String misura = "kWh";
+    private String tipo = "";
 
 
+    public String getTipo() {
+        return tipo;
+    }
 
-    public BollettaLuce(int id, double costo, String dataScadenza, String periodo, String finePeriodo, double consumo){
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public BollettaLuce(int id, double costo, String dataScadenza, String periodo, String finePeriodo, double consumo, String tipo){
         super(id, costo, dataScadenza, periodo, finePeriodo);
         this.consumo = consumo;
+        this.tipo = tipo;
     }
 
     public void setConsumo(double consumo) {

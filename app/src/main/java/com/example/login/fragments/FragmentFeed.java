@@ -38,7 +38,10 @@ public class FragmentFeed extends Fragment {
     private ImageButton btnAdd;
     private FragmentSelezioneBolletta fragmentSelezioneBolletta;
     private FirebaseAuth mAuth;
-    int max = 0;
+    int maxLuce = 0;
+    int maxGas = 0;
+    int maxInternet = 0;
+    String tipo = "";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
@@ -72,7 +75,9 @@ public class FragmentFeed extends Fragment {
 
                 fragmentSelezioneBolletta = new FragmentSelezioneBolletta();
                 Bundle args = new Bundle();
-                args.putInt("max", max);
+                args.putInt("maxLuce", maxLuce);
+                args.putInt("maxGas", maxGas);
+                args.putInt("maxInternet", maxInternet);
                 fragmentSelezioneBolletta.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentSelezioneBolletta).commit();
             }
@@ -91,6 +96,9 @@ public class FragmentFeed extends Fragment {
 
 
                         if (task.isSuccessful()) {
+                            String filterLuce = "Luce";
+                            String filterGas = "Gas";
+                            String filterInternet = "Internet";
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //String st = document.getId();
@@ -102,22 +110,36 @@ public class FragmentFeed extends Fragment {
                                     String[] str1 = str[i].split("=");
                                     Dati[i] = str1[1];
                                     //Log.d(TAG, Dati[i]);
-
                                 }
-                                Dati[5] = Dati[5].substring(0, Dati[5].length() - 1); //metodo agricolo ma efficace
-                                BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]));
+                                Dati[5] = Dati[5].substring(0, Dati[5].length() - 1);//metodo agricolo ma efficace
+                                if (document.getId().matches(filterLuce + "(.*)")) {
+                                    tipo = "Luce";
+                                }
+                                if (document.getId().matches(filterGas + "(.*)")) {
+                                    tipo = "Gas";
+                                }
+                                if (document.getId().matches(filterInternet + "(.*)")) {
+                                    tipo = "Internet";
+                                }
+
+                                BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]),tipo);
                                 bollette.add(bollettaLuce);
-                                //Log.d(TAG, bollette.toString());
-                                if (bollettaLuce.getId() > max) {
-                                    max = bollettaLuce.getId();
 
+                                if (tipo == "Luce") {
+                                    if (bollettaLuce.getId() > maxLuce) {
+                                        maxLuce = bollettaLuce.getId();
+                                    }
                                 }
-                                //Log.d(TAG, String.valueOf(max));
-
-
-
-                                //Log.d(TAG, document.getId() + " => " + document.getData());
-                                //Log.d(TAG, max);
+                                if (tipo == "Gas") {
+                                    if (bollettaLuce.getId() > maxGas) {
+                                        maxGas = bollettaLuce.getId();
+                                    }
+                                }
+                                if (tipo == "Internet") {
+                                    if (bollettaLuce.getId() > maxInternet) {
+                                        maxInternet = bollettaLuce.getId();
+                                    }
+                                }
                             }
                             feedAdapter.notifyDataSetChanged();
                             MainActivity.bollette = bollette;

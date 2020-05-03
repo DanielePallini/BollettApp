@@ -226,7 +226,7 @@ public class FragmentGrafici extends Fragment {
 
          */
         for (BollettaLuce data : list) {
-            entries.add(new PieEntry((float) (data.getCosto()), "Quarter " + (data.getId())));
+            entries.add(new PieEntry((float) (data.getCosto()), data.getTipo() + " " + (data.getId())));
         }
 
 
