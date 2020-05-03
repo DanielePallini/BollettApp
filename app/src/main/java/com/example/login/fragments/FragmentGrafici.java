@@ -89,7 +89,7 @@ public class FragmentGrafici extends Fragment {
         ArrayList<ChartItem> list = new ArrayList<>();
 
         // 30 items
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 3; i++) {
 
             if(i % 3 == 0) {
                 list.add(new LineChartItem(generateDataLine(i + 1), getActivity().getApplicationContext()));
