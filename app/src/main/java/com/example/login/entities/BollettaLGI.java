@@ -2,7 +2,7 @@ package com.example.login.entities;
 
 import androidx.annotation.NonNull;
 
-public class BollettaLuce extends Bolletta {
+public class BollettaLGI extends Bolletta {
     private double consumo = 0;
     private String misura = "kWh";
     private String tipo = "";
@@ -16,7 +16,7 @@ public class BollettaLuce extends Bolletta {
         this.tipo = tipo;
     }
 
-    public BollettaLuce(int id, double costo, String dataScadenza, String periodo, String finePeriodo, double consumo, String tipo){
+    public BollettaLGI(int id, double costo, String dataScadenza, String periodo, String finePeriodo, double consumo, String tipo){
         super(id, costo, dataScadenza, periodo, finePeriodo);
         this.consumo = consumo;
         this.tipo = tipo;

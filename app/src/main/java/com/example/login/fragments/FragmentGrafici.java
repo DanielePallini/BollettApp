@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.login.MainActivity;
 import com.example.login.R;
 import com.example.login.charts.BarChartItem;
-import com.example.login.entities.BollettaLuce;
+import com.example.login.entities.BollettaLGI;
 import com.example.login.charts.ChartItem;
 import com.example.login.charts.LineChartItem;
 import com.example.login.charts.PieChartItem;
@@ -41,7 +41,7 @@ import java.util.List;
 public class FragmentGrafici extends Fragment {
 
     private FirebaseAuth mAuth;
-    private ArrayList<BollettaLuce> bollette;
+    private ArrayList<BollettaLGI> bollette;
     public ArrayList<Entry> entries;
     private FeedAdapter feedAdapter;
     @Override
@@ -147,8 +147,8 @@ public class FragmentGrafici extends Fragment {
         }
 
          */
-        ArrayList<BollettaLuce> list= MainActivity.bollette;
-        for (BollettaLuce data : list) {
+        ArrayList<BollettaLGI> list= MainActivity.bollette;
+        for (BollettaLGI data : list) {
 
             // turn your data into Entry objects
             entries.add(new Entry((float)data.getConsumo(), (float)data.getCosto()));
@@ -190,8 +190,8 @@ public class FragmentGrafici extends Fragment {
     private BarData generateDataBar(int cnt) {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        ArrayList<BollettaLuce> list= MainActivity.bollette;
-        for (BollettaLuce data : list) {
+        ArrayList<BollettaLGI> list= MainActivity.bollette;
+        for (BollettaLGI data : list) {
 
             // turn your data into Entry objects
             entries.add(new BarEntry((float)data.getId(), (float)data.getCosto()));
@@ -217,7 +217,7 @@ public class FragmentGrafici extends Fragment {
      * @return Pie data
      */
     private PieData generateDataPie() {
-        ArrayList<BollettaLuce> list= MainActivity.bollette;
+        ArrayList<BollettaLGI> list= MainActivity.bollette;
         ArrayList<PieEntry> entries = new ArrayList<>();
         /*
         for (int i = 0; i < 4; i++) {
@@ -225,7 +225,7 @@ public class FragmentGrafici extends Fragment {
         }
 
          */
-        for (BollettaLuce data : list) {
+        for (BollettaLGI data : list) {
             entries.add(new PieEntry((float) (data.getCosto()), data.getTipo() + " " + (data.getId())));
         }
 

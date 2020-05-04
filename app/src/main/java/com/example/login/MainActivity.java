@@ -7,31 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.bumptech.glide.signature.ObjectKey;
-import com.example.login.entities.Bolletta;
-import com.example.login.entities.BollettaLuce;
+import com.example.login.entities.BollettaLGI;
 import com.example.login.fragments.FragmentFeed;
 import com.example.login.fragments.FragmentGrafici;
 import com.example.login.fragments.FragmentProfilo;
-import com.example.login.uiutilities.FeedAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentProfilo fragmentProfilo;
     private FragmentFeed fragmentFeed;
     private FragmentGrafici fragmentGrafici;
-    public static ArrayList<BollettaLuce> bollette;
+    public static ArrayList<BollettaLGI> bollette;
 
 
     @Override

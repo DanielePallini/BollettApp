@@ -3,6 +3,8 @@ package com.example.login.fragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -15,8 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.MainActivity;
 import com.example.login.R;
-import com.example.login.entities.Bolletta;
-import com.example.login.entities.BollettaLuce;
+import com.example.login.entities.BollettaLGI;
 import com.example.login.uiutilities.FeedAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +35,7 @@ public class FragmentFeed extends Fragment {
 
     private RecyclerView recyclerView;
     private FeedAdapter feedAdapter;
-    private ArrayList<BollettaLuce> bollette;
+    private ArrayList<BollettaLGI> bollette;
     private ImageButton btnAdd;
     private FragmentSelezioneBolletta fragmentSelezioneBolletta;
     private FirebaseAuth mAuth;
@@ -46,6 +47,7 @@ public class FragmentFeed extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -122,22 +124,22 @@ public class FragmentFeed extends Fragment {
                                     tipo = "Internet";
                                 }
 
-                                BollettaLuce bollettaLuce = new BollettaLuce(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]),tipo);
-                                bollette.add(bollettaLuce);
+                                BollettaLGI bollettaLGI = new BollettaLGI(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]),tipo);
+                                bollette.add(bollettaLGI);
 
                                 if (tipo == "Luce") {
-                                    if (bollettaLuce.getId() > maxLuce) {
-                                        maxLuce = bollettaLuce.getId();
+                                    if (bollettaLGI.getId() > maxLuce) {
+                                        maxLuce = bollettaLGI.getId();
                                     }
                                 }
                                 if (tipo == "Gas") {
-                                    if (bollettaLuce.getId() > maxGas) {
-                                        maxGas = bollettaLuce.getId();
+                                    if (bollettaLGI.getId() > maxGas) {
+                                        maxGas = bollettaLGI.getId();
                                     }
                                 }
                                 if (tipo == "Internet") {
-                                    if (bollettaLuce.getId() > maxInternet) {
-                                        maxInternet = bollettaLuce.getId();
+                                    if (bollettaLGI.getId() > maxInternet) {
+                                        maxInternet = bollettaLGI.getId();
                                     }
                                 }
                             }
@@ -153,4 +155,5 @@ public class FragmentFeed extends Fragment {
                 });
 
     }
+
 }
