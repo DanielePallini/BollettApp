@@ -14,6 +14,8 @@ import com.example.login.fragments.FragmentFeed;
 import com.example.login.fragments.FragmentGrafici;
 import com.example.login.fragments.FragmentProfilo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentFeed fragmentFeed;
     private FragmentGrafici fragmentGrafici;
     public static ArrayList<BollettaLGI> bollette;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -38,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RegistrazioneActivity.class);
             startActivityForResult(intent, LOGIN_REQUEST);
         } else {
-            getSupportActionBar().setTitle(getString(R.string.welcome));
+            mAuth = FirebaseAuth.getInstance();
+            final FirebaseUser currentUser = mAuth.getCurrentUser();
+            getSupportActionBar().setTitle(getString(R.string.welcome) + currentUser.getDisplayName());
             fragmentFeed = new FragmentFeed();
             fragmentProfilo = new FragmentProfilo();
             fragmentGrafici = new FragmentGrafici();
@@ -82,24 +87,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == LOGIN_REQUEST) {
+            /*
             if (resultCode == RESULT_OK) {
+
                 String nome = intent.getExtras().getString("nome");
                 String cognome = intent.getExtras().getString("cognome");
 
                 getSupportActionBar().setTitle(nome + " " + cognome);
 
+                 */
+
+                if (resultCode == RESULT_FIRST_USER || resultCode == RESULT_OK) {
                 SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("firstrun", false);
                 editor.apply();
+                Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent2);
             }
-            if (resultCode == RESULT_FIRST_USER) {
+                /*
                 SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("firstrun", false);
                 editor.apply();
+                Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent2);
+
+                 */
             }
         }
 
     }
-}

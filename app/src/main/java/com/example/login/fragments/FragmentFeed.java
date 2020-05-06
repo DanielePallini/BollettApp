@@ -47,7 +47,6 @@ public class FragmentFeed extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -105,6 +104,7 @@ public class FragmentFeed extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //String st = document.getId();
                                 String obj = document.getData().toString();
+                                document.getString("A");
                                 String[] str = obj.split(",");
                                 String[] Dati = new String[6];
 
