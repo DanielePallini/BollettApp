@@ -1,6 +1,6 @@
 package com.example.login.entities;
  public abstract class Bolletta {
-    private int id = 0;
+    private long id = 0;
     private double costo = 0;
     private String dataScadenza = "";
     private String periodo = "";
@@ -14,7 +14,7 @@ package com.example.login.entities;
          this.finePeriodo = finePeriodo;
      }
 
-     public Bolletta(int id, double costo, String dataScadenza, String periodo, String finePeriodo) {
+     public Bolletta(long id, double costo, String dataScadenza, String periodo, String finePeriodo) {
          this.id = id;
          this.costo = costo;
          this.dataScadenza = dataScadenza;
@@ -22,7 +22,7 @@ package com.example.login.entities;
          this.finePeriodo = finePeriodo;
      }
 
-     public void setId(int id) {
+     public void setId(long id) {
          this.id = id;
      }
 
@@ -38,7 +38,7 @@ package com.example.login.entities;
          this.periodo = periodo;
      }
 
-     public int getId() {
+     public long getId() {
          return id;
      }
 

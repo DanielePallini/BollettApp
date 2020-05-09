@@ -39,9 +39,9 @@ public class FragmentFeed extends Fragment {
     private ImageButton btnAdd;
     private FragmentSelezioneBolletta fragmentSelezioneBolletta;
     private FirebaseAuth mAuth;
-    int maxLuce = 0;
-    int maxGas = 0;
-    int maxInternet = 0;
+    long maxLuce = 0;
+    long maxGas = 0;
+    long maxInternet = 0;
     String tipo = "";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,9 +76,9 @@ public class FragmentFeed extends Fragment {
 
                 fragmentSelezioneBolletta = new FragmentSelezioneBolletta();
                 Bundle args = new Bundle();
-                args.putInt("maxLuce", maxLuce);
-                args.putInt("maxGas", maxGas);
-                args.putInt("maxInternet", maxInternet);
+                args.putLong("maxLuce", maxLuce);
+                args.putLong("maxGas", maxGas);
+                args.putLong("maxInternet", maxInternet);
                 fragmentSelezioneBolletta.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentSelezioneBolletta).commit();
             }
@@ -103,8 +103,10 @@ public class FragmentFeed extends Fragment {
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //String st = document.getId();
+                                /*
                                 String obj = document.getData().toString();
-                                document.getString("A");
+
+                                //document.getString("A");
                                 String[] str = obj.split(",");
                                 String[] Dati = new String[6];
 
@@ -114,6 +116,8 @@ public class FragmentFeed extends Fragment {
                                     //Log.d(TAG, Dati[i]);
                                 }
                                 Dati[5] = Dati[5].substring(0, Dati[5].length() - 1);//metodo agricolo ma efficace
+
+                                 */
                                 if (document.getId().matches(filterLuce + "(.*)")) {
                                     tipo = "Luce";
                                 }
@@ -124,29 +128,36 @@ public class FragmentFeed extends Fragment {
                                     tipo = "Internet";
                                 }
 
-                                BollettaLGI bollettaLGI = new BollettaLGI(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]),tipo);
-                                bollette.add(bollettaLGI);
+                                try {
+                                    //Object tmp = document.get("Codice");
 
-                                if (tipo == "Luce") {
-                                    if (bollettaLGI.getId() > maxLuce) {
-                                        maxLuce = bollettaLGI.getId();
+                                    BollettaLGI bollettaLGI = new BollettaLGI(document.getLong("Codice") , document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), document.getDouble("Consumo"), tipo);
+                                    bollette.add(bollettaLGI);
+                                    if (tipo == "Luce") {
+                                        if (bollettaLGI.getId() > maxLuce) {
+                                            maxLuce = bollettaLGI.getId();
+                                        }
                                     }
-                                }
-                                if (tipo == "Gas") {
-                                    if (bollettaLGI.getId() > maxGas) {
-                                        maxGas = bollettaLGI.getId();
+                                    if (tipo == "Gas") {
+                                        if (bollettaLGI.getId() > maxGas) {
+                                            maxGas = bollettaLGI.getId();
+                                        }
                                     }
-                                }
-                                if (tipo == "Internet") {
-                                    if (bollettaLGI.getId() > maxInternet) {
-                                        maxInternet = bollettaLGI.getId();
+                                    if (tipo == "Internet") {
+                                        if (bollettaLGI.getId() > maxInternet) {
+                                            maxInternet = bollettaLGI.getId();
+                                        }
                                     }
+                                    feedAdapter.notifyDataSetChanged();
+                                    MainActivity.bollette = bollette;
+                                    //Log.d(TAG, max);
+
+                                } catch (NullPointerException e) {
+                                    Log.d(TAG, "Nessun campo trovato");
                                 }
+
+                                //BollettaLGI bollettaLGI = new BollettaLGI(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]),tipo);
                             }
-                            feedAdapter.notifyDataSetChanged();
-                            MainActivity.bollette = bollette;
-                            //Log.d(TAG, max);
-
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

@@ -219,6 +219,9 @@ public class FragmentGrafici extends Fragment {
     private PieData generateDataPie() {
         ArrayList<BollettaLGI> list= MainActivity.bollette;
         ArrayList<PieEntry> entries = new ArrayList<>();
+        double sommaLuce = 0.0;
+        double sommaGas = 0.0;
+        double sommaInternet = 0.0;
         /*
         for (int i = 0; i < 4; i++) {
             entries.add(new PieEntry((float) ((Math.random() * 70) + 30), "Quarter " + (i+1)));
@@ -226,15 +229,28 @@ public class FragmentGrafici extends Fragment {
 
          */
         for (BollettaLGI data : list) {
-            entries.add(new PieEntry((float) (data.getCosto()), data.getTipo() + " " + (data.getId())));
+            if(data.getTipo() == "Luce"){
+                sommaLuce += data.getCosto();
+            }
+            if(data.getTipo() == "Gas"){
+                sommaGas += data.getCosto();
+            }
+            if(data.getTipo() == "Internet"){
+                sommaInternet += data.getCosto();
+            }
+
         }
+        entries.add(new PieEntry((float) sommaLuce, "Luce " ));
+        entries.add(new PieEntry((float) sommaGas, "Gas "));
+        entries.add(new PieEntry((float) sommaInternet, "Internet"));
+
 
 
         PieDataSet d = new PieDataSet(entries, "");
 
         // space between slices
         d.setSliceSpace(2f);
-        d.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        d.setColors(ColorTemplate.MATERIAL_COLORS);
 
         return new PieData(d);
     }

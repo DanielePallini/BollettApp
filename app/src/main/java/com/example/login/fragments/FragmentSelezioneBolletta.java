@@ -17,9 +17,9 @@ public class FragmentSelezioneBolletta extends Fragment implements View.OnClickL
     private ImageButton btnAddGas;
     private ImageButton btnAddInternet;
     FragmentBolletta fragmentBolletta;
-    int maxLuce = 0;
-    int maxGas = 0;
-    int maxInternet = 0;
+    long maxLuce = 0;
+    long maxGas = 0;
+    long maxInternet = 0;
     String tipo = "";
 
     @Nullable
@@ -33,9 +33,9 @@ public class FragmentSelezioneBolletta extends Fragment implements View.OnClickL
         btnAddGas.setOnClickListener(this);
         btnAddInternet.setOnClickListener(this);
         Bundle args = getArguments();
-        maxLuce = args.getInt("maxLuce", 0);
-        maxGas = args.getInt("maxGas", maxGas);
-        maxInternet = args.getInt("maxInternet", maxInternet);
+        maxLuce = args.getLong("maxLuce", 0);
+        maxGas = args.getLong("maxGas", maxGas);
+        maxInternet = args.getLong("maxInternet", maxInternet);
         return view;
     }
 
@@ -46,19 +46,19 @@ public class FragmentSelezioneBolletta extends Fragment implements View.OnClickL
         switch (v.getId()){
             case R.id.button_add_bolletta_luce:
                 tipo = "Luce";
-                args.putInt("max", maxLuce);
+                args.putLong("max", maxLuce);
                 args.putString("tipo", tipo);
                 fragmentBolletta.setArguments(args);
                 break;
             case R.id.button_add_bolletta_gas:
                 tipo = "Gas";
-                args.putInt("max", maxGas);
+                args.putLong("max", maxGas);
                 args.putString("tipo", tipo);
                 fragmentBolletta.setArguments(args);
                 break;
             case R.id.button_add_bolletta_internet:
                 tipo = "Internet";
-                args.putInt("max", maxInternet);
+                args.putLong("max", maxInternet);
                 args.putString("tipo", tipo);
                 fragmentBolletta.setArguments(args);
                 break;

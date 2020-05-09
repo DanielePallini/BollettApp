@@ -16,7 +16,7 @@ public class BollettaLGI extends Bolletta {
         this.tipo = tipo;
     }
 
-    public BollettaLGI(int id, double costo, String dataScadenza, String periodo, String finePeriodo, double consumo, String tipo){
+    public BollettaLGI(long id, double costo, String dataScadenza, String periodo, String finePeriodo, double consumo, String tipo){
         super(id, costo, dataScadenza, periodo, finePeriodo);
         this.consumo = consumo;
         this.tipo = tipo;

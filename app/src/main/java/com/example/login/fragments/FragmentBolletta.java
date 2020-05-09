@@ -52,7 +52,7 @@ public class FragmentBolletta extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
     private FirebaseAuth mAuth;
     private FragmentFeed fragmentFeed;
-    private int max = 0;
+    private long max = 0;
 
     @Nullable
     @Override
@@ -126,7 +126,7 @@ public class FragmentBolletta extends Fragment {
 
 
                     Bundle args = getArguments();
-                    max = args.getInt("max", 0);
+                    max = args.getLong("max", 0);
                     String tipo = args.getString("tipo", "");
                     max= max+1;
 
@@ -161,7 +161,7 @@ public class FragmentBolletta extends Fragment {
 
     }
 
-    private void writeBollettaToDb(String dataScadenza, String periodo, String fine, double costo, double consumo, String tipo, String uid, int max) {
+    private void writeBollettaToDb(String dataScadenza, String periodo, String fine, double costo, double consumo, String tipo, String uid, long max) {
         Map<String, Object> bolletta = new HashMap<>();
         bolletta.put("Data Scadenza", dataScadenza );
         bolletta.put("Da", periodo);
