@@ -1,5 +1,6 @@
 package com.example.login.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class FragmentFeed extends Fragment {
+public class FragmentFeed extends Fragment implements FeedAdapter.OnNoteListener{
 
     private RecyclerView recyclerView;
     private FeedAdapter feedAdapter;
@@ -57,7 +58,7 @@ public class FragmentFeed extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv_feed);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        feedAdapter = new FeedAdapter(bollette);
+        feedAdapter = new FeedAdapter(bollette, this);
         recyclerView.setAdapter(feedAdapter);
 
         btnAdd = view.findViewById(R.id.button_add);
@@ -167,4 +168,11 @@ public class FragmentFeed extends Fragment {
 
     }
 
+    @Override
+    public void onNoteClick(int position) {
+        Log.d(TAG, "onNoteClick: "+ position);
+        //Intent intent = new Intent(getActivity(),EditActivity.class);
+        //intent.putExtra("bolletta", bollette.get(position));
+
+    }
 }

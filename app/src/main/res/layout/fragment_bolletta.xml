@@ -116,7 +116,7 @@
         android:id="@+id/btn_salva"
         android:layout_marginTop="20dp"
         android:layout_gravity="end"
-        android:background="#06FAF2"
+        android:background="#c0c0c0"
         android:textColor="@android:color/white"/>
 
 

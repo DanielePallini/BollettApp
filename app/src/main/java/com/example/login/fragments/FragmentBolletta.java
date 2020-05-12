@@ -3,6 +3,7 @@ package com.example.login.fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,13 +47,14 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FragmentBolletta extends Fragment {
     private TextInputEditText textDataScadenza, textPeriodo, textFine, textCosto, textConsumo;
-    private TextView euro, kwh;
+    private TextView euro, misura;
     private Button btnSalva;
     private int num = 0;
     final Calendar myCalendar = Calendar.getInstance();
     private FirebaseAuth mAuth;
     private FragmentFeed fragmentFeed;
     private long max = 0;
+    String tipo = "";
 
     @Nullable
     @Override
@@ -61,6 +63,9 @@ public class FragmentBolletta extends Fragment {
         textDataScadenza = view.findViewById(R.id.text_data_scadenza);
         textPeriodo = view.findViewById(R.id.text_periodo_riferimento);
         textFine = view.findViewById(R.id.text_fine_riferimento);
+        Bundle args = getArguments();
+        max = args.getLong("max", 0);
+        tipo = args.getString("tipo", "");
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -108,10 +113,22 @@ public class FragmentBolletta extends Fragment {
         textCosto = view.findViewById(R.id.text_costo);
         euro = view.findViewById(R.id.euro);
         textConsumo = view.findViewById(R.id.text_consumo);
-        kwh = view.findViewById(R.id.misura);
+        misura = view.findViewById(R.id.misura);
         btnSalva = view.findViewById(R.id.btn_salva);
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
+        switch (tipo){
+            case "Luce":
+                misura.setText("kWh");
+                break;
+            case "Gas":
+                misura.setText("m^3");
+                break;
+            case "Internet":
+                textConsumo.setVisibility(View.GONE);
+                misura.setVisibility(View.GONE);
+                break;
+        }
         btnSalva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,10 +141,6 @@ public class FragmentBolletta extends Fragment {
                     tmp = textConsumo.getText().toString();
                     final double consumo = Double.parseDouble(tmp);
 
-
-                    Bundle args = getArguments();
-                    max = args.getLong("max", 0);
-                    String tipo = args.getString("tipo", "");
                     max= max+1;
 
                     //String tipo = "Luce ";
@@ -167,7 +180,9 @@ public class FragmentBolletta extends Fragment {
         bolletta.put("Da", periodo);
         bolletta.put("A", fine);
         bolletta.put("Importo", costo);
-        bolletta.put("Consumo", consumo);
+        if(tipo != "Internet"){
+            bolletta.put("Consumo", consumo);
+        }
         bolletta.put("Codice", max);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
