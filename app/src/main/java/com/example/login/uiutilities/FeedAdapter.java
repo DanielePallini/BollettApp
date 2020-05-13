@@ -1,7 +1,6 @@
 
 package com.example.login.uiutilities;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,14 +19,14 @@ import java.util.ArrayList;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  {
 
-    private OnNoteListener mOnNoteListener;
+    private OnDeleteListener mOnDeleteListener;
 
     class CViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView textTipo, textCosto, textDataScadenza, textPeriodo, textFine, textConsumo;
         ImageButton btnEdit, btnDelete;
-        OnNoteListener onNoteListener;
+        OnDeleteListener onDeleteListener;
 
-        CViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
+        CViewHolder(@NonNull View itemView, OnDeleteListener onDeleteListener) {
             super(itemView);
             textTipo = itemView.findViewById(R.id.text_tipo);
             btnEdit = itemView.findViewById(R.id.button_edit);
@@ -39,31 +37,32 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             textFine = itemView.findViewById(R.id.text_fine_riferimento);
             textConsumo = itemView.findViewById(R.id.text_consumo);
 
-            this.onNoteListener = onNoteListener;
-            itemView.setOnClickListener(this);
-            btnEdit.setOnClickListener(this);
+            this.onDeleteListener = onDeleteListener;
+            //itemView.setOnClickListener(this);
+            btnDelete.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            onNoteListener.onNoteClick(getAdapterPosition());
-            btnEdit.setSelected(true);
+            int position = getAdapterPosition();
+            onDeleteListener.onDeleteClick(struttura.get(position).getTipo(), struttura.get(position).getId());
+            //btnEdit.setSelected(true);
             //btnDelete.setVisibility(View.VISIBLE);
         }
     }
 
     private ArrayList<BollettaLGI> struttura;
 
-    public FeedAdapter(ArrayList<BollettaLGI> struttura, OnNoteListener onNoteListener){
+    public FeedAdapter(ArrayList<BollettaLGI> struttura, OnDeleteListener onDeleteListener){
         this.struttura = struttura;
-        this.mOnNoteListener = onNoteListener;
+        this.mOnDeleteListener = onDeleteListener;
     }
 
     @NonNull
     @Override
     public CViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_row, parent, false);
-        return new CViewHolder(view,mOnNoteListener);
+        return new CViewHolder(view, mOnDeleteListener);
     }
 
     @Override
@@ -76,20 +75,24 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
                 Log.d("Btn", "onClick: "+position);
                     holder.btnEdit.setVisibility(View.GONE);
                     holder.btnDelete.setVisibility(View.VISIBLE);
+                    /*
                     holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Log.d("Delete", "onClick: Deleted " + position);
+
                         }
                     });
+
+                     */
             }
         });
 
 
-        holder.textCosto.setText("Costo: € "+ struttura.get(position).getCosto()+"");
+
         holder.textDataScadenza.setText("Data di Scadenza: " + struttura.get(position).getDataScadenza());
-        holder.textPeriodo.setText("Da: " + struttura.get(position).getPeriodo());
-        holder.textFine.setText("A: "+ struttura.get(position).getFinePeriodo());
+        holder.textPeriodo.setText("Periodo: " + struttura.get(position).getPeriodo());
+        holder.textFine.setText(" - "+ struttura.get(position).getFinePeriodo());
         switch (struttura.get(position).getTipo()){
             case "Luce":
                 holder.textConsumo.setText("Consumo: " + struttura.get(position).getConsumo() + " kWh");
@@ -98,7 +101,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             case "Gas":
                 holder.textConsumo.setText("Consumo: " + struttura.get(position).getConsumo() + " m^3");
                 break;
+            default:
+                holder.textConsumo.setVisibility(View.GONE);
+                break;
         }
+        holder.textCosto.setText("Costo: € "+ struttura.get(position).getCosto()+"");
         /*
         if (struttura.get(position).getTipo() != "Internet") {
             holder.textConsumo.setText("Consumo: " + struttura.get(position).getConsumo() + " kWh");
@@ -112,7 +119,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
         return struttura.size();
     }
 
-    public interface OnNoteListener{
-        void onNoteClick(int position);
+    public interface OnDeleteListener {
+        void onDeleteClick(String tipo, long codice);
+    }
+    public void deleteBolletta(){
+
     }
 }

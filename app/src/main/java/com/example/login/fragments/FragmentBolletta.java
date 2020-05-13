@@ -55,6 +55,7 @@ public class FragmentBolletta extends Fragment {
     private FragmentFeed fragmentFeed;
     private long max = 0;
     String tipo = "";
+    double consumo = 0;
 
     @Nullable
     @Override
@@ -138,9 +139,10 @@ public class FragmentBolletta extends Fragment {
                     final String fine = textFine.getText().toString();
                     String tmp = textCosto.getText().toString();
                     final double costo = Double.parseDouble(tmp);
-                    tmp = textConsumo.getText().toString();
-                    final double consumo = Double.parseDouble(tmp);
-
+                    if(textConsumo.getVisibility() == View.VISIBLE) {
+                        tmp = textConsumo.getText().toString();
+                        consumo = Double.parseDouble(tmp);
+                    }
                     max= max+1;
 
                     //String tipo = "Luce ";
@@ -148,6 +150,7 @@ public class FragmentBolletta extends Fragment {
                     writeBollettaToDb(dataScadenza, periodo, fine, costo, consumo, tipo, currentUser.getUid(), max);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: " + e);
                 }
 
             }
@@ -180,9 +183,9 @@ public class FragmentBolletta extends Fragment {
         bolletta.put("Da", periodo);
         bolletta.put("A", fine);
         bolletta.put("Importo", costo);
-        if(tipo != "Internet"){
+        //if(tipo != "Internet"){
             bolletta.put("Consumo", consumo);
-        }
+        //}
         bolletta.put("Codice", max);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.MeasureUnit;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentGrafici = new FragmentGrafici();
 
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentFeed).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentFeed).addToBackStack(null).commit();
 
             bottomNav = findViewById(R.id.bottom_nav);
             bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -116,5 +117,25 @@ public class MainActivity extends AppCompatActivity {
                  */
             }
         }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            //Title bar back press triggers onBackPressed()
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Both navigation bar back press and title bar back press will trigger this method
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0 ) {
+            getFragmentManager().popBackStack();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
 
     }
