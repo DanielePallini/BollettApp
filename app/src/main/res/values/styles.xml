@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowBackground">@drawable/logo_startup</item>
+        <item name="android:windowNoTitle">true</item>
 
     </style>
     <style name="AlertDialog" parent="Base.Theme.AppCompat.Light.Dialog">
@@ -15,5 +17,7 @@
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:colorAccent">@android:color/holo_blue_dark</item>
     </style>
+
+
 
 </resources>

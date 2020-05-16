@@ -1,13 +1,17 @@
 package com.example.login.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,10 +36,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class FragmentFeed extends Fragment implements FeedAdapter.OnDeleteListener {
+public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickListener {
 
     private RecyclerView recyclerView;
     private FeedAdapter feedAdapter;
@@ -43,12 +48,15 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnDeleteListen
     private ImageButton btnAdd;
     private FragmentSelezioneBolletta fragmentSelezioneBolletta;
     private FirebaseAuth mAuth;
+    ProgressDialog progressDialog;
     long maxLuce = 0;
     long maxGas = 0;
     long maxInternet = 0;
     String tipo = "";
     FirebaseFirestore db;
     FirebaseUser currentUser;
+    private ProgressBar spinner;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
@@ -76,7 +84,8 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnDeleteListen
         db = FirebaseFirestore.getInstance();
 
         scaricaDati(db, currentUser.getUid());
-
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.show();
 
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -139,9 +148,12 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnDeleteListen
 
                                 try {
                                     //Object tmp = document.get("Codice");
-
-                                    BollettaLGI bollettaLGI = new BollettaLGI(document.getLong("Codice") , document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), document.getDouble("Consumo"), tipo);
-
+                                    BollettaLGI bollettaLGI = null;
+                                    if(tipo == "Luce" || tipo == "Gas") {
+                                        bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), document.getDouble("Consumo"), tipo);
+                                    } else {
+                                        bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), tipo);
+                                    }
                                     bollette.add(bollettaLGI);
                                     if (tipo == "Luce") {
                                         if (bollettaLGI.getId() > maxLuce) {
@@ -160,6 +172,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnDeleteListen
                                     }
                                     feedAdapter.notifyDataSetChanged();
                                     MainActivity.bollette = bollette;
+                                    progressDialog.hide();
                                     //Log.d(TAG, max);
 
                                 } catch (NullPointerException e) {
@@ -183,7 +196,6 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnDeleteListen
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
         builder1.setMessage("Sei davvero sicuro di eliminare questa bolletta?");
         builder1.setCancelable(true);
-
         builder1.setPositiveButton(
                 "OK",
                 new DialogInterface.OnClickListener() {
@@ -219,6 +231,18 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnDeleteListen
         AlertDialog alert11 = builder1.create();
         alert11.show();
 
+    }
+    @Override
+    public void onCalendarClick(){
+        Calendar cal = Calendar.getInstance();
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setData(CalendarContract.Events.CONTENT_URI);
+        intent.putExtra("beginTime", cal.getTimeInMillis());
+        intent.putExtra("allDay", true);
+        intent.putExtra("rrule", "FREQ=YEARLY");
+        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+        intent.putExtra("title", "A Test Event from android app");
+        startActivity(intent);
     }
 
 

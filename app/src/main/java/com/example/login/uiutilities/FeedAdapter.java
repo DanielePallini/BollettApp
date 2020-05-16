@@ -19,16 +19,17 @@ import java.util.ArrayList;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  {
 
-    private OnDeleteListener mOnDeleteListener;
+    private OnFeedClickListener mOnFeedClickListener;
 
-    class CViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class CViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textTipo, textCosto, textDataScadenza, textPeriodo, textFine, textConsumo;
-        ImageButton btnEdit, btnDelete;
-        OnDeleteListener onDeleteListener;
+        ImageButton btnEdit, btnDelete, btnCalendar;
+        OnFeedClickListener onFeedClickListener;
 
-        CViewHolder(@NonNull View itemView, OnDeleteListener onDeleteListener) {
+        CViewHolder(@NonNull View itemView, OnFeedClickListener onFeedClickListener) {
             super(itemView);
             textTipo = itemView.findViewById(R.id.text_tipo);
+            btnCalendar = itemView.findViewById(R.id.button_calendar);
             btnEdit = itemView.findViewById(R.id.button_edit);
             btnDelete = itemView.findViewById(R.id.button_delete);
             textCosto = itemView.findViewById(R.id.text_costo);
@@ -37,32 +38,42 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             textFine = itemView.findViewById(R.id.text_fine_riferimento);
             textConsumo = itemView.findViewById(R.id.text_consumo);
 
-            this.onDeleteListener = onDeleteListener;
+            this.onFeedClickListener = onFeedClickListener;
             //itemView.setOnClickListener(this);
             btnDelete.setOnClickListener(this);
+            btnCalendar.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            onDeleteListener.onDeleteClick(struttura.get(position).getTipo(), struttura.get(position).getId());
-            //btnEdit.setSelected(true);
-            //btnDelete.setVisibility(View.VISIBLE);
+
+            switch (v.getId()) {
+                case R.id.button_calendar:
+                    onFeedClickListener.onCalendarClick();
+                    break;
+                case R.id.button_delete:
+                    onFeedClickListener.onDeleteClick(struttura.get(position).getTipo(), struttura.get(position).getId());
+                    break;
+
+                //btnEdit.setSelected(true);
+                //btnDelete.setVisibility(View.VISIBLE);
+            }
         }
     }
 
     private ArrayList<BollettaLGI> struttura;
 
-    public FeedAdapter(ArrayList<BollettaLGI> struttura, OnDeleteListener onDeleteListener){
+    public FeedAdapter(ArrayList<BollettaLGI> struttura, OnFeedClickListener onFeedClickListener){
         this.struttura = struttura;
-        this.mOnDeleteListener = onDeleteListener;
+        this.mOnFeedClickListener = onFeedClickListener;
     }
 
     @NonNull
     @Override
     public CViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_row, parent, false);
-        return new CViewHolder(view, mOnDeleteListener);
+        return new CViewHolder(view, mOnFeedClickListener);
     }
 
     @Override
@@ -119,10 +130,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
         return struttura.size();
     }
 
-    public interface OnDeleteListener {
+    public interface OnFeedClickListener {
         void onDeleteClick(String tipo, long codice);
+        void onCalendarClick();
     }
-    public void deleteBolletta(){
 
-    }
 }

@@ -21,6 +21,10 @@ public class BollettaLGI extends Bolletta {
         this.consumo = consumo;
         this.tipo = tipo;
     }
+    public BollettaLGI(long id, double costo, String dataScadenza, String periodo, String finePeriodo, String tipo){
+        super(id, costo, dataScadenza, periodo, finePeriodo);
+        this.tipo = tipo;
+    }
 
     public void setConsumo(double consumo) {
         this.consumo = consumo;

@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bollette = new ArrayList<>();
 
+
         SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
         if (preferences.getBoolean("firstrun", true)) {
             Intent intent = new Intent(MainActivity.this, RegistrazioneActivity.class);

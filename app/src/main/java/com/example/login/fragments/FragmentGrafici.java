@@ -3,6 +3,7 @@ package com.example.login.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FragmentGrafici extends Fragment {
 
@@ -190,20 +193,63 @@ public class FragmentGrafici extends Fragment {
     private BarData generateDataBar(int cnt) {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        ArrayList<BollettaLGI> list= MainActivity.bollette;
+        ArrayList<BollettaLGI> list = MainActivity.bollette;
+        String tmp = "";
+        double Mesi[] = new double[12];
         for (BollettaLGI data : list) {
+            tmp = data.getPeriodo();
+            tmp = tmp.substring(3,5);
+            Log.d(TAG, "generateDataBar: "+tmp);
+            switch (tmp) {
+                case "01":
+                    Mesi[0] += data.getCosto();
+                    break;
+                case "02":
+                    Mesi[1] += data.getCosto();
+                    break;
+                case "03":
+                    Mesi[2] += data.getCosto();
+                    break;
+                case "04":
+                    Mesi[3] += data.getCosto();
+                    break;
+                case "05":
+                    Mesi[4] += data.getCosto();
+                    break;
+                case "06":
+                    Mesi[5] += data.getCosto();
+                    break;
+                case "07":
+                    Mesi[6] += data.getCosto();
+                    break;
+                case "08":
+                    Mesi[7] += data.getCosto();
+                    break;
+                case "09":
+                    Mesi[8] += data.getCosto();
+                    break;
+                case "10":
+                    Mesi[9] += data.getCosto();
+                    break;
+                case "11":
+                    Mesi[10] += data.getCosto();
+                    break;
+                case "12":
+                    Mesi[11] += data.getCosto();
+                    break;
+            }
+            for (int i = 0; i < 12; i++) {
+                entries.add(new BarEntry((float) i+1, (float) Mesi[i]));
+            }
 
-            // turn your data into Entry objects
-            entries.add(new BarEntry((float)data.getId(), (float)data.getCosto()));
+            //for (int i = 0; i < 12; i++) {
+            //  entries.add(new BarEntry(i, (int) (Math.random() * 70) + 30));
+            //}
+
 
         }
-
-        //for (int i = 0; i < 12; i++) {
-          //  entries.add(new BarEntry(i, (int) (Math.random() * 70) + 30));
-        //}
-
         BarDataSet d = new BarDataSet(entries, "New DataSet " + cnt);
-        d.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        d.setColors(ColorTemplate.MATERIAL_COLORS);
         d.setHighLightAlpha(255);
 
         BarData cd = new BarData(d);

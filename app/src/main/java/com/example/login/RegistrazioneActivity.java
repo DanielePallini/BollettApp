@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.login.R;
 import com.example.login.fragments.FragmentButtons;
+import com.example.login.fragments.FragmentLogin;
 import com.example.login.fragments.FragmentRegistrazione;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.SignInButton;
@@ -22,8 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrazioneActivity extends AppCompatActivity {
 
-    private GoogleSignInClient mGoogleSignInClient;
-    private FragmentButtons fragmentButtons;
+    private FragmentLogin fragmentLogin;
 
     private final static int SIGN_IN_REQUEST = 236;
 
@@ -31,8 +31,8 @@ public class RegistrazioneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrazione);
-        fragmentButtons = new FragmentButtons();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentButtons).commit();
+        fragmentLogin = new FragmentLogin();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentLogin).commit();
 
     }
 
