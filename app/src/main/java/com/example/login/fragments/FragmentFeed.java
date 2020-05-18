@@ -55,7 +55,6 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
     String tipo = "";
     FirebaseFirestore db;
     FirebaseUser currentUser;
-    private ProgressBar spinner;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +81,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-
+        //if(db.collection("utenti").document(currentUser.getUid()).collection("bollette").get() != n)
         scaricaDati(db, currentUser.getUid());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.show();
@@ -111,31 +110,13 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-
-
-
                         if (task.isSuccessful()) {
+                            if(task.getResult().size() > 0) {
                             String filterLuce = "Luce";
                             String filterGas = "Gas";
                             String filterInternet = "Internet";
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                //String st = document.getId();
-                                /*
-                                String obj = document.getData().toString();
-
-                                //document.getString("A");
-                                String[] str = obj.split(",");
-                                String[] Dati = new String[6];
-
-                                for(int i = 0; i < 6; i++){
-                                    String[] str1 = str[i].split("=");
-                                    Dati[i] = str1[1];
-                                    //Log.d(TAG, Dati[i]);
-                                }
-                                Dati[5] = Dati[5].substring(0, Dati[5].length() - 1);//metodo agricolo ma efficace
-
-                                 */
                                 if (document.getId().matches(filterLuce + "(.*)")) {
                                     tipo = "Luce";
                                 }
@@ -149,7 +130,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                                 try {
                                     //Object tmp = document.get("Codice");
                                     BollettaLGI bollettaLGI = null;
-                                    if(tipo == "Luce" || tipo == "Gas") {
+                                    if (tipo == "Luce" || tipo == "Gas") {
                                         bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), document.getDouble("Consumo"), tipo);
                                     } else {
                                         bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), tipo);
@@ -172,17 +153,19 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                                     }
                                     feedAdapter.notifyDataSetChanged();
                                     MainActivity.bollette = bollette;
-                                    progressDialog.hide();
+
                                     //Log.d(TAG, max);
 
                                 } catch (NullPointerException e) {
                                     Log.d(TAG, "Nessun campo trovato");
                                 }
 
-                                //BollettaLGI bollettaLGI = new BollettaLGI(Integer.parseInt(Dati[3]), Double.parseDouble(Dati[5]), Dati[1], Dati[4], Dati[0], Double.parseDouble(Dati[2]),tipo);
-                            }
+                                }
+                                }
+                            progressDialog.hide();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
+
                         }
 
                     }

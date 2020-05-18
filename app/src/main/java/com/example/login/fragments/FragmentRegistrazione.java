@@ -44,6 +44,12 @@ public class FragmentRegistrazione extends Fragment {
         textEmail = view.findViewById(R.id.text_email);
         textPassword = view.findViewById(R.id.text_password);
         btnRegistra = view.findViewById(R.id.btn_registra);
+        Bundle args = getArguments();
+        String tmp = "";
+        tmp = args.getString("email", "");
+        textEmail.setText(tmp);
+        tmp = args.getString("password", "");
+        textPassword.setText(tmp);
         btnRegistra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

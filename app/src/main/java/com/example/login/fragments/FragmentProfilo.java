@@ -3,6 +3,7 @@ package com.example.login.fragments;
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -10,9 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +25,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.login.MainActivity;
 import com.example.login.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -32,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FragmentProfilo extends Fragment {
 
@@ -39,11 +48,13 @@ public class FragmentProfilo extends Fragment {
 
     private ImageView proPic;
     private TextView textNome;
+    private Button btnLogout, btnModificaPassword, btnSalvaPassword;
+    private TextInputEditText textPassword;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
-
+    private FirebaseUser currentUser;
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private final static int PICK_IMAGE = 200;
 
@@ -60,7 +71,11 @@ public class FragmentProfilo extends Fragment {
         proPic.setClipToOutline(true);
         textNome = view.findViewById(R.id.text_nome);
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
+        btnLogout = view.findViewById(R.id.btn_logout);
+        btnModificaPassword = view.findViewById(R.id.btn_modifica_password);
+        textPassword = view.findViewById(R.id.text_password);
+        btnSalvaPassword = view.findViewById(R.id.btn_salva_password);
 
         textNome.setText(currentUser.getDisplayName());
         if(currentUser.getPhotoUrl() != null){
@@ -88,6 +103,42 @@ public class FragmentProfilo extends Fragment {
                 } else {
                     startActivityForResult(getPickImageChooserIntent(), PICK_IMAGE );
                 }
+            }
+        });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                SharedPreferences preferences = getActivity().getSharedPreferences("login", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("firstrun", true);
+                editor.apply();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnModificaPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnModificaPassword.setVisibility(View.GONE);
+                textPassword.setVisibility(View.VISIBLE);
+                btnSalvaPassword.setVisibility(View.VISIBLE);
+                btnSalvaPassword.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String newPassword = textPassword.getText().toString();
+                        currentUser.updatePassword(newPassword)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getActivity(), "Password modificata con successo", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                });
+
             }
         });
         return view;

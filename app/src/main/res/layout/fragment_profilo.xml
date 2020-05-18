@@ -24,4 +24,45 @@
             android:id="@+id/text_nome"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
+    <Button
+        android:id="@+id/btn_modifica_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="#c0c0c0"
+        android:text="Modifica Password"
+        android:textColor="@android:color/white"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nuova Password"
+        android:layout_marginTop="10dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_password"
+            android:inputType="textPassword"
+            android:visibility="gone"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/btn_salva_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="#c0c0c0"
+        android:text="Salva Modifiche"
+        android:visibility="gone"
+        android:textColor="@android:color/white"/>
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="#c0c0c0"
+        android:text="Logout"
+        android:textColor="@android:color/white"/>
 </LinearLayout>

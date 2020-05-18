@@ -33,7 +33,10 @@ public class FragmentLogin extends Fragment {
     private FirebaseAuth mAuth;
     private  TextInputEditText textEmail;
     private TextInputEditText textPassword;
-    private Button btnLogin;
+    private Button btnLogin, btnRegistra;
+    private String email = "";
+    private String password = "";
+    FragmentRegistrazione fragmentRegistrazione;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,12 +44,14 @@ public class FragmentLogin extends Fragment {
         textEmail = view.findViewById(R.id.email);
         textPassword = view.findViewById(R.id.password);
         btnLogin = view.findViewById(R.id.btn_login);
+        btnRegistra = view.findViewById(R.id.btn_registra);
         mAuth = FirebaseAuth.getInstance();
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = textEmail.getText().toString();
-                String password = textPassword.getText().toString();
+                email = textEmail.getText().toString();
+                password = textPassword.getText().toString();
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
@@ -77,6 +82,21 @@ public class FragmentLogin extends Fragment {
 
                             }
                         });
+
+            }
+        });
+        btnRegistra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = textEmail.getText().toString();
+                password = textPassword.getText().toString();
+                fragmentRegistrazione = new FragmentRegistrazione();
+                Bundle args = new Bundle();
+                args.putString("email", email);
+                args.putString("password", password);
+                fragmentRegistrazione.setArguments(args);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentRegistrazione).commit();
             }
         });
         return view;

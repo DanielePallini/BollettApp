@@ -42,5 +42,14 @@
         android:layout_marginTop="10dp"
         android:background="#c0c0c0"
         android:text="Login"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"/>
+    <Button
+        android:id="@+id/btn_registra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="#c0c0c0"
+        android:text="Registra"
+        android:textColor="@android:color/white"/>
 </LinearLayout>
