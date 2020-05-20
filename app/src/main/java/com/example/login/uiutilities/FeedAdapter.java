@@ -50,7 +50,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
 
             switch (v.getId()) {
                 case R.id.button_calendar:
-                    onFeedClickListener.onCalendarClick();
+                    onFeedClickListener.onCalendarClick(struttura.get(position).getTipo(), struttura.get(position).getDataScadenza());
                     break;
                 case R.id.button_delete:
                     onFeedClickListener.onDeleteClick(struttura.get(position).getTipo(), struttura.get(position).getId());
@@ -132,7 +132,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
 
     public interface OnFeedClickListener {
         void onDeleteClick(String tipo, long codice);
-        void onCalendarClick();
+        void onCalendarClick(String tipo, String data);
     }
 
 }

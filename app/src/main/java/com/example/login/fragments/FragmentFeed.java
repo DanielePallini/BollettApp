@@ -37,6 +37,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -216,15 +217,21 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
 
     }
     @Override
-    public void onCalendarClick(){
-        Calendar cal = Calendar.getInstance();
+    public void onCalendarClick(String tipo, String data){
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setData(CalendarContract.Events.CONTENT_URI);
-        intent.putExtra("beginTime", cal.getTimeInMillis());
+        Calendar calendar = new GregorianCalendar();
+        Log.d(TAG, "onCalendarClick: "+ calendar.getTimeInMillis());
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(data.substring(0,2)));
+        Log.d(TAG, "onCalendarClick: " + Integer.parseInt(data.substring(0,2) + Integer.parseInt(data.substring(3,5) +  Integer.parseInt(data.substring(6,8)))));
+        calendar.set(Calendar.MONTH, Integer.parseInt(data.substring(3,5) ) -1);
+        calendar.set(Calendar.YEAR, 2000 + Integer.parseInt(data.substring(6,8)));
+        Log.d(TAG, "onCalendarClick: "+ calendar.getTimeInMillis());
+        intent.putExtra("beginTime", calendar.getTimeInMillis());
         intent.putExtra("allDay", true);
-        intent.putExtra("rrule", "FREQ=YEARLY");
-        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
-        intent.putExtra("title", "A Test Event from android app");
+        //intent.putExtra("rrule", "FREQ=YEARLY");
+        intent.putExtra("endTime", calendar.getTimeInMillis() +60*60*1000);
+        intent.putExtra("title", "Scadenza Bolletta" + " " + tipo);
         startActivity(intent);
     }
 

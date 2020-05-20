@@ -30,6 +30,7 @@ import com.example.login.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -50,6 +51,7 @@ public class FragmentProfilo extends Fragment {
     private TextView textNome;
     private Button btnLogout, btnModificaPassword, btnSalvaPassword;
     private TextInputEditText textPassword;
+    private TextInputLayout passwordLayout;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -74,6 +76,8 @@ public class FragmentProfilo extends Fragment {
         currentUser = mAuth.getCurrentUser();
         btnLogout = view.findViewById(R.id.btn_logout);
         btnModificaPassword = view.findViewById(R.id.btn_modifica_password);
+
+        passwordLayout = view.findViewById(R.id.password_layout);
         textPassword = view.findViewById(R.id.text_password);
         btnSalvaPassword = view.findViewById(R.id.btn_salva_password);
 
@@ -121,6 +125,7 @@ public class FragmentProfilo extends Fragment {
             @Override
             public void onClick(View v) {
                 btnModificaPassword.setVisibility(View.GONE);
+                passwordLayout.setVisibility(View.VISIBLE);
                 textPassword.setVisibility(View.VISIBLE);
                 btnSalvaPassword.setVisibility(View.VISIBLE);
                 btnSalvaPassword.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +138,8 @@ public class FragmentProfilo extends Fragment {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getActivity(), "Password modificata con successo", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(getActivity(), "Devi essere loggato da poco per modificare la password", Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
