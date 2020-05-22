@@ -69,9 +69,11 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Storico bollette");
 
         recyclerView = view.findViewById(R.id.rv_feed);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        bollette.clear();
         feedAdapter = new FeedAdapter(bollette, this);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));

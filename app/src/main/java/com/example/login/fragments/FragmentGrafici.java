@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.login.MainActivity;
@@ -60,6 +61,7 @@ public class FragmentGrafici extends Fragment {
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         View view = inflater.inflate(R.layout.fragment_grafici, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Grafici");
 
         //BarChart chart = view.findViewById(R.id.barchart);
         /*

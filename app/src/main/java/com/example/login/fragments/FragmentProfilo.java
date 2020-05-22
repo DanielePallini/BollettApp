@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -69,6 +70,7 @@ public class FragmentProfilo extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profilo, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profilo");
         proPic = view.findViewById(R.id.propic);
         proPic.setClipToOutline(true);
         textNome = view.findViewById(R.id.text_nome);

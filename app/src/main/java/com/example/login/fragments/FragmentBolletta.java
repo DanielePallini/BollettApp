@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -64,6 +65,8 @@ public class FragmentBolletta extends Fragment {
         textDataScadenza = view.findViewById(R.id.text_data_scadenza);
         textPeriodo = view.findViewById(R.id.text_periodo_riferimento);
         textFine = view.findViewById(R.id.text_fine_riferimento);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Inserisci i dati della bolletta");
+
         Bundle args = getArguments();
         max = args.getLong("max", 0);
         tipo = args.getString("tipo", "");

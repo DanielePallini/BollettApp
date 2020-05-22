@@ -29,6 +29,7 @@ public class FragmentSelezioneBolletta extends Fragment implements View.OnClickL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_selezione_bolletta, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Seleziona il tipo di bolletta");
         btnAddLuce = view.findViewById(R.id.button_add_bolletta_luce);
         btnAddGas = view.findViewById(R.id.button_add_bolletta_gas);
         btnAddInternet = view.findViewById(R.id.button_add_bolletta_internet);
