@@ -91,7 +91,7 @@ public class PieChartItem extends ChartItem {
     private SpannableString generateCenterText() {
         SpannableString s = new SpannableString("Percentuale\nCosti");
         s.setSpan(new RelativeSizeSpan(1.6f), 0, 17, 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.MATERIAL_COLORS[0]), 0, 17, 0);
+        s.setSpan(new ForegroundColorSpan(ColorTemplate.MATERIAL_COLORS[3]), 0, 17, 0);
         /*
         s.setSpan(new RelativeSizeSpan(.9f), 14, 25, 0);
         s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, 25, 0);

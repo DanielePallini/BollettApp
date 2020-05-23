@@ -35,6 +35,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -63,30 +64,6 @@ public class FragmentGrafici extends Fragment {
         View view = inflater.inflate(R.layout.fragment_grafici, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Grafici");
 
-        //BarChart chart = view.findViewById(R.id.barchart);
-        /*
-        LineChart chart = (LineChart) view.findViewById(R.id.chart);
-        ArrayList<BollettaLuce> list= MainActivity.bollette;
-        for (BollettaLuce data : list) {
-
-            // turn your data into Entry objects
-            entries.add(new Entry((float)data.getConsumo(), (float)data.getCosto()));
-
-        }
-        //}
-        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-        dataSet.setColor(R.color.colorAccent);
-        dataSet.setValueTextColor(R.color.colorAccent);
-
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh
-
-        */
-
-
-
-
 
         getActivity().setTitle("ListViewMultiChartActivity");
 
@@ -94,7 +71,6 @@ public class FragmentGrafici extends Fragment {
 
         ArrayList<ChartItem> list = new ArrayList<>();
 
-        // 30 items
         for (int i = 0; i < 3; i++) {
 
             if(i % 3 == 0) {
@@ -145,44 +121,69 @@ public class FragmentGrafici extends Fragment {
      */
     private LineData generateDataLine(int cnt) {
 
-        ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<Entry> entry = new ArrayList<>();
+        ArrayList<Entry> entry2 = new ArrayList<>();
+        ArrayList<Entry> entry3 = new ArrayList<>();
         /*
         for (int i = 0; i < 12; i++) {
             values1.add(new Entry(i, (int) (Math.random() * 65) + 40));
         }
 
          */
+        int cntLuce = 0;
+        int cntGas = 0;
+        int cntInternet = 0;
         ArrayList<BollettaLGI> list= MainActivity.bollette;
         for (BollettaLGI data : list) {
+            switch(data.getTipo()){
+                case "Luce":
+                    entry.add(new Entry(cntLuce, (float)data.getCosto()));
+                    cntLuce++;
+                    break;
+                case "Gas":
+                    entry2.add(new Entry(cntGas, (float)data.getCosto()));
+                    cntGas++;
+                    break;
+                case "Internet":
+                    entry3.add(new Entry(cntInternet, (float)data.getCosto()));
+                    cntInternet++;
+                    break;
 
+
+            }
             // turn your data into Entry objects
-            entries.add(new Entry((float)data.getConsumo(), (float)data.getCosto()));
 
         }
 
-        LineDataSet d1 = new LineDataSet(entries, "New DataSet " + cnt + ", (1)");
-        d1.setLineWidth(2.5f);
+        LineDataSet d1 = new LineDataSet(entry, "Luce "  );
+        Utils.init(getContext());
+        d1.setLineWidth(4.5f);
         d1.setCircleRadius(4.5f);
-        d1.setHighLightColor(Color.rgb(244, 117, 117));
+        //d1.setHighLightColor(Color.rgb(244, 117, 117));
         d1.setDrawValues(false);
-        /*
-        ArrayList<Entry> values2 = new ArrayList<>();
+        d1.setColor(ColorTemplate.MATERIAL_COLORS[1]);
+        d1.setCircleColor(ColorTemplate.MATERIAL_COLORS[1]);
 
-        for (int i = 0; i < 12; i++) {
-            values2.add(new Entry(i, values1.get(i).getY() - 30));
-        }
-
-        LineDataSet d2 = new LineDataSet(values2, "New DataSet " + cnt + ", (2)");
-        d2.setLineWidth(2.5f);
+        LineDataSet d2 = new LineDataSet(entry2, "Gas " );
+        d2.setLineWidth(4.5f);
         d2.setCircleRadius(4.5f);
         d2.setHighLightColor(Color.rgb(244, 117, 117));
-        d2.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
-        d2.setCircleColor(ColorTemplate.VORDIPLOM_COLORS[0]);
+        d2.setColor(ColorTemplate.MATERIAL_COLORS[2]);
+        d2.setCircleColor(ColorTemplate.MATERIAL_COLORS[2]);
         d2.setDrawValues(false);
-        */
+
+        LineDataSet d3 = new LineDataSet(entry3, "Internet " );
+        d3.setLineWidth(4.5f);
+        d3.setCircleRadius(4.5f);
+        d3.setHighLightColor(Color.rgb(244, 117, 117));
+        d3.setColor(ColorTemplate.MATERIAL_COLORS[3]);
+        d3.setCircleColor(ColorTemplate.MATERIAL_COLORS[3]);
+        d3.setDrawValues(false);
+
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(d1);
-        //sets.add(d2);
+        sets.add(d2);
+        sets.add(d3);
 
         return new LineData(sets);
     }
@@ -250,8 +251,8 @@ public class FragmentGrafici extends Fragment {
 
 
         }
-        BarDataSet d = new BarDataSet(entries, "New DataSet " + cnt);
-        d.setColors(ColorTemplate.MATERIAL_COLORS);
+        BarDataSet d = new BarDataSet(entries, "Somma mensile dei costi ");
+        d.setColors(ColorTemplate.MATERIAL_COLORS[1],ColorTemplate.MATERIAL_COLORS[2],ColorTemplate.MATERIAL_COLORS[3]);
         d.setHighLightAlpha(255);
 
         BarData cd = new BarData(d);
@@ -298,7 +299,7 @@ public class FragmentGrafici extends Fragment {
 
         // space between slices
         d.setSliceSpace(2f);
-        d.setColors(ColorTemplate.MATERIAL_COLORS);
+        d.setColors(ColorTemplate.MATERIAL_COLORS[1], ColorTemplate.MATERIAL_COLORS[2],ColorTemplate.MATERIAL_COLORS[3]);
 
         return new PieData(d);
     }
