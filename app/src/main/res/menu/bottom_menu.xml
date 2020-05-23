@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/menu_feed"
         android:title="@string/feed"
-        android:icon="@drawable/ic_book_black_24dp"
+        android:icon="@drawable/icon_selector"
         android:checked="true"/>
     <item
         android:id="@+id/menu_profilo"
         android:title="@string/profilo"
-        android:icon="@drawable/ic_person_black_24dp"/>
+        android:icon="@drawable/icon_profile_selector"/>
     <item
         android:id="@+id/menu_grafici"
         android:title="@string/grafici"
-        android:icon="@drawable/ic_insert_chart_black_24dp"/>
+        android:icon="@drawable/icon_charts_selector"/>
 
 </menu>
