@@ -16,13 +16,14 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/round_button_shape"
+        android:backgroundTint="#3498db"
         android:src="@drawable/ic_add_black_24dp"
         android:tint="@android:color/white"
         android:elevation="2dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
         android:id="@+id/button_add"/>
 
 </RelativeLayout>

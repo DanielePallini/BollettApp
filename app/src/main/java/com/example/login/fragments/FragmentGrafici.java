@@ -184,7 +184,6 @@ public class FragmentGrafici extends Fragment {
         sets.add(d1);
         sets.add(d2);
         sets.add(d3);
-
         return new LineData(sets);
     }
 
@@ -242,7 +241,7 @@ public class FragmentGrafici extends Fragment {
                     break;
             }
             for (int i = 0; i < 12; i++) {
-                entries.add(new BarEntry((float) i+1, (float) Mesi[i]));
+                entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
             }
 
             //for (int i = 0; i < 12; i++) {

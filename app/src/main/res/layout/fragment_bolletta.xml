@@ -52,17 +52,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="302dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_weight="9"
             android:hint="Costo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_costo"
-                android:layout_width="302dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
 
@@ -70,9 +72,10 @@
 
         <TextView
             android:id="@+id/euro"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-
+            android:layout_weight="1"
+            android:gravity="center"
             android:layout_marginStart="0dp"
             android:layout_marginTop="13dp"
             android:text="€"
@@ -82,17 +85,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="302dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:id="@+id/layout_consumo"
+            android:layout_weight="9"
             android:hint="Consumo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_consumo"
-                android:layout_width="302dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
 
@@ -100,25 +106,33 @@
 
         <TextView
             android:id="@+id/misura"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
 
             android:layout_marginStart="0dp"
             android:layout_marginTop="13dp"
             android:text="Kwh"
             android:textColor="@android:color/black"
-            android:textSize="18dp" />
+            android:textSize="15dp" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:gravity="end">
     <Button
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:text="Salva"
         android:id="@+id/btn_salva"
         android:layout_marginTop="20dp"
-        android:layout_gravity="end"
-        android:background="#c0c0c0"
+        android:background="@drawable/rectangular_button_shape"
+        android:backgroundTint="#3498db"
         android:textColor="@android:color/white"/>
 
-
+    </LinearLayout>
 
 </LinearLayout>

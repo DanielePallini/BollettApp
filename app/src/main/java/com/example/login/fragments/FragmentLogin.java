@@ -96,7 +96,7 @@ public class FragmentLogin extends Fragment {
                 args.putString("password", password);
                 fragmentRegistrazione.setArguments(args);
 
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentRegistrazione).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, fragmentRegistrazione).addToBackStack(null).commit();
             }
         });
         return view;

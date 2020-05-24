@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,6 +49,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FragmentBolletta extends Fragment {
     private TextInputEditText textDataScadenza, textPeriodo, textFine, textCosto, textConsumo;
+    private TextInputLayout textInputLayout;
     private TextView euro, misura;
     private Button btnSalva;
     private int num = 0;
@@ -117,6 +119,7 @@ public class FragmentBolletta extends Fragment {
         textCosto = view.findViewById(R.id.text_costo);
         euro = view.findViewById(R.id.euro);
         textConsumo = view.findViewById(R.id.text_consumo);
+        textInputLayout = view.findViewById(R.id.layout_consumo);
         misura = view.findViewById(R.id.misura);
         btnSalva = view.findViewById(R.id.btn_salva);
         mAuth = FirebaseAuth.getInstance();
@@ -129,6 +132,7 @@ public class FragmentBolletta extends Fragment {
                 misura.setText("m^3");
                 break;
             case "Internet":
+                textInputLayout.setVisibility(View.GONE);
                 textConsumo.setVisibility(View.GONE);
                 misura.setVisibility(View.GONE);
                 break;
