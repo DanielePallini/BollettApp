@@ -33,23 +33,30 @@
         android:id="@+id/password"
         android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:background="#c0c0c0"
+        android:layout_weight="1"
+        android:background="@drawable/rectangular_button_shape"
         android:text="Login"
+        android:backgroundTint="#3498db"
         android:textColor="@android:color/white"/>
     <Button
         android:id="@+id/btn_registra"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:background="#c0c0c0"
+        android:layout_weight="1"
+        android:background="@drawable/rectangular_button_shape"
+        android:backgroundTint="#3498db"
         android:text="Registra"
         android:textColor="@android:color/white"/>
+    </LinearLayout>
 </LinearLayout>
