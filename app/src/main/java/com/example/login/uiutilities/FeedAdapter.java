@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.login.R;
 import com.example.login.entities.BollettaLGI;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 
 import java.util.ArrayList;
@@ -79,6 +80,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
     @Override
     public void onBindViewHolder(@NonNull final CViewHolder holder, final int position) {
         holder.setIsRecyclable(false);
+
+        switch(struttura.get(position).getTipo()){
+            case "Luce":
+                holder.textTipo.setTextColor(ColorTemplate.MATERIAL_COLORS[1]);
+                break;
+            case "Gas":
+                holder.textTipo.setTextColor(ColorTemplate.MATERIAL_COLORS[2]);
+                break;
+            case "Internet":
+                holder.textTipo.setTextColor(ColorTemplate.MATERIAL_COLORS[3]);
+                break;
+
+        }
         holder.textTipo.setText(struttura.get(position).getTipo());
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override

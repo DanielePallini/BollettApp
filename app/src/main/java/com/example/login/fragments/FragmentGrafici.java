@@ -62,10 +62,11 @@ public class FragmentGrafici extends Fragment {
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         View view = inflater.inflate(R.layout.fragment_grafici, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Grafici");
 
 
-        getActivity().setTitle("ListViewMultiChartActivity");
+
 
         ListView lv = view.findViewById(R.id.listView1);
 

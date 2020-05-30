@@ -79,9 +79,9 @@ public class FragmentRegistrazione extends Fragment {
                                     }
                                 });
                             }
-                            else {
-                                Toast.makeText(getActivity(), getString(R.string.errorsignup), Toast.LENGTH_SHORT).show();
-                            }
+                            else if(textPassword.length() < 6){
+                                Toast.makeText(getActivity(), "La password deve essere almeno di 6 caratteri", Toast.LENGTH_SHORT).show();
+                            } else Toast.makeText(getActivity(), getString(R.string.errorsignup), Toast.LENGTH_SHORT).show();
                         }
 
                     });
