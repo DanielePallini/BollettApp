@@ -202,7 +202,7 @@ public class FragmentGrafici extends Fragment {
         for (BollettaLGI data : list) {
             tmp = data.getPeriodo();
             tmp = tmp.substring(3,5);
-            Log.d(TAG, "generateDataBar: "+tmp);
+
             switch (tmp) {
                 case "01":
                     Mesi[0] += data.getCosto();

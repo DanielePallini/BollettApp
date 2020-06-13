@@ -190,6 +190,7 @@ public class FragmentBolletta extends Fragment {
         bolletta.put("Da", periodo);
         bolletta.put("A", fine);
         bolletta.put("Importo", costo);
+        bolletta.put("Tipo", tipo);
         if(tipo != "Internet"){
             bolletta.put("Consumo", consumo);
         }
