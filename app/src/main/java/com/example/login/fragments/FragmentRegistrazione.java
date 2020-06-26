@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,7 @@ public class FragmentRegistrazione extends Fragment {
                                 final FirebaseUser user = mAuth.getCurrentUser();
                                 UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(nome + " " + cognome)
+                                        .setPhotoUri(Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe4qDMpaXp-56kxcox2hNSBDC0avk5nDWd7l7wIiF6CrU51B0&s"))
                                         .build();
                                 user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override

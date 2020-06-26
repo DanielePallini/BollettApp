@@ -34,6 +34,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -160,7 +161,13 @@ public class FragmentProfilo extends Fragment {
             Bitmap bitmap = null;
             if (resultCode == RESULT_OK) {
                 if(getPickImageResultUri(intent) != null) {
+                    final FirebaseUser user = mAuth.getCurrentUser();
                     Uri picUri = getPickImageResultUri(intent);
+                    Log.d(TAG, "pic: " + picUri);
+                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(picUri)
+                            .build();
+                    user.updateProfile(profileChangeRequest);
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), picUri);
                     } catch (IOException e) {
@@ -194,7 +201,7 @@ public class FragmentProfilo extends Fragment {
 
         List<Intent> allIntents = new ArrayList<>();
         PackageManager packageManager = getActivity().getPackageManager();
-
+/*
         Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
         for(ResolveInfo res:listCam) {
@@ -206,6 +213,8 @@ public class FragmentProfilo extends Fragment {
             }
             allIntents.add(intent);
         }
+
+ */
 
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
@@ -237,6 +246,10 @@ public class FragmentProfilo extends Fragment {
         File getImage = getActivity().getExternalCacheDir();
         if(getImage != null){
             outputFileUri = Uri.fromFile(new File(getImage.getPath(), "propic.png"));
+            /*
+
+
+             */
         }
         return outputFileUri;
     }

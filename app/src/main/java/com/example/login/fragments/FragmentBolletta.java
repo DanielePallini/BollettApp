@@ -39,6 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -144,6 +145,7 @@ public class FragmentBolletta extends Fragment {
                     final String dataScadenza = textDataScadenza.getText().toString();
                     final String periodo = textPeriodo.getText().toString();
                     final String fine = textFine.getText().toString();
+
                     String tmp = textCosto.getText().toString();
                     final double costo = Double.parseDouble(tmp);
                     if(textConsumo.getVisibility() == View.VISIBLE) {
@@ -152,9 +154,17 @@ public class FragmentBolletta extends Fragment {
                     }
                     max= max+1;
 
-                    //String tipo = "Luce ";
-                    //tipo += codice;
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+                    Date firstDate = sdf.parse(periodo);
+                    Date secondDate = sdf.parse(fine);
+
+                    if(firstDate.after(secondDate)){
+                        Toast.makeText(getActivity(), "Per favore, inserisci un periodo di riferimento valido.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else {
                     writeBollettaToDb(dataScadenza, periodo, fine, costo, consumo, tipo, currentUser.getUid(), max);
+                    }
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onClick: " + e);
