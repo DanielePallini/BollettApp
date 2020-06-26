@@ -28,13 +28,19 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.login.MainActivity;
 import com.example.login.R;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,6 +67,7 @@ public class FragmentProfilo extends Fragment {
     private FirebaseUser currentUser;
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private final static int PICK_IMAGE = 200;
+    public Uri downloadUri = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +93,7 @@ public class FragmentProfilo extends Fragment {
         btnSalvaPassword = view.findViewById(R.id.btn_salva_password);
 
         textNome.setText(currentUser.getDisplayName());
+        Log.d(TAG, "onCreateView: "+ currentUser.getPhotoUrl());
         if(currentUser.getPhotoUrl() != null){
             Glide.with(this)
                     .load(currentUser.getPhotoUrl())
@@ -163,11 +171,56 @@ public class FragmentProfilo extends Fragment {
                 if(getPickImageResultUri(intent) != null) {
                     final FirebaseUser user = mAuth.getCurrentUser();
                     Uri picUri = getPickImageResultUri(intent);
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReference();
+
+                    final StorageReference riversRef = storageRef.child("images/"+picUri.getLastPathSegment());
+                    UploadTask uploadTask = riversRef.putFile(picUri);
+
+// Register observers to listen for when the download is done or if it fails
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                        }
+                    });
+
+
+                    Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
+
+                            // Continue with the task to get the download URL
+                            return riversRef.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                downloadUri = task.getResult();
+                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                        .setPhotoUri(downloadUri)
+                                        .build();
+                                user.updateProfile(profileChangeRequest);
+                            } else {
+                                // Handle failures
+                                // ...
+                            }
+                        }
+                    });
+
                     Log.d(TAG, "pic: " + picUri);
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                            .setPhotoUri(picUri)
-                            .build();
-                    user.updateProfile(profileChangeRequest);
+                    Log.d(TAG, "onComplete: " + downloadUri);
+
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), picUri);
                     } catch (IOException e) {
