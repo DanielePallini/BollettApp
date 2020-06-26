@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-
     tools:context=".RegistrazioneActivity">
 
 
@@ -15,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="10dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +26,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Password"
-    android:layout_marginTop="30dp">
+    android:layout_marginTop="10dp">
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,26 +37,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="40dp"
         android:weightSum="2">
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="1dp"
+
         android:background="@drawable/rectangular_button_shape"
         android:text="Login"
         android:backgroundTint="#3498db"
         android:textColor="@android:color/white"/>
     <Button
         android:id="@+id/btn_registra"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:layout_marginLeft="5dp"
         android:background="@drawable/rectangular_button_shape"
         android:backgroundTint="#3498db"
         android:text="Registra"
