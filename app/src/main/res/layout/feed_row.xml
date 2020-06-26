@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/white">
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="8dp"
+app:cardCornerRadius="6dp"
+app:cardElevation="6dp">
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="8dp"
+android:orientation="vertical">
     <!--android:background="@drawable/border">-->
 
     <TextView
@@ -48,18 +57,21 @@
         android:textStyle="italic"
         android:textAlignment="textStart"
         android:id="@+id/text_consumo"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="4dp"
+        android:weightSum="7"
+        android:orientation="horizontal">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="italic"
+        android:layout_weight="7"
         android:id="@+id/text_costo"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="4dp">
+
         <ImageButton
             android:id="@+id/button_calendar"
             android:layout_width="30dp"
@@ -67,6 +79,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_gravity="right"
+
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/round_button_shape"
@@ -78,6 +91,7 @@
             android:id="@+id/button_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
+
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_gravity="right"
@@ -106,5 +120,5 @@
             android:visibility="gone" />
     </LinearLayout>
 
-
 </LinearLayout>
+</androidx.cardview.widget.CardView>

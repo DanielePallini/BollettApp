@@ -62,7 +62,7 @@ public class BarChartItem extends ChartItem {
 
         YAxis leftAxis = holder.chart.getAxisLeft();
        // leftAxis.setTypeface(mTf);
-        leftAxis.setLabelCount(5, false);
+        leftAxis.setLabelCount(5,false);
         leftAxis.setSpaceTop(20f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 

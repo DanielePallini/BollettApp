@@ -198,6 +198,7 @@ public class FragmentGrafici extends Fragment {
         ArrayList<BarEntry> entries = new ArrayList<>();
         ArrayList<BollettaLGI> list = MainActivity.bollette;
         String tmp = "";
+        Utils.init(getContext());
         double Mesi[] = new double[12];
         for (BollettaLGI data : list) {
             tmp = data.getPeriodo();
@@ -271,6 +272,7 @@ public class FragmentGrafici extends Fragment {
         double sommaLuce = 0.0;
         double sommaGas = 0.0;
         double sommaInternet = 0.0;
+        Utils.init(getContext());
         /*
         for (int i = 0; i < 4; i++) {
             entries.add(new PieEntry((float) ((Math.random() * 70) + 30), "Quarter " + (i+1)));

@@ -13,7 +13,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Data di Scadenza"
+        android:hint="Data di Scadenza:"
         android:layout_marginTop="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="9"
-            android:hint="Costo">
+            android:hint="Costo:">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_costo"
@@ -94,7 +94,7 @@
             android:layout_marginTop="10dp"
             android:id="@+id/layout_consumo"
             android:layout_weight="9"
-            android:hint="Consumo">
+            android:hint="Consumo:">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_consumo"

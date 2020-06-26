@@ -186,7 +186,7 @@ public class FragmentBolletta extends Fragment {
 
     private void writeBollettaToDb(String dataScadenza, String periodo, String fine, double costo, double consumo, String tipo, String uid, long max) {
         Map<String, Object> bolletta = new HashMap<>();
-        bolletta.put("Data Scadenza", dataScadenza );
+        bolletta.put("DataScadenza", dataScadenza );
         bolletta.put("Da", periodo);
         bolletta.put("A", fine);
         bolletta.put("Importo", costo);

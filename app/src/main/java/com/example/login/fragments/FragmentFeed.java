@@ -75,8 +75,9 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bollette.clear();
         feedAdapter = new FeedAdapter(bollette, this);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                //DividerItemDecoration.VERTICAL));
+
         recyclerView.setAdapter(feedAdapter);
 
         btnAdd = view.findViewById(R.id.button_add);
@@ -134,9 +135,9 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                                     //Object tmp = document.get("Codice");
                                     BollettaLGI bollettaLGI = null;
                                     if (tipo == "Luce" || tipo == "Gas") {
-                                        bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), document.getDouble("Consumo"), tipo);
+                                        bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("DataScadenza"), document.getString("Da"), document.getString("A"), document.getDouble("Consumo"), tipo);
                                     } else {
-                                        bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("Data Scadenza"), document.getString("Da"), document.getString("A"), tipo);
+                                        bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("DataScadenza"), document.getString("Da"), document.getString("A"), tipo);
                                     }
                                     bollette.add(bollettaLGI);
                                     if (tipo == "Luce") {
