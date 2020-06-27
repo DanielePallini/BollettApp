@@ -201,8 +201,14 @@ public class FragmentBolletta extends Fragment {
         bolletta.put("A", fine);
         bolletta.put("Importo", costo);
         bolletta.put("Tipo", tipo);
+
         if(tipo != "Internet"){
             bolletta.put("Consumo", consumo);
+            if (tipo == "Luce"){
+                bolletta.put("Misura", "kWh");
+            } else {
+                bolletta.put("Misura", "m^3");
+            }
         }
         bolletta.put("Codice", max);
 
