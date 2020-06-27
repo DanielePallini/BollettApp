@@ -60,6 +60,8 @@ public class FragmentProfilo extends Fragment {
     private Button btnLogout, btnModificaPassword, btnSalvaPassword;
     private TextInputEditText textPassword;
     private TextInputLayout passwordLayout;
+    private TextInputEditText textPasswordConfirm;
+    private TextInputLayout passwordConfirmLayout;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -90,6 +92,8 @@ public class FragmentProfilo extends Fragment {
 
         passwordLayout = view.findViewById(R.id.password_layout);
         textPassword = view.findViewById(R.id.text_password);
+        passwordConfirmLayout = view.findViewById(R.id.passwordconfirm_layout);
+        textPasswordConfirm = view.findViewById(R.id.text_passwordconfirm);
         btnSalvaPassword = view.findViewById(R.id.btn_salva_password);
 
         textNome.setText(currentUser.getDisplayName());
@@ -102,7 +106,7 @@ public class FragmentProfilo extends Fragment {
         }
         else {
             Glide.with(this)
-                    .load(getActivity().getDrawable(R.drawable.ic_person_outline_black_24dp))
+                    .load(getActivity().getDrawable(R.drawable.placeholder_icon))
                     .centerCrop()
                     .into(proPic);
         }
@@ -139,24 +143,43 @@ public class FragmentProfilo extends Fragment {
                 btnModificaPassword.setVisibility(View.GONE);
                 passwordLayout.setVisibility(View.VISIBLE);
                 textPassword.setVisibility(View.VISIBLE);
+                passwordConfirmLayout.setVisibility(View.VISIBLE);
+                textPasswordConfirm.setVisibility(View.VISIBLE);
                 btnSalvaPassword.setVisibility(View.VISIBLE);
                 btnSalvaPassword.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String newPassword = textPassword.getText().toString();
-                        currentUser.updatePassword(newPassword)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(getActivity(), "Password modificata con successo", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(getActivity(), "Devi essere loggato da poco per modificare la password", Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                });
+                        try {
+                                String newPassword = textPassword.getText().toString();
+                                String newPasswordConfirm = textPasswordConfirm.getText().toString();
+                                if(!(newPassword.equals(newPasswordConfirm)) ){
+                                    Toast.makeText(getActivity(), "Le password non corrispondono", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                currentUser.updatePassword(newPassword)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(getActivity(), "Password modificata con successo", Toast.LENGTH_SHORT).show();
+                                                    btnModificaPassword.setVisibility(View.VISIBLE);
+                                                    passwordLayout.setVisibility(View.GONE);
+                                                    textPassword.setVisibility(View.GONE);
+                                                    passwordConfirmLayout.setVisibility(View.GONE);
+                                                    textPasswordConfirm.setVisibility(View.GONE);
+                                                    btnSalvaPassword.setVisibility(View.GONE);
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Devi essere loggato da poco per modificare la password", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+
+                        } catch(Exception e){
+                            Toast.makeText(getActivity(), "Per favore, inserisci tutte le informazioni richieste.", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
+
 
             }
         });
