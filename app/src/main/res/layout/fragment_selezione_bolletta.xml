@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,9 +10,6 @@
         android:id="@+id/button_add_bolletta_luce"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="70dp"
         android:background="@drawable/rectangular_button_shape"
         android:backgroundTint="#FFF9C4"
@@ -26,9 +21,6 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginBottom="70dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:background="@drawable/rectangular_button_shape"
         android:elevation="2dp"
         android:backgroundTint="#FFCDD2"
@@ -39,10 +31,6 @@
         android:id="@+id/button_add_bolletta_internet"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-
         android:background="@drawable/rectangular_button_shape"
         android:elevation="2dp"
         android:src="@drawable/ic_wifi" />

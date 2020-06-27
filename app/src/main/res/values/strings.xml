@@ -11,10 +11,47 @@
     <string name="login_failed">"Login failed"</string>
     <string name="inforequired">Per favore, inserisci tutte le informazioni richieste.</string>
     <string name="errorsignup">C\'è stato un errore nella registrazione.</string>
-    <string name ="selsorgente">Seleziona la sorgente</string>
+    <string name="selsorgente">Seleziona la sorgente</string>
+    <string name="inseriscidati">Inserisci i dati della bolletta</string>
+    <string name="periodoriferimento">Per favore, inserisci un periodo di riferimento valido.</string>
+    <string name="storicobollette" >Storico bollette</string>
+    <string name="eliminarebolletta">Sei davvero sicuro di eliminare questa bolletta?</string>
+    <string name="autenticazionefallita">Autenticazione fallita.</string>
+    <string name="titoloprofilo">Profilo</string>
+    <string name="passwordnoncorrispondono">Le password non corrispondono</string>
+    <string name="passwordmodificata">Password modificata con successo</string>
+    <string name="loginpermodifica">Devi essere loggato da poco per modificare la password</string>
+    <string name="inserisciinforichieste">Per favore, inserisci tutte le informazioni richieste.</string>
+    <string name="approvapermessi">Approva tutto</string>
+    <string name="passwordcaratteri">La password deve essere almeno di 6 caratteri</string>
+    <string name="selezionatipobolletta">Seleziona il tipo di bolletta</string>
+    <string name="datadiscadenza">Data di Scadenza: </string>
+    <string name="periodo">Periodo: </string>
+    <string name="consumo">Consumo: </string>
+    <string name="costo">Costo: € </string>
+    <string name="feed">Feed</string>
+    <string name="profilo">Profilo</string>
+    <string name="grafici">Grafici</string>
+    <string name="data_di_scadenza">Data di Scadenza:</string>
+    <string name="periodo_di_riferimento_da">Periodo di Riferimento. Da:</string>
+    <string name="a">A:</string>
+    <string name="euro">€</string>
+    <string name="costoxml">Costo:</string>
+    <string name="consumoxml">Consumo:</string>
+    <string name="salva">Salva</string>
+    <string name="login">Login</string>
+    <string name="registrati">Registrati</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="registra">Registra</string>
+    <string name="modifica_password">Modifica Password</string>
+    <string name="nuova_password">Nuova Password</string>
+    <string name="conferma_password">Conferma Password</string>
+    <string name="salva_modifiche">Salva Modifiche</string>
+    <string name="logout">Logout</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
 
-    <string name ="feed">Feed</string>
-    <string name ="profilo">Profilo</string>
-    <string name ="grafici">Grafici</string>
+
 
 </resources>

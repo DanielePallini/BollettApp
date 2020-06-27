@@ -4,7 +4,6 @@ package com.example.login.charts;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -21,14 +20,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 
 public class PieChartItem extends ChartItem {
-
-    //private final Typeface mTf;
     private final SpannableString mCenterText;
 
     public PieChartItem(ChartData<?> cd, Context c) {
         super(cd);
-
-      //  mTf = Typeface.createFromAsset(c.getAssets(), "OpenSans-Regular.ttf");
         mCenterText = generateCenterText();
     }
 
@@ -56,21 +51,17 @@ public class PieChartItem extends ChartItem {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        // apply styling
         holder.chart.getDescription().setEnabled(false);
         holder.chart.setHoleRadius(52f);
         holder.chart.setTransparentCircleRadius(57f);
         holder.chart.setCenterText(mCenterText);
-       // holder.chart.setCenterTextTypeface(mTf);
         holder.chart.setCenterTextSize(9f);
         holder.chart.setUsePercentValues(true);
         holder.chart.setExtraOffsets(5, 10, 50, 10);
 
         mChartData.setValueFormatter(new PercentFormatter());
-       // mChartData.setValueTypeface(mTf);
         mChartData.setValueTextSize(11f);
         mChartData.setValueTextColor(Color.WHITE);
-        // set data
         holder.chart.setData((PieData) mChartData);
 
         Legend l = holder.chart.getLegend();
@@ -80,9 +71,6 @@ public class PieChartItem extends ChartItem {
         l.setDrawInside(false);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
-
-        // do not forget to refresh the chart
-        // holder.chart.invalidate();
         holder.chart.animateY(900);
 
         return convertView;
@@ -92,13 +80,6 @@ public class PieChartItem extends ChartItem {
         SpannableString s = new SpannableString("Percentuale\nCosti");
         s.setSpan(new RelativeSizeSpan(1.6f), 0, 17, 0);
         s.setSpan(new ForegroundColorSpan(ColorTemplate.MATERIAL_COLORS[3]), 0, 17, 0);
-        /*
-        s.setSpan(new RelativeSizeSpan(.9f), 14, 25, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, 25, 0);
-        s.setSpan(new RelativeSizeSpan(1.4f), 25, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), 25, s.length(), 0);
-
-         */
         return s;
     }
 

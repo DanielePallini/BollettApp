@@ -1,9 +1,7 @@
 package com.example.login.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,26 +14,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.login.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,9 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 
-import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FragmentBolletta extends Fragment {
@@ -68,7 +54,7 @@ public class FragmentBolletta extends Fragment {
         textDataScadenza = view.findViewById(R.id.text_data_scadenza);
         textPeriodo = view.findViewById(R.id.text_periodo_riferimento);
         textFine = view.findViewById(R.id.text_fine_riferimento);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Inserisci i dati della bolletta");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.inseriscidati));
 
         Bundle args = getArguments();
         max = args.getLong("max", 0);
@@ -159,15 +145,14 @@ public class FragmentBolletta extends Fragment {
                     Date secondDate = sdf.parse(fine);
 
                     if(firstDate.after(secondDate)){
-                        Toast.makeText(getActivity(), "Per favore, inserisci un periodo di riferimento valido.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), R.string.periodoriferimento, Toast.LENGTH_LONG).show();
                         return;
                     }
                     else {
                     writeBollettaToDb(dataScadenza, periodo, fine, costo, consumo, tipo, currentUser.getUid(), max);
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onClick: " + e);
+                    Toast.makeText(getActivity(),R.string.inforequired, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -231,94 +216,11 @@ public class FragmentBolletta extends Fragment {
                 });
 
     }
-    /*
-    @Override
-    public void onClick(View v) {
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
-        };
-
-        switch (v.getId()){
-            case R.id.text_data_scadenza:
-                textDataScadenza.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        new DatePickerDialog(getActivity(), date, myCalendar
-                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                    }
-                });
-                break;
-
-
-        }
-        */
 
     }
 
-     /*DocumentReference docRef = db.collection("utenti").document(uid).collection("bollette").document("Luce 2");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
 
-                        //String obj = document.getData().toString();
-                        //String[] str = obj.split(",");
-                        //String[] str1 = str[3].split("=");
-                        //int codice = Integer.parseInt(str1[1]);
-                        Log.d(TAG, "DocumentSnapshot id: " + document.getId());
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-
-        db.collection("utenti").document(uid).collection("bollette")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        String max = "";
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String st = document.getId();
-
-                                if (st.compareTo(max) > 0){
-                                    max = st;
-
-                                }
-                                //Log.d(TAG, document.getId() + " => " + document.getData());
-                                //Log.d(TAG, max);
-                            }
-
-                            Log.d(TAG, max);
-
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-        */
-
-//db.collection("utenti").document(uid).collection("bollette").document("Luce 1").get();
 
 
 

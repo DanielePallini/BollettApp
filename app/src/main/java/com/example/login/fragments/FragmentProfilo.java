@@ -81,7 +81,7 @@ public class FragmentProfilo extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profilo, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profilo");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.titoloprofilo);
         proPic = view.findViewById(R.id.propic);
         proPic.setClipToOutline(true);
         textNome = view.findViewById(R.id.text_nome);
@@ -97,7 +97,6 @@ public class FragmentProfilo extends Fragment {
         btnSalvaPassword = view.findViewById(R.id.btn_salva_password);
 
         textNome.setText(currentUser.getDisplayName());
-        Log.d(TAG, "onCreateView: "+ currentUser.getPhotoUrl());
         if(currentUser.getPhotoUrl() != null){
             Glide.with(this)
                     .load(currentUser.getPhotoUrl())
@@ -153,7 +152,7 @@ public class FragmentProfilo extends Fragment {
                                 String newPassword = textPassword.getText().toString();
                                 String newPasswordConfirm = textPasswordConfirm.getText().toString();
                                 if(!(newPassword.equals(newPasswordConfirm)) ){
-                                    Toast.makeText(getActivity(), "Le password non corrispondono", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), R.string.passwordnoncorrispondono, Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 currentUser.updatePassword(newPassword)
@@ -161,7 +160,7 @@ public class FragmentProfilo extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Toast.makeText(getActivity(), "Password modificata con successo", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), R.string.passwordmodificata, Toast.LENGTH_SHORT).show();
                                                     btnModificaPassword.setVisibility(View.VISIBLE);
                                                     passwordLayout.setVisibility(View.GONE);
                                                     textPassword.setVisibility(View.GONE);
@@ -169,13 +168,13 @@ public class FragmentProfilo extends Fragment {
                                                     textPasswordConfirm.setVisibility(View.GONE);
                                                     btnSalvaPassword.setVisibility(View.GONE);
                                                 } else {
-                                                    Toast.makeText(getActivity(), "Devi essere loggato da poco per modificare la password", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getActivity(), R.string.loginpermodifica, Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         });
 
                         } catch(Exception e){
-                            Toast.makeText(getActivity(), "Per favore, inserisci tutte le informazioni richieste.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), R.string.inserisciinforichieste, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -200,17 +199,13 @@ public class FragmentProfilo extends Fragment {
                     final StorageReference riversRef = storageRef.child("images/"+picUri.getLastPathSegment());
                     UploadTask uploadTask = riversRef.putFile(picUri);
 
-// Register observers to listen for when the download is done or if it fails
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            // ...
                         }
                     });
 
@@ -222,7 +217,6 @@ public class FragmentProfilo extends Fragment {
                                 throw task.getException();
                             }
 
-                            // Continue with the task to get the download URL
                             return riversRef.getDownloadUrl();
                         }
                     }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -235,14 +229,10 @@ public class FragmentProfilo extends Fragment {
                                         .build();
                                 user.updateProfile(profileChangeRequest);
                             } else {
-                                // Handle failures
-                                // ...
                             }
                         }
                     });
 
-                    Log.d(TAG, "pic: " + picUri);
-                    Log.d(TAG, "onComplete: " + downloadUri);
 
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), picUri);
@@ -277,21 +267,6 @@ public class FragmentProfilo extends Fragment {
 
         List<Intent> allIntents = new ArrayList<>();
         PackageManager packageManager = getActivity().getPackageManager();
-/*
-        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for(ResolveInfo res:listCam) {
-            Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            if(outputFileUri != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            }
-            allIntents.add(intent);
-        }
-
- */
-
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
         for(ResolveInfo res:listGallery) {
@@ -322,10 +297,6 @@ public class FragmentProfilo extends Fragment {
         File getImage = getActivity().getExternalCacheDir();
         if(getImage != null){
             outputFileUri = Uri.fromFile(new File(getImage.getPath(), "propic.png"));
-            /*
-
-
-             */
         }
         return outputFileUri;
     }
@@ -351,7 +322,7 @@ public class FragmentProfilo extends Fragment {
             }
         if (permissionsRejected.size() > 0) {
             if(shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-                Toast.makeText(getContext(), "Approva tutto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.approvapermessi, Toast.LENGTH_SHORT).show();
             }
         } else {
             startActivityForResult(getPickImageChooserIntent(), PICK_IMAGE);

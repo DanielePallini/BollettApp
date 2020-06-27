@@ -13,7 +13,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Data di Scadenza:"
+        android:hint="@string/data_di_scadenza"
         android:layout_marginTop="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -27,7 +27,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Periodo di Riferimento. Da:"
+        android:hint="@string/periodo_di_riferimento_da"
         android:layout_marginTop="10dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="A:"
+        android:hint="@string/a"
         android:layout_marginTop="10dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="9"
-            android:hint="Costo:">
+            android:hint="@string/costoxml">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_costo"
@@ -78,9 +78,9 @@
             android:gravity="center"
             android:layout_marginStart="0dp"
             android:layout_marginTop="13dp"
-            android:text="€"
+            android:text="@string/euro"
             android:textColor="@android:color/black"
-            android:textSize="25dp" />
+            android:textSize="25sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,7 +94,7 @@
             android:layout_marginTop="10dp"
             android:id="@+id/layout_consumo"
             android:layout_weight="9"
-            android:hint="Consumo:">
+            android:hint="@string/consumo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_consumo"
@@ -112,9 +112,9 @@
 
             android:layout_marginStart="0dp"
             android:layout_marginTop="13dp"
-            android:text="Kwh"
+            android:text="kWh"
             android:textColor="@android:color/black"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:text="Salva"
+        android:text="@string/salva"
         android:id="@+id/btn_salva"
         android:layout_marginTop="20dp"
         android:background="@drawable/rectangular_button_shape"

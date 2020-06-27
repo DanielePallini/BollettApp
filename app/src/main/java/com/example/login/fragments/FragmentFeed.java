@@ -11,13 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,23 +67,18 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Storico bollette");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.storicobollette);
 
         recyclerView = view.findViewById(R.id.rv_feed);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bollette.clear();
         feedAdapter = new FeedAdapter(bollette, this);
-        //recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                //DividerItemDecoration.VERTICAL));
-
         recyclerView.setAdapter(feedAdapter);
-
         btnAdd = view.findViewById(R.id.button_add);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        //if(db.collection("utenti").document(currentUser.getUid()).collection("bollette").get() != n)
         scaricaDati(db, currentUser.getUid());
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.show();
@@ -157,9 +150,6 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                                     }
                                     feedAdapter.notifyDataSetChanged();
                                     MainActivity.bollette = bollette;
-
-                                    //Log.d(TAG, max);
-
                                 } catch (NullPointerException e) {
                                     Log.d(TAG, "Nessun campo trovato");
                                 }
@@ -179,9 +169,8 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
 
     @Override
     public void onDeleteClick(final String tipo, final long codice) {
-        Log.d(TAG, "onDeleteClick: " + tipo + " " + codice);
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
-        builder1.setMessage("Sei davvero sicuro di eliminare questa bolletta?");
+        builder1.setMessage(R.string.eliminarebolletta);
         builder1.setCancelable(true);
         builder1.setPositiveButton(
                 "OK",
@@ -193,7 +182,6 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
                                         FragmentFeed fragmentFeed = new FragmentFeed();
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentFeed).commit();
                                     }
@@ -224,15 +212,11 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setData(CalendarContract.Events.CONTENT_URI);
         Calendar calendar = new GregorianCalendar();
-        Log.d(TAG, "onCalendarClick: "+ calendar.getTimeInMillis());
         calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(data.substring(0,2)));
-        Log.d(TAG, "onCalendarClick: " + Integer.parseInt(data.substring(0,2) + Integer.parseInt(data.substring(3,5) +  Integer.parseInt(data.substring(6,8)))));
         calendar.set(Calendar.MONTH, Integer.parseInt(data.substring(3,5) ) -1);
         calendar.set(Calendar.YEAR, 2000 + Integer.parseInt(data.substring(6,8)));
-        Log.d(TAG, "onCalendarClick: "+ calendar.getTimeInMillis());
         intent.putExtra("beginTime", calendar.getTimeInMillis());
         intent.putExtra("allDay", true);
-        //intent.putExtra("rrule", "FREQ=YEARLY");
         intent.putExtra("endTime", calendar.getTimeInMillis() +60*60*1000);
         intent.putExtra("title", "Scadenza Bolletta" + " " + tipo);
         startActivity(intent);

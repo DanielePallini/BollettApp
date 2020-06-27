@@ -14,7 +14,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="@string/email"
         android:layout_marginTop="80dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
     <com.google.android.material.textfield.TextInputLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="Password"
+    android:hint="@string/password"
     android:layout_marginTop="30dp">
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         android:layout_weight="1"
         android:layout_marginRight="5dp"
         android:background="@drawable/rectangular_button_shape"
-        android:text="Login"
+        android:text="@string/login"
         android:backgroundTint="#3498db"
         android:textColor="@android:color/white"/>
     <Button
@@ -60,7 +60,7 @@
         android:layout_marginLeft="5dp"
         android:background="@drawable/rectangular_button_shape"
         android:backgroundTint="#3498db"
-        android:text="Registra"
+        android:text="@string/registra"
         android:textColor="@android:color/white"/>
     </LinearLayout>
 </LinearLayout>

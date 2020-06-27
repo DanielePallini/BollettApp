@@ -3,7 +3,6 @@ package com.example.login.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
+
 
 public class FragmentGrafici extends Fragment {
 
@@ -63,7 +62,7 @@ public class FragmentGrafici extends Fragment {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         View view = inflater.inflate(R.layout.fragment_grafici, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Grafici");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.grafici);
 
 
 
@@ -88,7 +87,7 @@ public class FragmentGrafici extends Fragment {
         return view;
     }
 
-    /** adapter that supports 3 different item types */
+
     private class ChartDataAdapter extends ArrayAdapter<ChartItem> {
 
         ChartDataAdapter(Context context, List<ChartItem> objects) {
@@ -98,40 +97,31 @@ public class FragmentGrafici extends Fragment {
         @NonNull
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            //noinspection ConstantConditions
+
             return getItem(position).getView(position, convertView, getContext());
         }
 
         @Override
         public int getItemViewType(int position) {
-            // return the views type
+
             ChartItem ci = getItem(position);
             return ci != null ? ci.getItemType() : 0;
         }
 
         @Override
         public int getViewTypeCount() {
-            return 3; // we have 3 different item-types
+            return 3;
         }
     }
 
-    /**
-     * generates a random ChartData object with just one DataSet
-     *
-     * @return Line data
-     */
+
     private LineData generateDataLine(int cnt) {
 
         ArrayList<Entry> entry = new ArrayList<>();
         ArrayList<Entry> entry2 = new ArrayList<>();
         ArrayList<Entry> entry3 = new ArrayList<>();
         ArrayList<Entry> entry4 = new ArrayList<>();
-        /*
-        for (int i = 0; i < 12; i++) {
-            values1.add(new Entry(i, (int) (Math.random() * 65) + 40));
-        }
 
-         */
         int cntLuce = 0;
         int cntGas = 0;
         int cntInternet = 0;
@@ -153,7 +143,7 @@ public class FragmentGrafici extends Fragment {
 
 
             }
-            // turn your data into Entry objects
+
 
         }
         entry4.add(new Entry(0,0));
@@ -161,7 +151,6 @@ public class FragmentGrafici extends Fragment {
         Utils.init(getContext());
         d1.setLineWidth(4.5f);
         d1.setCircleRadius(4.5f);
-        //d1.setHighLightColor(Color.rgb(244, 117, 117));
         d1.setDrawValues(false);
         d1.setColor(ColorTemplate.MATERIAL_COLORS[1]);
         d1.setCircleColor(ColorTemplate.MATERIAL_COLORS[1]);
@@ -194,11 +183,7 @@ public class FragmentGrafici extends Fragment {
         return new LineData(sets);
     }
 
-    /**
-     * generates a random ChartData object with just one DataSet
-     *
-     * @return Bar data
-     */
+
     private BarData generateDataBar(int cnt) {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
@@ -251,12 +236,6 @@ public class FragmentGrafici extends Fragment {
             for (int i = 0; i < 12; i++) {
                 entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
             }
-
-            //for (int i = 0; i < 12; i++) {
-            //  entries.add(new BarEntry(i, (int) (Math.random() * 70) + 30));
-            //}
-
-
         }
         BarDataSet d = new BarDataSet(entries, "Somma mensile dei costi ");
         d.setColors(ColorTemplate.MATERIAL_COLORS[1],ColorTemplate.MATERIAL_COLORS[2],ColorTemplate.MATERIAL_COLORS[3]);
@@ -267,11 +246,7 @@ public class FragmentGrafici extends Fragment {
         return cd;
     }
 
-    /**
-     * generates a random ChartData object with just one DataSet
-     *
-     * @return Pie data
-     */
+
     private PieData generateDataPie() {
         ArrayList<BollettaLGI> list= MainActivity.bollette;
         ArrayList<PieEntry> entries = new ArrayList<>();
@@ -279,12 +254,7 @@ public class FragmentGrafici extends Fragment {
         double sommaGas = 0.0;
         double sommaInternet = 0.0;
         Utils.init(getContext());
-        /*
-        for (int i = 0; i < 4; i++) {
-            entries.add(new PieEntry((float) ((Math.random() * 70) + 30), "Quarter " + (i+1)));
-        }
 
-         */
         for (BollettaLGI data : list) {
             if(data.getTipo() == "Luce"){
                 sommaLuce += data.getCosto();
@@ -305,7 +275,7 @@ public class FragmentGrafici extends Fragment {
 
         PieDataSet d = new PieDataSet(entries, "");
 
-        // space between slices
+
         d.setSliceSpace(2f);
         d.setColors(ColorTemplate.MATERIAL_COLORS[1], ColorTemplate.MATERIAL_COLORS[2],ColorTemplate.MATERIAL_COLORS[3]);
 
