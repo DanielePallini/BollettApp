@@ -125,6 +125,7 @@ public class FragmentGrafici extends Fragment {
         ArrayList<Entry> entry = new ArrayList<>();
         ArrayList<Entry> entry2 = new ArrayList<>();
         ArrayList<Entry> entry3 = new ArrayList<>();
+        ArrayList<Entry> entry4 = new ArrayList<>();
         /*
         for (int i = 0; i < 12; i++) {
             values1.add(new Entry(i, (int) (Math.random() * 65) + 40));
@@ -155,7 +156,7 @@ public class FragmentGrafici extends Fragment {
             // turn your data into Entry objects
 
         }
-
+        entry4.add(new Entry(0,0));
         LineDataSet d1 = new LineDataSet(entry, "Luce "  );
         Utils.init(getContext());
         d1.setLineWidth(4.5f);
@@ -180,11 +181,16 @@ public class FragmentGrafici extends Fragment {
         d3.setColor(ColorTemplate.MATERIAL_COLORS[3]);
         d3.setCircleColor(ColorTemplate.MATERIAL_COLORS[3]);
         d3.setDrawValues(false);
+        LineDataSet d4 = new LineDataSet(entry4, "\t \t \t \t Grafico andamento costi " );
+        d4.setColor(Color.WHITE);
+        d4.setCircleColor(Color.WHITE);
+        d4.setDrawValues(false);
 
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(d1);
         sets.add(d2);
         sets.add(d3);
+        sets.add(d4);
         return new LineData(sets);
     }
 

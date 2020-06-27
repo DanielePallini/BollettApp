@@ -50,6 +50,7 @@ public class FragmentLogin extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
                 email = textEmail.getText().toString();
                 password = textPassword.getText().toString();
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -83,8 +84,12 @@ public class FragmentLogin extends Fragment {
                             }
                         });
 
+            }  catch (Exception e) {
+                Toast.makeText(getActivity(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
             }
+        }
         });
+
         btnRegistra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
