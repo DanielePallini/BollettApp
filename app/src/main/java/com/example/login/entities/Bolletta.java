@@ -53,6 +53,4 @@ package com.example.login.entities;
      public String getPeriodo() {
          return periodo;
      }
-
-     //public abstract double getConsumo();
  }

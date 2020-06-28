@@ -82,7 +82,7 @@ public class FragmentRegistrazione extends Fragment {
                                 });
                             }
                             else if(textPassword.length() < 6){
-                                Toast.makeText(getActivity(), "La password deve essere almeno di 6 caratteri", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), R.string.passwordcaratteri, Toast.LENGTH_SHORT).show();
                             } else Toast.makeText(getActivity(), getString(R.string.errorsignup), Toast.LENGTH_SHORT).show();
                         }
 
@@ -94,7 +94,6 @@ public class FragmentRegistrazione extends Fragment {
             }
         });
         return view;
-        //getActivity().getSupportActionBar().setTitle("REGISTRATI");
     }
 
     private void writeUserToDb(String nome, String cognome, String uid) {
@@ -104,6 +103,5 @@ public class FragmentRegistrazione extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("utenti").document(uid).set(user);
-        //db.collection("utenti").document(uid).collection("bollette").document(uid).set(user);
     }
 }

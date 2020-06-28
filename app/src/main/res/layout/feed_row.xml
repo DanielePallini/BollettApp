@@ -12,7 +12,6 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:padding="8dp"
 android:orientation="vertical">
-    <!--android:background="@drawable/border">-->
 
     <TextView
         android:layout_width="match_parent"
@@ -65,7 +64,7 @@ android:orientation="vertical">
         android:weightSum="7"
         android:orientation="horizontal">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="italic"
@@ -76,8 +75,6 @@ android:orientation="vertical">
             android:id="@+id/button_calendar"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="right"
 
             android:layout_marginEnd="10dp"
@@ -91,9 +88,6 @@ android:orientation="vertical">
             android:id="@+id/button_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
-
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="right"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
@@ -107,8 +101,6 @@ android:orientation="vertical">
             android:id="@+id/button_delete"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="right"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"

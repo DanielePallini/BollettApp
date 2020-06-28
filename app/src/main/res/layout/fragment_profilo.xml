@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textColor="@color/colorPrimary"
             android:id="@+id/text_nome"
             android:layout_gravity="center_vertical"/>
@@ -47,13 +47,13 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/rectangular_button_shape"
         android:backgroundTint="#3498db"
-        android:text="Modifica Password"
+        android:text="@string/modifica_password"
         android:textColor="@android:color/white"/>
     </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nuova Password"
+        android:hint="@string/nuova_password"
         android:id="@+id/password_layout"
         android:visibility="gone"
         android:padding="10dp"
@@ -68,7 +68,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Conferma Password"
+        android:hint="@string/conferma_password"
         android:id="@+id/passwordconfirm_layout"
         android:visibility="gone"
         android:padding="10dp"
@@ -95,7 +95,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/rectangular_button_shape"
         android:backgroundTint="#3498db"
-        android:text="Salva Modifiche"
+        android:text="@string/salva_modifiche"
         android:visibility="gone"
         android:textColor="@android:color/white"/>
     </LinearLayout>
@@ -114,7 +114,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/rectangular_button_shape"
         android:backgroundTint="#3498db"
-        android:text="Logout"
+        android:text="@string/logout"
         android:textColor="@android:color/white"/>
     </LinearLayout>
 </LinearLayout>

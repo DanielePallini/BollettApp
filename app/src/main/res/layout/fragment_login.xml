@@ -7,14 +7,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
+
     tools:context=".RegistrazioneActivity">
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_marginTop="10dp">
+        android:hint="@string/email"
+        android:layout_marginTop="80dp">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,8 +26,8 @@
     <com.google.android.material.textfield.TextInputLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="Password"
-    android:layout_marginTop="10dp">
+    android:hint="@string/password"
+    android:layout_marginTop="30dp">
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,28 +38,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="40dp"
         android:weightSum="2">
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:layout_marginRight="1dp"
-
+        android:layout_marginRight="5dp"
         android:background="@drawable/rectangular_button_shape"
-        android:text="Login"
+        android:text="@string/login"
         android:backgroundTint="#3498db"
         android:textColor="@android:color/white"/>
     <Button
         android:id="@+id/btn_registra"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
+        android:layout_marginLeft="5dp"
         android:background="@drawable/rectangular_button_shape"
         android:backgroundTint="#3498db"
-        android:text="Registra"
+        android:text="@string/registra"
         android:textColor="@android:color/white"/>
     </LinearLayout>
 </LinearLayout>

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.MeasureUnit;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -89,15 +88,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == LOGIN_REQUEST) {
-            /*
-            if (resultCode == RESULT_OK) {
-
-                String nome = intent.getExtras().getString("nome");
-                String cognome = intent.getExtras().getString("cognome");
-
-                getSupportActionBar().setTitle(nome + " " + cognome);
-
-                 */
 
                 if (resultCode == RESULT_FIRST_USER || resultCode == RESULT_OK) {
                 SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
@@ -107,28 +97,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent2);
             }
-                /*
-                SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("firstrun", false);
-                editor.apply();
-                Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent2);
-
-                 */
             }
         }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //Title bar back press triggers onBackPressed()
             onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    //Both navigation bar back press and title bar back press will trigger this method
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0 ) {

@@ -1,7 +1,6 @@
 
 package com.example.login.uiutilities;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             textConsumo = itemView.findViewById(R.id.text_consumo);
 
             this.onFeedClickListener = onFeedClickListener;
-            //itemView.setOnClickListener(this);
             btnDelete.setOnClickListener(this);
             btnCalendar.setOnClickListener(this);
         }
@@ -56,9 +54,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
                 case R.id.button_delete:
                     onFeedClickListener.onDeleteClick(struttura.get(position).getTipo(), struttura.get(position).getId());
                     break;
-
-                //btnEdit.setSelected(true);
-                //btnDelete.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -97,46 +92,28 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Btn", "onClick: "+position);
                     holder.btnEdit.setVisibility(View.GONE);
                     holder.btnDelete.setVisibility(View.VISIBLE);
-                    /*
-                    holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d("Delete", "onClick: Deleted " + position);
-
-                        }
-                    });
-
-                     */
             }
         });
 
 
 
-        holder.textDataScadenza.setText("Data di Scadenza: " + struttura.get(position).getDataScadenza());
-        holder.textPeriodo.setText("Periodo: " + struttura.get(position).getPeriodo());
+        holder.textDataScadenza.setText(R.string.data_di_scadenza + struttura.get(position).getDataScadenza());
+        holder.textPeriodo.setText(R.string.periodo + struttura.get(position).getPeriodo());
         holder.textFine.setText(" - "+ struttura.get(position).getFinePeriodo());
         switch (struttura.get(position).getTipo()){
             case "Luce":
-                holder.textConsumo.setText("Consumo: " + struttura.get(position).getConsumo() + " kWh");
-                //holder.itemView.setBackgroundColor(Color.CYAN);
+                holder.textConsumo.setText(R.string.consumo + struttura.get(position).getConsumo() + " kWh");
                 break;
             case "Gas":
-                holder.textConsumo.setText("Consumo: " + struttura.get(position).getConsumo() + " m^3");
+                holder.textConsumo.setText(R.string.consumo + struttura.get(position).getConsumo() + " m^3");
                 break;
             default:
                 holder.textConsumo.setVisibility(View.GONE);
                 break;
         }
-        holder.textCosto.setText("Costo: € "+ struttura.get(position).getCosto()+"");
-        /*
-        if (struttura.get(position).getTipo() != "Internet") {
-            holder.textConsumo.setText("Consumo: " + struttura.get(position).getConsumo() + " kWh");
-        }
-
-         */
+        holder.textCosto.setText(R.string.costo + struttura.get(position).getCosto()+"");
     }
 
     @Override
