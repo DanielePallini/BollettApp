@@ -81,7 +81,7 @@ public class FragmentProfilo extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profilo, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.titoloprofilo);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.titoloprofilo));
         proPic = view.findViewById(R.id.propic);
         proPic.setClipToOutline(true);
         textNome = view.findViewById(R.id.text_nome);
@@ -152,7 +152,7 @@ public class FragmentProfilo extends Fragment {
                                 String newPassword = textPassword.getText().toString();
                                 String newPasswordConfirm = textPasswordConfirm.getText().toString();
                                 if(!(newPassword.equals(newPasswordConfirm)) ){
-                                    Toast.makeText(getActivity(), R.string.passwordnoncorrispondono, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), getString(R.string.passwordnoncorrispondono), Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 currentUser.updatePassword(newPassword)
@@ -160,7 +160,7 @@ public class FragmentProfilo extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Toast.makeText(getActivity(), R.string.passwordmodificata, Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(),getString( R.string.passwordmodificata), Toast.LENGTH_SHORT).show();
                                                     btnModificaPassword.setVisibility(View.VISIBLE);
                                                     passwordLayout.setVisibility(View.GONE);
                                                     textPassword.setVisibility(View.GONE);
@@ -168,13 +168,13 @@ public class FragmentProfilo extends Fragment {
                                                     textPasswordConfirm.setVisibility(View.GONE);
                                                     btnSalvaPassword.setVisibility(View.GONE);
                                                 } else {
-                                                    Toast.makeText(getActivity(), R.string.loginpermodifica, Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getActivity(), getString(R.string.loginpermodifica), Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         });
 
                         } catch(Exception e){
-                            Toast.makeText(getActivity(), R.string.inserisciinforichieste, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getString(R.string.inserisciinforichieste), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -322,7 +322,7 @@ public class FragmentProfilo extends Fragment {
             }
         if (permissionsRejected.size() > 0) {
             if(shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-                Toast.makeText(getContext(), R.string.approvapermessi, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.approvapermessi), Toast.LENGTH_SHORT).show();
             }
         } else {
             startActivityForResult(getPickImageChooserIntent(), PICK_IMAGE);

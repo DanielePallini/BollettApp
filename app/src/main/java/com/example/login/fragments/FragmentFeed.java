@@ -67,7 +67,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.storicobollette);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.storicobollette));
 
         recyclerView = view.findViewById(R.id.rv_feed);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -170,7 +170,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
     @Override
     public void onDeleteClick(final String tipo, final long codice) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
-        builder1.setMessage(R.string.eliminarebolletta);
+        builder1.setMessage(getString(R.string.eliminarebolletta));
         builder1.setCancelable(true);
         builder1.setPositiveButton(
                 "OK",

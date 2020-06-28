@@ -82,7 +82,7 @@ public class FragmentRegistrazione extends Fragment {
                                 });
                             }
                             else if(textPassword.length() < 6){
-                                Toast.makeText(getActivity(), R.string.passwordcaratteri, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getString(R.string.passwordcaratteri), Toast.LENGTH_SHORT).show();
                             } else Toast.makeText(getActivity(), getString(R.string.errorsignup), Toast.LENGTH_SHORT).show();
                         }
 

@@ -54,7 +54,7 @@ public class FragmentLogin extends Fragment {
                                     getActivity().finish();
 
                                 } else {
-                                    Toast.makeText(getActivity(), R.string.autenticazionefallita,
+                                    Toast.makeText(getActivity(), getString(R.string.autenticazionefallita),
                                             Toast.LENGTH_SHORT).show();
 
                                 }
@@ -63,7 +63,7 @@ public class FragmentLogin extends Fragment {
                         });
 
             }  catch (Exception e) {
-                Toast.makeText(getActivity(), R.string.inforequired, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
             }
         }
         });

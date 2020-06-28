@@ -145,14 +145,14 @@ public class FragmentBolletta extends Fragment {
                     Date secondDate = sdf.parse(fine);
 
                     if(firstDate.after(secondDate)){
-                        Toast.makeText(getActivity(), R.string.periodoriferimento, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),getString( R.string.periodoriferimento), Toast.LENGTH_LONG).show();
                         return;
                     }
                     else {
                     writeBollettaToDb(dataScadenza, periodo, fine, costo, consumo, tipo, currentUser.getUid(), max);
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(),R.string.inforequired, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getString(R.string.inforequired), Toast.LENGTH_SHORT).show();
                 }
 
             }

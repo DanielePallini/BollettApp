@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -99,21 +100,21 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
 
 
 
-        holder.textDataScadenza.setText(R.string.data_di_scadenza + struttura.get(position).getDataScadenza());
-        holder.textPeriodo.setText(R.string.periodo + struttura.get(position).getPeriodo());
+        holder.textDataScadenza.setText("Data di Scadenza: " + struttura.get(position).getDataScadenza());
+        holder.textPeriodo.setText("Periodo: " + struttura.get(position).getPeriodo());
         holder.textFine.setText(" - "+ struttura.get(position).getFinePeriodo());
         switch (struttura.get(position).getTipo()){
             case "Luce":
-                holder.textConsumo.setText(R.string.consumo + struttura.get(position).getConsumo() + " kWh");
+                holder.textConsumo.setText("Consumo: "+ struttura.get(position).getConsumo() + " kWh");
                 break;
             case "Gas":
-                holder.textConsumo.setText(R.string.consumo + struttura.get(position).getConsumo() + " m^3");
+                holder.textConsumo.setText("Consumo: " + struttura.get(position).getConsumo() + " m^3");
                 break;
             default:
                 holder.textConsumo.setVisibility(View.GONE);
                 break;
         }
-        holder.textCosto.setText(R.string.costo + struttura.get(position).getCosto()+"");
+        holder.textCosto.setText("Costo: €" + struttura.get(position).getCosto()+"");
     }
 
     @Override
