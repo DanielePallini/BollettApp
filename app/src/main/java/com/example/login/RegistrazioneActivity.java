@@ -18,5 +18,10 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+
+    }
 }
 

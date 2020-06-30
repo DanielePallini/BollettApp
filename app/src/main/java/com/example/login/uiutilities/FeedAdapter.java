@@ -31,7 +31,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             super(itemView);
             textTipo = itemView.findViewById(R.id.text_tipo);
             btnCalendar = itemView.findViewById(R.id.button_calendar);
-            btnEdit = itemView.findViewById(R.id.button_edit);
+
             btnDelete = itemView.findViewById(R.id.button_delete);
             textCosto = itemView.findViewById(R.id.text_costo);
             textDataScadenza = itemView.findViewById(R.id.text_data_scadenza);
@@ -90,13 +90,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
 
         }
         holder.textTipo.setText(struttura.get(position).getTipo());
-        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    holder.btnEdit.setVisibility(View.GONE);
-                    holder.btnDelete.setVisibility(View.VISIBLE);
-            }
-        });
+
 
 
 
