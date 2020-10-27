@@ -31,7 +31,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             super(itemView);
             textTipo = itemView.findViewById(R.id.text_tipo);
             btnCalendar = itemView.findViewById(R.id.button_calendar);
-
+            btnEdit = itemView.findViewById(R.id.button_edit);
             btnDelete = itemView.findViewById(R.id.button_delete);
             textCosto = itemView.findViewById(R.id.text_costo);
             textDataScadenza = itemView.findViewById(R.id.text_data_scadenza);
@@ -42,6 +42,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             this.onFeedClickListener = onFeedClickListener;
             btnDelete.setOnClickListener(this);
             btnCalendar.setOnClickListener(this);
+            btnEdit.setOnClickListener(this);
         }
 
         @Override
@@ -51,6 +52,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
             switch (v.getId()) {
                 case R.id.button_calendar:
                     onFeedClickListener.onCalendarClick(struttura.get(position).getTipo(), struttura.get(position).getDataScadenza());
+                    break;
+                case R.id.button_edit:
+                    onFeedClickListener.onEditClick(struttura.get(position).getTipo(), struttura.get(position).getId());
                     break;
                 case R.id.button_delete:
                     onFeedClickListener.onDeleteClick(struttura.get(position).getTipo(), struttura.get(position).getId());
@@ -108,7 +112,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
                 holder.textConsumo.setVisibility(View.GONE);
                 break;
         }
-        holder.textCosto.setText("Costo: €" + struttura.get(position).getCosto()+"");
+        holder.textCosto.setText("Costo: € " + struttura.get(position).getCosto()+"");
     }
 
     @Override
@@ -119,6 +123,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.CViewHolder>  
     public interface OnFeedClickListener {
         void onDeleteClick(String tipo, long codice);
         void onCalendarClick(String tipo, String data);
+        void onEditClick(String tipo, long codice);
     }
 
 }

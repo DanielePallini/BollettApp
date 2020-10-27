@@ -3,7 +3,11 @@ package com.example.login.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -14,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.login.MainActivity;
 import com.example.login.R;
@@ -38,8 +43,10 @@ import com.github.mikephil.charting.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 public class FragmentGrafici extends Fragment {
@@ -47,7 +54,8 @@ public class FragmentGrafici extends Fragment {
     private FirebaseAuth mAuth;
     private ArrayList<BollettaLGI> bollette;
     public ArrayList<Entry> entries;
-    private FeedAdapter feedAdapter;
+    private String periodoRiferimento = "";
+    //private FeedAdapter feedAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
@@ -58,11 +66,15 @@ public class FragmentGrafici extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        /*
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+         */
         View view = inflater.inflate(R.layout.fragment_grafici, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.grafici);
+        setHasOptionsMenu(true);
 
 
 
@@ -253,17 +265,79 @@ public class FragmentGrafici extends Fragment {
         double sommaLuce = 0.0;
         double sommaGas = 0.0;
         double sommaInternet = 0.0;
+        String tmp = "";
         Utils.init(getContext());
 
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int start = month - 3;
+        if (start == 0) start = 12;
+        if (start == -1) start = 11;
+        if (start == -2) start = 10;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int finePeriodo;
+
+
         for (BollettaLGI data : list) {
+            tmp = data.getFinePeriodo();
+             finePeriodo = Integer.parseInt(tmp.substring(3,5));
             if(data.getTipo() == "Luce"){
-                sommaLuce += data.getCosto();
+                switch (periodoRiferimento){
+                    case "3 mesi":
+                        if ((month-3 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaLuce += data.getCosto();
+                        }
+                        break;
+                    case "6 mesi":
+                        if ((month-6 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaLuce += data.getCosto();
+                        }
+                        break;
+
+                    default:
+                        sommaLuce += data.getCosto();
+                        break;
+
+                }
+
             }
             if(data.getTipo() == "Gas"){
-                sommaGas += data.getCosto();
+                switch (periodoRiferimento){
+                    case "3 mesi":
+                        if ((month-3 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaGas += data.getCosto();
+                        }
+                    case "6 mesi":
+                        if ((month-6 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaGas += data.getCosto();
+                        }
+                        break;
+                    default:
+                        sommaGas += data.getCosto();
+                        break;
+
+                }
+
             }
             if(data.getTipo() == "Internet"){
-                sommaInternet += data.getCosto();
+                switch (periodoRiferimento){
+                    case "3 mesi":
+                        if ((month-3 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaInternet += data.getCosto();
+                        }
+                        break;
+                    case "6 mesi":
+                        if ((month-6 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaInternet += data.getCosto();
+                        }
+                        break;
+                    default:
+                        sommaInternet += data.getCosto();
+                        break;
+
+                }
+                //sommaInternet += data.getCosto();
             }
 
         }
@@ -282,6 +356,43 @@ public class FragmentGrafici extends Fragment {
         return new PieData(d);
     }
 
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.data_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_3mesi:
+                Log.d(TAG, "onOptionsItemSelected: 3mesi");
+                periodoRiferimento = "3 mesi";
+                break;
+
+            case R.id.menu_6mesi:
+                Log.d(TAG, "onOptionsItemSelected: 6mesi");
+                periodoRiferimento = "6 mesi";
+                break;
+            case R.id.menu_1anno:
+                Log.d(TAG, "onOptionsItemSelected: 1anno");
+                periodoRiferimento = "1 anno";
+                break;
+            case R.id.menu_tutti:
+                Log.d(TAG, "onOptionsItemSelected: tutti");
+                periodoRiferimento = "tutti";
+                break;
+        }
+        Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.detach(currentFragment);
+        fragmentTransaction.attach(currentFragment);
+        fragmentTransaction.commit();
+        return true;
+
+    }
 
 
 

@@ -13,9 +13,11 @@
     <string name="errorsignup">C\'è stato un errore nella registrazione.</string>
     <string name="selsorgente">Seleziona la sorgente</string>
     <string name="inseriscidati">Inserisci i dati della bolletta</string>
+    <string name="modificadati">Modifica i dati della bolletta</string>
     <string name="periodoriferimento">Per favore, inserisci un periodo di riferimento valido.</string>
-    <string name="storicobollette" >Storico bollette</string>
+    <string name="storicobollette">Storico bollette</string>
     <string name="eliminarebolletta">Sei davvero sicuro di eliminare questa bolletta?</string>
+    <string name="modificarebolletta">Vuoi modificare questa bolletta?</string>
     <string name="autenticazionefallita">Autenticazione fallita.</string>
     <string name="titoloprofilo">Profilo</string>
     <string name="passwordnoncorrispondono">Le password non corrispondono</string>
@@ -32,6 +34,10 @@
     <string name="feed">Feed</string>
     <string name="profilo">Profilo</string>
     <string name="grafici">Grafici</string>
+    <string name="ultimi3mesi">Ultimi 3 mesi</string>
+    <string name="ultimi6mesi">Ultimi 6 mesi</string>
+    <string name="ultimoanno">Ultimo anno</string>
+    <string name="tutti">Tutti</string>
     <string name="data_di_scadenza">Data di Scadenza:</string>
     <string name="periodo_di_riferimento_da">Periodo di Riferimento. Da:</string>
     <string name="a">A:</string>
@@ -48,9 +54,13 @@
     <string name="nuova_password">Nuova Password</string>
     <string name="conferma_password">Conferma Password</string>
     <string name="salva_modifiche">Salva Modifiche</string>
+    <string name="modificheeffettuate">Modifiche effettuate con successo.</string>
+    <string name="error">C\'è stato un errore imprevisto.</string>
+    <string name="bollettasalvata">Bolletta salvata con successo.</string>
     <string name="logout">Logout</string>
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
+
 
 
 

@@ -125,7 +125,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                                 }
 
                                 try {
-                                    //Object tmp = document.get("Codice");
+
                                     BollettaLGI bollettaLGI = null;
                                     if (tipo == "Luce" || tipo == "Gas") {
                                         bollettaLGI = new BollettaLGI(document.getLong("Codice"), document.getDouble("Importo"), document.getString("DataScadenza"), document.getString("Da"), document.getString("A"), document.getDouble("Consumo"), tipo);
@@ -220,6 +220,37 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
         intent.putExtra("endTime", calendar.getTimeInMillis() +60*60*1000);
         intent.putExtra("title", "Scadenza Bolletta" + " " + tipo);
         startActivity(intent);
+    }
+    @Override
+    public void onEditClick(final String tipo, final long codice) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+        builder1.setMessage(getString(R.string.modificarebolletta));
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        FragmentModificaBolletta fragmentModificaBolletta = new FragmentModificaBolletta();
+                        Bundle args = new Bundle();
+                        args.putString("tipo",tipo);
+                        args.putLong("codice", codice);
+                        fragmentModificaBolletta.setArguments(args);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentModificaBolletta).addToBackStack(null).commit();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "Annulla",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
     }
 
 

@@ -203,15 +203,16 @@ public class FragmentBolletta extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
+
                         fragmentFeed = new FragmentFeed();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentFeed).commit();
+                        Toast.makeText(getContext(), getString(R.string.bollettasalvata), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
+                        Toast.makeText(getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
                 });
 
