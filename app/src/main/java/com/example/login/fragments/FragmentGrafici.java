@@ -270,31 +270,51 @@ public class FragmentGrafici extends Fragment {
 
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH) + 1;
-        int start = month - 3;
-        if (start == 0) start = 12;
-        if (start == -1) start = 11;
-        if (start == -2) start = 10;
+        int start3 = month - 3;
+        if (start3 <= 0) start3 = start3 + 12;
+        int start6 = month - 6;
+        if (start6 <= 0) start6 = start6 + 6;
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        int year = cal.get(Calendar.YEAR);
+        int currentYear = cal.get(Calendar.YEAR) -2000;
+        int lastYear = currentYear - 1;
         int finePeriodo;
+        int anno;
 
 
         for (BollettaLGI data : list) {
             tmp = data.getFinePeriodo();
              finePeriodo = Integer.parseInt(tmp.substring(3,5));
+             anno = Integer.parseInt(tmp.substring(6,8));
+
             if(data.getTipo() == "Luce"){
                 switch (periodoRiferimento){
                     case "3 mesi":
-                        if ((month-3 <= finePeriodo) && (finePeriodo <= month)){
+                        if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
                             sommaLuce += data.getCosto();
+                            break;
+                        }
+                        else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
+                        sommaLuce += data.getCosto();
                         }
                         break;
                     case "6 mesi":
-                        if ((month-6 <= finePeriodo) && (finePeriodo <= month)){
+                        if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaLuce += data.getCosto();
+                            break;
+                        }
+                        else if ((month-6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)){
                             sommaLuce += data.getCosto();
                         }
                         break;
-
+                    case "1 anno":
+                        if ((anno == currentYear) && (finePeriodo <= month)){
+                            sommaLuce += data.getCosto();
+                            break;
+                        }
+                        else if ((anno == lastYear) && (month <= finePeriodo)){
+                            sommaLuce += data.getCosto();
+                        }
+                        break;
                     default:
                         sommaLuce += data.getCosto();
                         break;
@@ -305,30 +325,64 @@ public class FragmentGrafici extends Fragment {
             if(data.getTipo() == "Gas"){
                 switch (periodoRiferimento){
                     case "3 mesi":
-                        if ((month-3 <= finePeriodo) && (finePeriodo <= month)){
+                        if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
+                            sommaGas += data.getCosto();
+                            break;
+                        }
+                        else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
                             sommaGas += data.getCosto();
                         }
+                        break;
                     case "6 mesi":
-                        if ((month-6 <= finePeriodo) && (finePeriodo <= month)){
+                    if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
+                        sommaGas += data.getCosto();
+                        break;
+                    }
+                    else if ((month-6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)){
+                        sommaGas += data.getCosto();
+                    }
+                    break;
+                    case "1 anno":
+                        if ((anno == currentYear) && (finePeriodo <= month)){
+                            sommaGas += data.getCosto();
+                            break;
+                        }
+                        else if ((anno == lastYear) && (month <= finePeriodo)){
                             sommaGas += data.getCosto();
                         }
                         break;
                     default:
                         sommaGas += data.getCosto();
                         break;
-
                 }
 
             }
             if(data.getTipo() == "Internet"){
                 switch (periodoRiferimento){
                     case "3 mesi":
-                        if ((month-3 <= finePeriodo) && (finePeriodo <= month)){
+                        if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
+                            sommaInternet += data.getCosto();
+                            break;
+                        }
+                        else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
                             sommaInternet += data.getCosto();
                         }
                         break;
                     case "6 mesi":
-                        if ((month-6 <= finePeriodo) && (finePeriodo <= month)){
+                        if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
+                            sommaInternet += data.getCosto();
+                            break;
+                        }
+                        else if ((month-6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)){
+                            sommaInternet += data.getCosto();
+                        }
+                        break;
+                    case "1 anno":
+                        if ((anno == currentYear) && (finePeriodo <= month)){
+                            sommaInternet += data.getCosto();
+                            break;
+                        }
+                        else if ((anno == lastYear) && (month <= finePeriodo)){
                             sommaInternet += data.getCosto();
                         }
                         break;
@@ -341,6 +395,9 @@ public class FragmentGrafici extends Fragment {
             }
 
         }
+        Log.d(TAG, "generateDataPie: " + sommaLuce);
+        Log.d(TAG, "generateDataPie: " + sommaGas);
+        Log.d(TAG, "generateDataPie: " + sommaInternet);
         entries.add(new PieEntry((float) sommaLuce, "Luce " ));
         entries.add(new PieEntry((float) sommaGas, "Gas "));
         entries.add(new PieEntry((float) sommaInternet, "Internet"));
