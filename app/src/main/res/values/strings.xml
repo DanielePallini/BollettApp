@@ -15,7 +15,7 @@
     <string name="inseriscidati">Inserisci i dati della bolletta</string>
     <string name="modificadati">Modifica i dati della bolletta</string>
     <string name="periodoriferimento">Per favore, inserisci un periodo di riferimento valido.</string>
-    <string name="storicobollette">Storico bollette</string>
+    <string name="storicobollette">Storico Bollette</string>
     <string name="eliminarebolletta">Sei davvero sicuro di eliminare questa bolletta?</string>
     <string name="modificarebolletta">Vuoi modificare questa bolletta?</string>
     <string name="autenticazionefallita">Autenticazione fallita.</string>
@@ -36,6 +36,8 @@
     <string name="grafici">Grafici</string>
     <string name="ultimi3mesi">Ultimi 3 mesi</string>
     <string name="ultimi6mesi">Ultimi 6 mesi</string>
+    <string name="consumi">Consumi</string>
+    <string name="costi">Costi</string>
     <string name="ultimoanno">Ultimo anno</string>
     <string name="tutti">Tutti</string>
     <string name="data_di_scadenza">Data di Scadenza:</string>
@@ -60,7 +62,7 @@
     <string name="logout">Logout</string>
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
-
+    <string name="fcm_token">FCM Token: %s</string>
 
 
 

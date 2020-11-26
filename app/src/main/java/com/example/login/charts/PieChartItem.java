@@ -22,9 +22,9 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 public class PieChartItem extends ChartItem {
     private final SpannableString mCenterText;
 
-    public PieChartItem(ChartData<?> cd, Context c) {
+    public PieChartItem(ChartData<?> cd, Context c, String argomento) {
         super(cd);
-        mCenterText = generateCenterText();
+        mCenterText = generateCenterText(argomento);
     }
 
     @Override
@@ -76,10 +76,18 @@ public class PieChartItem extends ChartItem {
         return convertView;
     }
 
-    private SpannableString generateCenterText() {
-        SpannableString s = new SpannableString("Percentuale\nCosti");
-        s.setSpan(new RelativeSizeSpan(1.6f), 0, 17, 0);
-        s.setSpan(new ForegroundColorSpan(ColorTemplate.MATERIAL_COLORS[3]), 0, 17, 0);
+    private SpannableString generateCenterText(String argomento) {
+        SpannableString s = null;
+        if (argomento.equals("Consumi")) {
+            s = new SpannableString("Percentuale\nConsumi");
+            s.setSpan(new RelativeSizeSpan(1.6f), 0, 19, 0);
+            s.setSpan(new ForegroundColorSpan(ColorTemplate.MATERIAL_COLORS[3]), 0, 19, 0);
+        } else {
+            s = new SpannableString("Percentuale\nCosti");
+            s.setSpan(new RelativeSizeSpan(1.6f), 0, 17, 0);
+            s.setSpan(new ForegroundColorSpan(ColorTemplate.MATERIAL_COLORS[3]), 0, 17, 0);
+        }
+
         return s;
     }
 

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -46,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
@@ -55,6 +58,18 @@ public class FragmentGrafici extends Fragment {
     private ArrayList<BollettaLGI> bollette;
     public ArrayList<Entry> entries;
     private String periodoRiferimento = "";
+    private String argomentoGrafici = "Costi";
+    private MenuItem itemConsumi;
+    private MenuItem itemCosti;
+
+    Calendar cal = Calendar.getInstance();
+    private int month = cal.get(Calendar.MONTH) + 1;
+    private int start3 = month - 3;
+    private int start6 = month - 6;
+
+    //int day = cal.get(Calendar.DAY_OF_MONTH);
+    private int currentYear = cal.get(Calendar.YEAR) -2000;
+    private int lastYear = currentYear - 1;
     //private FeedAdapter feedAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,10 +88,10 @@ public class FragmentGrafici extends Fragment {
          */
         View view = inflater.inflate(R.layout.fragment_grafici, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.grafici);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Grafici " + argomentoGrafici);
         setHasOptionsMenu(true);
-
-
+        if (start3 <= 0) start3 = start3 + 12;
+        if (start6 <= 0) start6 = start6 + 6;
 
 
         ListView lv = view.findViewById(R.id.listView1);
@@ -90,7 +105,7 @@ public class FragmentGrafici extends Fragment {
             } else if(i % 3 == 1) {
                 list.add(new BarChartItem(generateDataBar(i + 1), getActivity().getApplicationContext()));
             } else if(i % 3 == 2) {
-                list.add(new PieChartItem(generateDataPie(), getActivity().getApplicationContext()));
+                list.add(new PieChartItem(generateDataPie(), getActivity().getApplicationContext(), argomentoGrafici));
             }
         }
 
@@ -141,15 +156,30 @@ public class FragmentGrafici extends Fragment {
         for (BollettaLGI data : list) {
             switch(data.getTipo()){
                 case "Luce":
-                    entry.add(new Entry(cntLuce, (float)data.getCosto()));
+                    if (argomentoGrafici == "Consumi") {
+                        entry.add(new Entry(cntLuce, (float) data.getConsumo()));
+                    } else {
+                        entry.add(new Entry(cntLuce, (float) data.getCosto()));
+                    }
                     cntLuce++;
                     break;
                 case "Gas":
-                    entry2.add(new Entry(cntGas, (float)data.getCosto()));
+                    if (argomentoGrafici == "Consumi") {
+                        entry2.add(new Entry(cntGas, (float) data.getConsumo()));
+                    } else {
+                        entry2.add(new Entry(cntGas, (float) data.getCosto()));
+                    }
+                    //entry2.add(new Entry(cntGas, (float)data.getCosto()));
                     cntGas++;
                     break;
                 case "Internet":
-                    entry3.add(new Entry(cntInternet, (float)data.getCosto()));
+                    if (argomentoGrafici == "Consumi") {
+                        //entry3.add(new Entry(cntInternet, (float) data.getConsumo()));
+                        break;
+                    } else {
+                        entry3.add(new Entry(cntInternet, (float) data.getCosto()));
+                    }
+                    //entry3.add(new Entry(cntInternet, (float)data.getCosto()));
                     cntInternet++;
                     break;
 
@@ -182,7 +212,12 @@ public class FragmentGrafici extends Fragment {
         d3.setColor(ColorTemplate.MATERIAL_COLORS[3]);
         d3.setCircleColor(ColorTemplate.MATERIAL_COLORS[3]);
         d3.setDrawValues(false);
-        LineDataSet d4 = new LineDataSet(entry4, "\t \t \t \t Grafico andamento costi " );
+        LineDataSet d4;
+        if (argomentoGrafici == "Consumi"){
+            d4 = new LineDataSet(entry4, "\t \t \t \t \t  Grafico andamento consumi " );
+        } else {
+            d4 = new LineDataSet(entry4, "\t \t  Grafico andamento costi ");
+        }
         d4.setColor(Color.WHITE);
         d4.setCircleColor(Color.WHITE);
         d4.setDrawValues(false);
@@ -190,7 +225,9 @@ public class FragmentGrafici extends Fragment {
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(d1);
         sets.add(d2);
-        sets.add(d3);
+        if (!argomentoGrafici.equals("Consumi")) {
+            sets.add(d3);
+        }
         sets.add(d4);
         return new LineData(sets);
     }
@@ -209,47 +246,186 @@ public class FragmentGrafici extends Fragment {
 
             switch (tmp) {
                 case "01":
-                    Mesi[0] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[0] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[0] += data.getCosto();
+                    }
                     break;
                 case "02":
-                    Mesi[1] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[1] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[1] += data.getCosto();
+                    }
                     break;
                 case "03":
-                    Mesi[2] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[2] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[2] += data.getCosto();
+                    }
                     break;
                 case "04":
-                    Mesi[3] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[3] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[3] += data.getCosto();
+                    }
                     break;
                 case "05":
-                    Mesi[4] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[4] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[4] += data.getCosto();
+                    }
                     break;
                 case "06":
-                    Mesi[5] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[5] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[5] += data.getCosto();
+                    }
                     break;
                 case "07":
-                    Mesi[6] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[6] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[6] += data.getCosto();
+                    }
                     break;
                 case "08":
-                    Mesi[7] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[7] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[7] += data.getCosto();
+                    }
                     break;
                 case "09":
-                    Mesi[8] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[8] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[8] += data.getCosto();
+                    }
                     break;
                 case "10":
-                    Mesi[9] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[9] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[9] += data.getCosto();
+                    }
                     break;
                 case "11":
-                    Mesi[10] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[10] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[10] += data.getCosto();
+                    }
                     break;
                 case "12":
-                    Mesi[11] += data.getCosto();
+                    if (argomentoGrafici.equals("Consumi")){
+                        if (data.getTipo().equals("Internet")) {
+                            break;
+                        } else {
+                            Mesi[11] += data.getConsumo();
+                        }
+                    } else {
+                        Mesi[11] += data.getCosto();
+                    }
                     break;
             }
+
+            switch (periodoRiferimento){
+                case "3 mesi":
+                    for (int i = start3; i<= month; i++) {
+                        if (i > 12) {
+                            i = 1;
+                        }
+                        entries.add(new BarEntry((float) i,(float) Mesi[i]));
+
+                    }
+                    break;
+                case "6 mesi":
+                    for (int i = start6; i<= month; i++) {
+                        if (i > 12) {
+                            i = 1;
+                        }
+                        entries.add(new BarEntry((float) i,(float) Mesi[i]));
+
+                    }
+                    break;
+                    /*
+                case "1 anno":
+                    for (int i = 0; i < 12; i++) {
+                        entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
+                    }
+                    break;
+
+                     */
+                default:
+                    for (int i = 0; i < 12; i++) {
+                        entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
+                    }
+                    break;
+            }
+            /*
             for (int i = 0; i < 12; i++) {
                 entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
             }
+
+             */
         }
-        BarDataSet d = new BarDataSet(entries, "Somma mensile dei costi ");
+        BarDataSet d;
+        if (argomentoGrafici.equals("Consumi")){
+            d = new BarDataSet(entries, "Somma mensile dei consumi ");
+        } else {
+            d = new BarDataSet(entries, "Somma mensile dei costi ");
+        }
+
         d.setColors(ColorTemplate.MATERIAL_COLORS[1],ColorTemplate.MATERIAL_COLORS[2],ColorTemplate.MATERIAL_COLORS[3]);
         d.setHighLightAlpha(255);
 
@@ -268,15 +444,7 @@ public class FragmentGrafici extends Fragment {
         String tmp = "";
         Utils.init(getContext());
 
-        Calendar cal = Calendar.getInstance();
-        int month = cal.get(Calendar.MONTH) + 1;
-        int start3 = month - 3;
-        if (start3 <= 0) start3 = start3 + 12;
-        int start6 = month - 6;
-        if (start6 <= 0) start6 = start6 + 6;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int currentYear = cal.get(Calendar.YEAR) -2000;
-        int lastYear = currentYear - 1;
+
         int finePeriodo;
         int anno;
 
@@ -286,7 +454,7 @@ public class FragmentGrafici extends Fragment {
              finePeriodo = Integer.parseInt(tmp.substring(3,5));
              anno = Integer.parseInt(tmp.substring(6,8));
 
-            if(data.getTipo() == "Luce"){
+            if(data.getTipo().equals("Luce")){
                 switch (periodoRiferimento){
                     case "3 mesi":
                         if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
@@ -294,7 +462,7 @@ public class FragmentGrafici extends Fragment {
                             break;
                         }
                         else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
-                        sommaLuce += data.getCosto();
+                            sommaLuce += data.getCosto();
                         }
                         break;
                     case "6 mesi":
@@ -318,11 +486,10 @@ public class FragmentGrafici extends Fragment {
                     default:
                         sommaLuce += data.getCosto();
                         break;
-
                 }
-
+                Log.d(TAG, "sommaluce: "+sommaLuce);
             }
-            if(data.getTipo() == "Gas"){
+            if(data.getTipo().equals("Gas")){
                 switch (periodoRiferimento){
                     case "3 mesi":
                         if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
@@ -357,51 +524,51 @@ public class FragmentGrafici extends Fragment {
                 }
 
             }
-            if(data.getTipo() == "Internet"){
-                switch (periodoRiferimento){
-                    case "3 mesi":
-                        if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
+            if(data.getTipo().equals("Internet")){
+                if (!argomentoGrafici.equals("Consumi")) {
+                    switch (periodoRiferimento) {
+                        case "3 mesi":
+                            if ((month - 3 >= 0) && (anno == currentYear) && (month - 3 <= finePeriodo) && (finePeriodo <= month)) {
+                                sommaInternet += data.getCosto();
+                                break;
+                            } else if ((month - 3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)) {
+                                sommaInternet += data.getCosto();
+                            }
+                            break;
+                        case "6 mesi":
+                            if ((month - 6 >= 0) && (anno == currentYear) && (month - 6 <= finePeriodo) && (finePeriodo <= month)) {
+                                sommaInternet += data.getCosto();
+                                break;
+                            } else if ((month - 6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)) {
+                                sommaInternet += data.getCosto();
+                            }
+                            break;
+                        case "1 anno":
+                            if ((anno == currentYear) && (finePeriodo <= month)) {
+                                sommaInternet += data.getCosto();
+                                break;
+                            } else if ((anno == lastYear) && (month <= finePeriodo)) {
+                                sommaInternet += data.getCosto();
+                            }
+                            break;
+                        default:
                             sommaInternet += data.getCosto();
                             break;
-                        }
-                        else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
-                            sommaInternet += data.getCosto();
-                        }
-                        break;
-                    case "6 mesi":
-                        if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
-                            sommaInternet += data.getCosto();
-                            break;
-                        }
-                        else if ((month-6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)){
-                            sommaInternet += data.getCosto();
-                        }
-                        break;
-                    case "1 anno":
-                        if ((anno == currentYear) && (finePeriodo <= month)){
-                            sommaInternet += data.getCosto();
-                            break;
-                        }
-                        else if ((anno == lastYear) && (month <= finePeriodo)){
-                            sommaInternet += data.getCosto();
-                        }
-                        break;
-                    default:
-                        sommaInternet += data.getCosto();
-                        break;
 
+                    }
                 }
                 //sommaInternet += data.getCosto();
             }
 
         }
-        Log.d(TAG, "generateDataPie: " + sommaLuce);
-        Log.d(TAG, "generateDataPie: " + sommaGas);
-        Log.d(TAG, "generateDataPie: " + sommaInternet);
+        Log.d(TAG, "Sommaluce: " + sommaLuce);
+        Log.d(TAG, "SommaGas: " + sommaGas);
+        Log.d(TAG, "Sommainternet: " + sommaInternet);
         entries.add(new PieEntry((float) sommaLuce, "Luce " ));
         entries.add(new PieEntry((float) sommaGas, "Gas "));
-        entries.add(new PieEntry((float) sommaInternet, "Internet"));
-
+        if (!argomentoGrafici.equals("Consumi")) {
+            entries.add(new PieEntry((float) sommaInternet, "Internet"));
+        }
 
 
         PieDataSet d = new PieDataSet(entries, "");
@@ -418,17 +585,34 @@ public class FragmentGrafici extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.data_menu, menu);
+        itemConsumi = menu.findItem(R.id.menu_consumi);
+        itemCosti = menu.findItem(R.id.menu_costi);
+        if (argomentoGrafici == "Consumi"){
+            itemConsumi.setVisible(false);
+            itemCosti.setVisible(true);
+        } else {
+            itemConsumi.setVisible(true);
+            itemCosti.setVisible(false);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_consumi:
+                Log.d(TAG, "onOptionsItemSelected: consumo");
+                argomentoGrafici = "Consumi";
+                break;
+            case R.id.menu_costi:
+                Log.d(TAG, "onOptionsItemSelected: costi");
+                argomentoGrafici = "Costi";
+                break;
             case R.id.menu_3mesi:
                 Log.d(TAG, "onOptionsItemSelected: 3mesi");
                 periodoRiferimento = "3 mesi";
                 break;
-
             case R.id.menu_6mesi:
                 Log.d(TAG, "onOptionsItemSelected: 6mesi");
                 periodoRiferimento = "6 mesi";
