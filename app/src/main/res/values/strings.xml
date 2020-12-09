@@ -18,6 +18,8 @@
     <string name="storicobollette">Storico Bollette</string>
     <string name="eliminarebolletta">Sei davvero sicuro di eliminare questa bolletta?</string>
     <string name="modificarebolletta">Vuoi modificare questa bolletta?</string>
+    <string name="visualizzaconsumo">Passare alla visualizzazione dei consumi?</string>
+    <string name="visualizzacosto">Passare alla visualizzazione dei costi?</string>
     <string name="autenticazionefallita">Autenticazione fallita.</string>
     <string name="titoloprofilo">Profilo</string>
     <string name="passwordnoncorrispondono">Le password non corrispondono</string>

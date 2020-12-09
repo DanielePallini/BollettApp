@@ -169,7 +169,8 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
 
     @Override
     public void onDeleteClick(final String tipo, final long codice) {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+        //AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog); Per lo stile dell'alert
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
         builder1.setMessage(getString(R.string.eliminarebolletta));
         builder1.setCancelable(true);
         builder1.setPositiveButton(
@@ -223,7 +224,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
     }
     @Override
     public void onEditClick(final String tipo, final long codice) {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
         builder1.setMessage(getString(R.string.modificarebolletta));
         builder1.setCancelable(true);
         builder1.setPositiveButton(

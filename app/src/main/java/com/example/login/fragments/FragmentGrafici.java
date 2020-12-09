@@ -1,8 +1,13 @@
 package com.example.login.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,6 +66,8 @@ public class FragmentGrafici extends Fragment {
     private String argomentoGrafici = "Costi";
     private MenuItem itemConsumi;
     private MenuItem itemCosti;
+
+    private boolean resultValue;
 
     Calendar cal = Calendar.getInstance();
     private int month = cal.get(Calendar.MONTH) + 1;
@@ -587,7 +594,7 @@ public class FragmentGrafici extends Fragment {
                         if (i > 12) {
                             i = 1;
                         }
-                        entries.add(new BarEntry((float) i,(float) Mesi[i]));
+                        entries.add(new BarEntry((float) i,(float) Mesi[i-1]));
 
                     }
                     break;
@@ -596,7 +603,7 @@ public class FragmentGrafici extends Fragment {
                         if (i > 12) {
                             i = 1;
                         }
-                        entries.add(new BarEntry((float) i,(float) Mesi[i]));
+                        entries.add(new BarEntry((float) i,(float) Mesi[i-1]));
 
                     }
                     break;
@@ -805,12 +812,24 @@ public class FragmentGrafici extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_consumi:
                 Log.d(TAG, "onOptionsItemSelected: consumo");
-                argomentoGrafici = "Consumi";
-                break;
+                boolean result = getDialogValueBack(getContext(), "Consumo");
+
+                if (result){
+                    argomentoGrafici = "Consumi";
+                    break;
+                } else {
+                    return true;
+                }
+
             case R.id.menu_costi:
                 Log.d(TAG, "onOptionsItemSelected: costi");
-                argomentoGrafici = "Costi";
-                break;
+                boolean result2 = getDialogValueBack(getContext(), "Costi");
+                if (result2){
+                    argomentoGrafici = "Costi";
+                    break;
+                } else {
+                    return true;
+                }
             case R.id.menu_3mesi:
                 Log.d(TAG, "onOptionsItemSelected: 3mesi");
                 periodoRiferimento = "3 mesi";
@@ -848,6 +867,49 @@ public class FragmentGrafici extends Fragment {
 
      */
 
+    private boolean getDialogValueBack(Context context, String tipo)
+    {
+        final Handler handler = new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg)
+            {
+                throw new RuntimeException();
+            }
+        };
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setCancelable(true);
+        if (tipo.equals("Consumo")){
+            //alert.setTitle(R.string.visualizzaconsumo);
+            alert.setMessage(R.string.visualizzaconsumo);
+        } else {
+            alert.setMessage(R.string.visualizzacosto);
+        }
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                resultValue = true;
+                handler.sendMessage(handler.obtainMessage());
+            }
+        });
+        alert.setNegativeButton("Annulla", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                resultValue = false;
+                handler.sendMessage(handler.obtainMessage());
+            }
+        });
+        alert.show();
+
+        try{ Looper.loop(); }
+        catch(RuntimeException e){}
+
+        return resultValue;
+
+    }
 
 
 }
