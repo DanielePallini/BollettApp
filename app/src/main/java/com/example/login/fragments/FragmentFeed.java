@@ -150,15 +150,16 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
                                     }
                                     feedAdapter.notifyDataSetChanged();
                                     MainActivity.bollette = bollette;
+
                                 } catch (NullPointerException e) {
-                                    Log.d(TAG, "Nessun campo trovato");
+
                                 }
 
                                 }
                                 }
                             progressDialog.hide();
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+
 
                         }
 
@@ -169,7 +170,7 @@ public class FragmentFeed extends Fragment implements FeedAdapter.OnFeedClickLis
 
     @Override
     public void onDeleteClick(final String tipo, final long codice) {
-        //AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext(), R.style.AlertDialog); Per lo stile dell'alert
+
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
         builder1.setMessage(getString(R.string.eliminarebolletta));
         builder1.setCancelable(true);

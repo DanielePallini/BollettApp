@@ -62,6 +62,10 @@
     <string name="error">C\'è stato un errore imprevisto.</string>
     <string name="bollettasalvata">Bolletta salvata con successo.</string>
     <string name="logout">Logout</string>
+    <string name="statistiche">Statistiche</string>
+    <string name="luce">Luce</string>
+    <string name="gas">Gas</string>
+    <string name="internet">Internet</string>
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
     <string name="fcm_token">FCM Token: %s</string>

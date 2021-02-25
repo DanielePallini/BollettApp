@@ -11,23 +11,27 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.text.Html;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.login.MainActivity;
 import com.example.login.R;
+import com.example.login.entities.BollettaLGI;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -49,7 +53,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
-import static androidx.constraintlayout.widget.Constraints.TAG;
+
 
 public class FragmentProfilo extends Fragment {
 
@@ -57,6 +61,14 @@ public class FragmentProfilo extends Fragment {
 
     private ImageView proPic;
     private TextView textNome;
+    private CardView statisticheLuce;
+    private CardView statisticheGas;
+    private CardView statisticheInternet;
+    private TextView textStatisticheLuce;
+    private TextView textStatisticheGas;
+    private TextView textStatisticheInternet;
+
+
     private Button btnLogout, btnModificaPassword, btnSalvaPassword;
     private TextInputEditText textPassword;
     private TextInputLayout passwordLayout;
@@ -85,6 +97,14 @@ public class FragmentProfilo extends Fragment {
         proPic = view.findViewById(R.id.propic);
         proPic.setClipToOutline(true);
         textNome = view.findViewById(R.id.text_nome);
+
+        statisticheLuce = view.findViewById(R.id.statistiche_luce);
+        statisticheGas = view.findViewById(R.id.statistiche_gas);
+        statisticheInternet = view.findViewById(R.id.statistiche_internet);
+        textStatisticheLuce = view.findViewById(R.id.text_statistiche_luce);
+        textStatisticheGas = view.findViewById(R.id.text_statistiche_gas);
+        textStatisticheInternet = view.findViewById(R.id.text_statistiche_internet);
+
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         btnLogout = view.findViewById(R.id.btn_logout);
@@ -96,7 +116,7 @@ public class FragmentProfilo extends Fragment {
         textPasswordConfirm = view.findViewById(R.id.text_passwordconfirm);
         btnSalvaPassword = view.findViewById(R.id.btn_salva_password);
 
-        textNome.setText(currentUser.getDisplayName());
+        textNome.setText( currentUser.getDisplayName());
         if(currentUser.getPhotoUrl() != null){
             Glide.with(this)
                     .load(currentUser.getPhotoUrl())
@@ -136,6 +156,10 @@ public class FragmentProfilo extends Fragment {
                 startActivity(intent);
             }
         });
+
+        statistiche();
+
+
         btnModificaPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,5 +351,115 @@ public class FragmentProfilo extends Fragment {
         } else {
             startActivityForResult(getPickImageChooserIntent(), PICK_IMAGE);
         }
+    }
+
+
+    public void statistiche(){
+
+        int cntLuce = 0;
+        int cntGas = 0;
+        int cntInternet = 0;
+        double sommaLuce = 0.0;
+        double sommaGas = 0.0;
+        double sommaInternet = 0.0;
+        double ultimaLuce = 0.0;
+        double ultimaGas = 0.0;
+        double ultimaInternet = 0.0;
+
+        long maxLuce = 0;
+        long maxGas = 0;
+        long maxInternet = 0;
+        double percentualeLuce = 0;
+        double percentualeGas = 0;
+        double percentualeInternet = 0;
+
+        ArrayList<BollettaLGI> list= MainActivity.bollette;
+        for (BollettaLGI data : list) {
+            if(data.getTipo().equals(getString(R.string.luce))) {
+                if (data.getId() > maxLuce) {
+                    maxLuce = data.getId();
+                }
+                sommaLuce += data.getCosto();
+                cntLuce++;
+
+            }
+            if(data.getTipo().equals(getString(R.string.gas))) {
+                if (data.getId() > maxGas) {
+                    maxGas = data.getId();
+                }
+                sommaGas += data.getCosto();
+                cntGas++;
+
+            }
+            if(data.getTipo().equals(getString(R.string.internet))) {
+                if (data.getId() > maxInternet) {
+                    maxInternet = data.getId();
+                }
+                sommaInternet += data.getCosto();
+                cntInternet++;
+
+            }
+
+        }
+        for (BollettaLGI data : list) {
+            if((data.getTipo().equals(getString(R.string.luce))) && (data.getId() == maxLuce)) {
+                ultimaLuce = data.getCosto();
+                sommaLuce -= ultimaLuce;
+                cntLuce = cntLuce -1;
+
+            }
+            if((data.getTipo().equals(getString(R.string.gas))) && (data.getId() == maxGas)) {
+                ultimaGas = data.getCosto();
+                sommaGas -= ultimaGas;
+                cntGas = cntGas -1;
+
+            }
+            if((data.getTipo().equals(getString(R.string.internet))) && (data.getId() == maxInternet)) {
+                ultimaInternet = data.getCosto();
+                sommaInternet -= ultimaInternet;
+                cntInternet = cntInternet -1;
+
+            }
+
+        }
+        if (cntLuce <= 0) {
+            statisticheLuce.setVisibility(View.GONE);
+            textStatisticheLuce.setVisibility(View.GONE);
+        } else if (ultimaLuce < (sommaLuce/cntLuce)){
+            percentualeLuce = (((sommaLuce/cntLuce) - ultimaLuce)/(sommaLuce/cntLuce))*100;
+            String percentualeTroncata = String.format ("%.1f", percentualeLuce);
+            textStatisticheLuce.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#f1c40f'><u>" + getString(R.string.luce) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#2ecc71'>" + " più economica" + "</font>   "+" delle precedenti"));
+        } else if (ultimaLuce > (sommaLuce/cntLuce)){
+            percentualeLuce = ((ultimaLuce -(sommaLuce/cntLuce))/(sommaLuce/cntLuce))*100;
+            String percentualeTroncata = String.format ("%.1f", percentualeLuce);
+            textStatisticheLuce.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#f1c40f'><u>" + getString(R.string.luce) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#e74c3c'>" + " più cara" + "</font>   "+" delle precedenti"));
+        }
+
+        if (cntGas <= 0) {
+            statisticheGas.setVisibility(View.GONE);
+            textStatisticheGas.setVisibility(View.GONE);
+        } else if (ultimaGas < (sommaGas/cntGas)){
+            percentualeGas = (((sommaGas/cntGas) - ultimaGas)/(sommaGas/cntGas))*100;
+            String percentualeTroncata = String.format ("%.1f", percentualeGas);
+            textStatisticheGas.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#ff5722'><u>" + getString(R.string.gas) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#2ecc71'>" + " più economica" + "</font>   "+" delle precedenti"));
+        } else if (ultimaGas > (sommaLuce/cntGas)){
+            percentualeGas = ((ultimaGas -(sommaGas/cntGas))/(sommaGas/cntGas))*100;
+            String percentualeTroncata = String.format ("%.1f", percentualeGas);
+            textStatisticheGas.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#ff5722'><u>" + getString(R.string.gas) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#e74c3c'>" + " più cara" + "</font>   "+" delle precedenti"));
+        }
+
+        if (cntInternet == 0) {
+            statisticheInternet.setVisibility(View.GONE);
+            textStatisticheInternet.setVisibility(View.GONE);
+        } else if (ultimaInternet <= (sommaInternet/cntInternet)){
+            percentualeInternet = (((sommaInternet/cntInternet) - ultimaInternet)/(sommaInternet/cntInternet))*100;
+            String percentualeTroncata = String.format ("%.1f", percentualeInternet);
+            textStatisticheInternet.setText(Html.fromHtml("L'ultima bolletta "+ "<font color='#80deea'><u>"+ getString(R.string.internet) + "</u></font>" + " inserita è stata il " + percentualeTroncata + "%"+ "<font color='#2ecc71'>" + " più economica" + "</font>   "+" delle precedenti"));
+        } else if (ultimaInternet > (sommaInternet/cntInternet)){
+            percentualeInternet = ((ultimaInternet -(sommaInternet/cntInternet))/(sommaInternet/cntInternet))*100;
+            String percentualeTroncata = String.format ("%.1f", percentualeInternet);
+            textStatisticheInternet.setText(Html.fromHtml("L'ultima bolletta "+ "<font color='#80deea'>"+ getString(R.string.internet) + "</font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#e74c3c'>" + " più cara" + "</font>   "+" delle precedenti"));
+        }
+
     }
 }

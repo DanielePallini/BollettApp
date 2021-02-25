@@ -15,10 +15,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
+
+
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -34,7 +34,7 @@ import com.example.login.entities.BollettaLGI;
 import com.example.login.charts.ChartItem;
 import com.example.login.charts.LineChartItem;
 import com.example.login.charts.PieChartItem;
-import com.example.login.uiutilities.FeedAdapter;
+
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.view.View.GONE;
+
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
@@ -74,10 +74,10 @@ public class FragmentGrafici extends Fragment {
     private int start3 = month - 3;
     private int start6 = month - 6;
 
-    //int day = cal.get(Calendar.DAY_OF_MONTH);
+
     private int currentYear = cal.get(Calendar.YEAR) -2000;
     private int lastYear = currentYear - 1;
-    //private FeedAdapter feedAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         bollette = new ArrayList<>();
@@ -88,17 +88,13 @@ public class FragmentGrafici extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        /*
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-         */
         View view = inflater.inflate(R.layout.fragment_grafici, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Grafici " + argomentoGrafici);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Grafici " + argomentoGrafici + " " + periodoRiferimento);
         setHasOptionsMenu(true);
         if (start3 <= 0) start3 = start3 + 12;
-        if (start6 <= 0) start6 = start6 + 6;
+        if (start6 <= 0) start6 = start6 + 12;
 
 
         ListView lv = view.findViewById(R.id.listView1);
@@ -162,6 +158,7 @@ public class FragmentGrafici extends Fragment {
         int cntInternet = 0;
         int finePeriodo;
         int anno;
+
         ArrayList<BollettaLGI> list= MainActivity.bollette;
         for (BollettaLGI data : list) {
 
@@ -171,9 +168,19 @@ public class FragmentGrafici extends Fragment {
 
             if(data.getTipo().equals("Luce")){
                 switch (periodoRiferimento){
-                    case "3 mesi":
+                    case "Ultimi 3 Mesi":
                         if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
-                            //CheckAndAdd(entry,cntLuce,data);
+
+                            if (argomentoGrafici.equals("Consumi")) {
+                                entry.add(new Entry(cntLuce, (float) data.getConsumo()));
+                            } else {
+                                entry.add(new Entry(cntLuce, (float) data.getCosto()));
+                            }
+                            cntLuce++;
+
+                            break;
+                        }
+                        else if ((month-3 <= 0) && (anno == currentYear) && (finePeriodo <= month) ){
                             if (argomentoGrafici.equals("Consumi")) {
                                 entry.add(new Entry(cntLuce, (float) data.getConsumo()));
                             } else {
@@ -192,7 +199,7 @@ public class FragmentGrafici extends Fragment {
                             cntLuce++;
                         }
                         break;
-                    case "6 mesi":
+                    case "Ultimi 6 Mesi":
                         if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
                             if (argomentoGrafici.equals("Consumi")) {
                                 entry.add(new Entry(cntLuce, (float) data.getConsumo()));
@@ -200,6 +207,17 @@ public class FragmentGrafici extends Fragment {
                                 entry.add(new Entry(cntLuce, (float) data.getCosto()));
                             }
                             cntLuce++;
+                            break;
+                        }
+
+                        else if ((month-6 <= 0) && (anno == currentYear) && (finePeriodo <= month) ){
+                            if (argomentoGrafici.equals("Consumi")) {
+                                entry.add(new Entry(cntLuce, (float) data.getConsumo()));
+                            } else {
+                                entry.add(new Entry(cntLuce, (float) data.getCosto()));
+                            }
+                            cntLuce++;
+
                             break;
                         }
                         else if ((month-6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)) {
@@ -212,7 +230,7 @@ public class FragmentGrafici extends Fragment {
 
                         }
                         break;
-                    case "1 anno":
+                    case "Ultimo Anno":
                         if ((anno == currentYear) && (finePeriodo <= month)){
                             if (argomentoGrafici.equals("Consumi")) {
                                 entry.add(new Entry(cntLuce, (float) data.getConsumo()));
@@ -246,15 +264,24 @@ public class FragmentGrafici extends Fragment {
             }
             if(data.getTipo().equals("Gas")){
                 switch (periodoRiferimento){
-                    case "3 mesi":
+                    case "Ultimi 3 Mesi":
                         if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
-                            //CheckAndAdd(entry,cntLuce,data);
                             if (argomentoGrafici.equals("Consumi")) {
                                 entry2.add(new Entry(cntGas, (float) data.getConsumo()));
                             } else {
                                 entry2.add(new Entry(cntGas, (float) data.getCosto()));
                             }
                             cntGas++;
+                            break;
+                        }
+                        else if ((month-3 <= 0) && (anno == currentYear)&& (finePeriodo <= month) ){
+                            if (argomentoGrafici.equals("Consumi")) {
+                                entry2.add(new Entry(cntGas, (float) data.getConsumo()));
+                            } else {
+                                entry2.add(new Entry(cntGas, (float) data.getCosto()));
+                            }
+                            cntGas++;
+
                             break;
                         }
                         else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
@@ -267,8 +294,17 @@ public class FragmentGrafici extends Fragment {
 
                         }
                         break;
-                    case "6 mesi":
+                    case "Ultimi 6 Mesi":
                         if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
+                            if (argomentoGrafici.equals("Consumi")) {
+                                entry2.add(new Entry(cntGas, (float) data.getConsumo()));
+                            } else {
+                                entry2.add(new Entry(cntGas, (float) data.getCosto()));
+                            }
+                            cntGas++;
+                            break;
+                        }
+                        else if ((month-6 <= 0) && (anno == currentYear) && (finePeriodo <= month)){
                             if (argomentoGrafici.equals("Consumi")) {
                                 entry2.add(new Entry(cntGas, (float) data.getConsumo()));
                             } else {
@@ -287,7 +323,7 @@ public class FragmentGrafici extends Fragment {
 
                         }
                         break;
-                    case "1 anno":
+                    case "Ultimo Anno":
                         if ((anno == currentYear) && (finePeriodo <= month)){
                             if (argomentoGrafici.equals("Consumi")) {
                                 entry2.add(new Entry(cntGas, (float) data.getConsumo()));
@@ -322,27 +358,40 @@ public class FragmentGrafici extends Fragment {
             if(data.getTipo().equals("Internet")){
                 if (!argomentoGrafici.equals("Consumi")) {
                     switch (periodoRiferimento) {
-                        case "3 mesi":
+                        case "Ultimi 3 Mesi":
                             if ((month - 3 >= 0) && (anno == currentYear) && (month - 3 <= finePeriodo) && (finePeriodo <= month)) {
                                 entry3.add(new Entry(cntInternet, (float) data.getCosto()));
                                 cntInternet++;
                                 break;
-                            } else if ((month - 3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)) {
+                            }
+                            else if ((month - 3 <= 0) && (anno == currentYear) && (finePeriodo <= month)) {
+                                entry3.add(new Entry(cntInternet, (float) data.getCosto()));
+                                cntInternet++;
+                                break;
+                            }
+
+                            else if ((month - 3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)) {
                                 entry3.add(new Entry(cntInternet, (float) data.getCosto()));
                                 cntInternet++;
                             }
                             break;
-                        case "6 mesi":
+                        case "Ultimi 6 Mesi":
                             if ((month - 6 >= 0) && (anno == currentYear) && (month - 6 <= finePeriodo) && (finePeriodo <= month)) {
                                 entry3.add(new Entry(cntInternet, (float) data.getCosto()));
                                 cntInternet++;
                                 break;
-                            } else if ((month - 6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)) {
+                            }
+                            else if ((month - 6 <= 0) && (anno == currentYear) && (finePeriodo <= month)) {
+                                entry3.add(new Entry(cntInternet, (float) data.getCosto()));
+                                cntInternet++;
+                                break;
+                            }
+                            else if ((month - 6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)) {
                                 entry3.add(new Entry(cntInternet, (float) data.getCosto()));
                                 cntInternet++;
                             }
                             break;
-                        case "1 anno":
+                        case "Ultimo Anno":
                             if ((anno == currentYear) && (finePeriodo <= month)) {
                                 entry3.add(new Entry(cntInternet, (float) data.getCosto()));
                                 cntInternet++;
@@ -359,41 +408,9 @@ public class FragmentGrafici extends Fragment {
 
                     }
                 }
-                //sommaInternet += data.getCosto();
-            }
-/*
-            switch(data.getTipo()){
-                case "Luce":
-                    if (argomentoGrafici.equals("Consumi")) {
-                        entry.add(new Entry(cntLuce, (float) data.getConsumo()));
-                    } else {
-                        entry.add(new Entry(cntLuce, (float) data.getCosto()));
-                    }
-                    cntLuce++;
-                    break;
-                case "Gas":
-                    if (argomentoGrafici.equals("Consumi")) {
-                        entry2.add(new Entry(cntGas, (float) data.getConsumo()));
-                    } else {
-                        entry2.add(new Entry(cntGas, (float) data.getCosto()));
-                    }
-                    //entry2.add(new Entry(cntGas, (float)data.getCosto()));
-                    cntGas++;
-                    break;
-                case "Internet":
-                    if (argomentoGrafici.equals("Consumi")) {
-                        //entry3.add(new Entry(cntInternet, (float) data.getConsumo()));
-                        break;
-                    } else {
-                        entry3.add(new Entry(cntInternet, (float) data.getCosto()));
-                    }
-                    //entry3.add(new Entry(cntInternet, (float)data.getCosto()));
-                    cntInternet++;
-                    break;
-
 
             }
-            */
+
 
 
         }
@@ -432,11 +449,14 @@ public class FragmentGrafici extends Fragment {
         d4.setDrawValues(false);
 
         ArrayList<ILineDataSet> sets = new ArrayList<>();
-        sets.add(d1);
-        sets.add(d2);
-        if (!argomentoGrafici.equals("Consumi")) {
-            sets.add(d3);
+        if ((cntLuce > 1) || (cntGas >1) || (cntInternet > 1))   {
+            sets.add(d1);
+            sets.add(d2);
+            if (!argomentoGrafici.equals("Consumi")) {
+                sets.add(d3);
+            }
         }
+
         sets.add(d4);
         return new LineData(sets);
     }
@@ -589,53 +609,45 @@ public class FragmentGrafici extends Fragment {
             }
 
             switch (periodoRiferimento){
-                case "3 mesi":
-                    for (int i = start3; i<= month; i++) {
-                        if (i > 12) {
-                            i = 1;
+                case "Ultimi 3 Mesi":
+                    for (int i = month-3; i<= month; i++) {
+                        if (i <= 0) {
+                            entries.add(new BarEntry((float) i+12,(float) Mesi[i+11]));
+                        } else {
+                            entries.add(new BarEntry((float) i, (float) Mesi[i - 1]));
                         }
-                        entries.add(new BarEntry((float) i,(float) Mesi[i-1]));
-
                     }
                     break;
-                case "6 mesi":
-                    for (int i = start6; i<= month; i++) {
-                        if (i > 12) {
-                            i = 1;
+                case "Ultimi 6 Mesi":
+                    for (int i = month-6; i<= month; i++) {
+                        if (i <= 0) {
+                            entries.add(new BarEntry((float) i+12,(float) Mesi[i+11]));
+                        } else {
+                            entries.add(new BarEntry((float) i, (float) Mesi[i - 1]));
                         }
-                        entries.add(new BarEntry((float) i,(float) Mesi[i-1]));
-
-                    }
-                    break;
-                    /*
-                case "1 anno":
-                    for (int i = 0; i < 12; i++) {
-                        entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
                     }
                     break;
 
-                     */
                 default:
                     for (int i = 0; i < 12; i++) {
                         entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
                     }
                     break;
             }
-            /*
-            for (int i = 0; i < 12; i++) {
-                entries.add(new BarEntry((float) i+1,(float) Mesi[i]));
-            }
 
-             */
         }
         BarDataSet d;
         if (argomentoGrafici.equals("Consumi")){
             d = new BarDataSet(entries, "Somma mensile dei consumi ");
+
+            d.setColor(ColorTemplate.MATERIAL_COLORS[3]);
         } else {
             d = new BarDataSet(entries, "Somma mensile dei costi ");
+            d.setColor(ColorTemplate.MATERIAL_COLORS[0]);
+
         }
 
-        d.setColors(ColorTemplate.MATERIAL_COLORS[1],ColorTemplate.MATERIAL_COLORS[2],ColorTemplate.MATERIAL_COLORS[3]);
+
         d.setHighLightAlpha(255);
 
         BarData cd = new BarData(d);
@@ -665,70 +677,156 @@ public class FragmentGrafici extends Fragment {
 
             if(data.getTipo().equals("Luce")){
                 switch (periodoRiferimento){
-                    case "3 mesi":
+                    case "Ultimi 3 Mesi":
                         if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
-                            sommaLuce += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                             break;
+                        }
+                        else if ((month-3 <= 0) && (anno == currentYear)&& (finePeriodo <= month) ){
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                         }
                         else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
-                            sommaLuce += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                         }
                         break;
-                    case "6 mesi":
+                    case "Ultimi 6 Mesi":
                         if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
-                            sommaLuce += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                             break;
+                        }
+                        else if ((month-6 <= 0) && (anno == currentYear) && (finePeriodo <= month)){
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                         }
                         else if ((month-6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)){
-                            sommaLuce += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                         }
                         break;
-                    case "1 anno":
+                    case "Ultimo Anno":
                         if ((anno == currentYear) && (finePeriodo <= month)){
-                            sommaLuce += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                             break;
                         }
+
                         else if ((anno == lastYear) && (month <= finePeriodo)){
-                            sommaLuce += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaLuce += data.getConsumo();
+                            } else {
+                                sommaLuce += data.getCosto();
+                            }
                         }
                         break;
                     default:
-                        sommaLuce += data.getCosto();
+                        if (argomentoGrafici.equals("Consumi")){
+                            sommaLuce += data.getConsumo();
+                        } else {
+                            sommaLuce += data.getCosto();
+                        }
                         break;
+
                 }
-                Log.d(TAG, "sommaluce: "+sommaLuce);
+
             }
             if(data.getTipo().equals("Gas")){
                 switch (periodoRiferimento){
-                    case "3 mesi":
+                    case "Ultimi 3 Mesi":
                         if ((month-3 >= 0) && (anno == currentYear) && (month-3 <= finePeriodo) && (finePeriodo <= month) ){
-                            sommaGas += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaGas += data.getConsumo();
+                            } else {
+                                sommaGas += data.getCosto();
+                            }
                             break;
                         }
+                        else if ((month-3 <= 0) && (anno == currentYear) && (finePeriodo <= month)){
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaGas += data.getConsumo();
+                            } else {
+                                sommaGas += data.getCosto();
+                            }
+                        }
                         else if ((month-3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)){
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaGas += data.getConsumo();
+                            } else {
+                                sommaGas += data.getCosto();
+                            }
+                        }
+                        break;
+                    case "Ultimi 6 Mesi":
+                    if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
+                        if (argomentoGrafici.equals("Consumi")){
+                            sommaGas += data.getConsumo();
+                        } else {
                             sommaGas += data.getCosto();
                         }
                         break;
-                    case "6 mesi":
-                    if ((month-6 >= 0) && (anno == currentYear) && (month-6 <= finePeriodo) && (finePeriodo <= month)){
-                        sommaGas += data.getCosto();
-                        break;
+                    }
+                    else if ((month-6 <= 0) && (anno == currentYear) && (finePeriodo <= month)){
+                        if (argomentoGrafici.equals("Consumi")){
+                            sommaGas += data.getConsumo();
+                        } else {
+                            sommaGas += data.getCosto();
+                        }
                     }
                     else if ((month-6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)){
-                        sommaGas += data.getCosto();
+                        if (argomentoGrafici.equals("Consumi")){
+                            sommaGas += data.getConsumo();
+                        } else {
+                            sommaGas += data.getCosto();
+                        }
                     }
                     break;
-                    case "1 anno":
+                    case "Ultimo Anno":
                         if ((anno == currentYear) && (finePeriodo <= month)){
-                            sommaGas += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaGas += data.getConsumo();
+                            } else {
+                                sommaGas += data.getCosto();
+                            }
                             break;
                         }
                         else if ((anno == lastYear) && (month <= finePeriodo)){
-                            sommaGas += data.getCosto();
+                            if (argomentoGrafici.equals("Consumi")){
+                                sommaGas += data.getConsumo();
+                            } else {
+                                sommaGas += data.getCosto();
+                            }
                         }
                         break;
                     default:
-                        sommaGas += data.getCosto();
+                        if (argomentoGrafici.equals("Consumi")){
+                            sommaGas += data.getConsumo();
+                        } else {
+                            sommaGas += data.getCosto();
+                        }
                         break;
                 }
 
@@ -736,23 +834,33 @@ public class FragmentGrafici extends Fragment {
             if(data.getTipo().equals("Internet")){
                 if (!argomentoGrafici.equals("Consumi")) {
                     switch (periodoRiferimento) {
-                        case "3 mesi":
+                        case "Ultimi 3 Mesi":
                             if ((month - 3 >= 0) && (anno == currentYear) && (month - 3 <= finePeriodo) && (finePeriodo <= month)) {
                                 sommaInternet += data.getCosto();
                                 break;
-                            } else if ((month - 3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)) {
+                            }
+                            else if ((month-3 <= 0) && (anno == currentYear) && (finePeriodo <= month)){
+                                sommaInternet += data.getCosto();
+                            }
+                            else if ((month - 3 <= 0) && (start3 <= finePeriodo) && (anno == lastYear)) {
                                 sommaInternet += data.getCosto();
                             }
                             break;
-                        case "6 mesi":
+                        case "Ultimi 6 Mesi":
                             if ((month - 6 >= 0) && (anno == currentYear) && (month - 6 <= finePeriodo) && (finePeriodo <= month)) {
                                 sommaInternet += data.getCosto();
                                 break;
-                            } else if ((month - 6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)) {
+                            }
+                            else if ((month-6 <= 0) && (anno == currentYear) && (finePeriodo <= month)){
                                 sommaInternet += data.getCosto();
                             }
+                            else if ((month - 6 <= 0) && (start6 <= finePeriodo) && (anno == lastYear)) {
+
+                                sommaInternet += data.getCosto();
+
+                            }
                             break;
-                        case "1 anno":
+                        case "Ultimo Anno":
                             if ((anno == currentYear) && (finePeriodo <= month)) {
                                 sommaInternet += data.getCosto();
                                 break;
@@ -766,17 +874,22 @@ public class FragmentGrafici extends Fragment {
 
                     }
                 }
-                //sommaInternet += data.getCosto();
+
             }
 
         }
-        Log.d(TAG, "Sommaluce: " + sommaLuce);
-        Log.d(TAG, "SommaGas: " + sommaGas);
-        Log.d(TAG, "Sommainternet: " + sommaInternet);
-        entries.add(new PieEntry((float) sommaLuce, "Luce " ));
-        entries.add(new PieEntry((float) sommaGas, "Gas "));
+
+
+
+            entries.add(new PieEntry((float) sommaLuce, "Luce "));
+
+
+            entries.add(new PieEntry((float) sommaGas, "Gas "));
+
         if (!argomentoGrafici.equals("Consumi")) {
-            entries.add(new PieEntry((float) sommaInternet, "Internet"));
+
+                entries.add(new PieEntry((float) sommaInternet, "Internet"));
+
         }
 
 
@@ -811,7 +924,7 @@ public class FragmentGrafici extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_consumi:
-                Log.d(TAG, "onOptionsItemSelected: consumo");
+
                 boolean result = getDialogValueBack(getContext(), "Consumo");
 
                 if (result){
@@ -822,7 +935,7 @@ public class FragmentGrafici extends Fragment {
                 }
 
             case R.id.menu_costi:
-                Log.d(TAG, "onOptionsItemSelected: costi");
+
                 boolean result2 = getDialogValueBack(getContext(), "Costi");
                 if (result2){
                     argomentoGrafici = "Costi";
@@ -831,20 +944,20 @@ public class FragmentGrafici extends Fragment {
                     return true;
                 }
             case R.id.menu_3mesi:
-                Log.d(TAG, "onOptionsItemSelected: 3mesi");
-                periodoRiferimento = "3 mesi";
+
+                periodoRiferimento = "Ultimi 3 Mesi";
                 break;
             case R.id.menu_6mesi:
-                Log.d(TAG, "onOptionsItemSelected: 6mesi");
-                periodoRiferimento = "6 mesi";
+
+                periodoRiferimento = "Ultimi 6 Mesi";
                 break;
             case R.id.menu_1anno:
-                Log.d(TAG, "onOptionsItemSelected: 1anno");
-                periodoRiferimento = "1 anno";
+
+                periodoRiferimento = "Ultimo Anno";
                 break;
             case R.id.menu_tutti:
-                Log.d(TAG, "onOptionsItemSelected: tutti");
-                periodoRiferimento = "tutti";
+
+                periodoRiferimento = "";
                 break;
         }
         Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -855,17 +968,7 @@ public class FragmentGrafici extends Fragment {
         return true;
 
     }
-    /*
-    public void CheckAndAdd(ArrayList<Entry> entry, int cnt, BollettaLGI data){
-        if (argomentoGrafici.equals("Consumi")) {
-            entry.add(new Entry(cnt, (float) data.getConsumo()));
-        } else {
-            entry.add(new Entry(cnt, (float) data.getCosto()));
-        }
 
-    }
-
-     */
 
     private boolean getDialogValueBack(Context context, String tipo)
     {
@@ -881,7 +984,7 @@ public class FragmentGrafici extends Fragment {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setCancelable(true);
         if (tipo.equals("Consumo")){
-            //alert.setTitle(R.string.visualizzaconsumo);
+
             alert.setMessage(R.string.visualizzaconsumo);
         } else {
             alert.setMessage(R.string.visualizzacosto);
