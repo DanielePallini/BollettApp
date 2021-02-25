@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.Html;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 public class FragmentProfilo extends Fragment {
@@ -433,6 +435,9 @@ public class FragmentProfilo extends Fragment {
             percentualeLuce = ((ultimaLuce -(sommaLuce/cntLuce))/(sommaLuce/cntLuce))*100;
             String percentualeTroncata = String.format ("%.1f", percentualeLuce);
             textStatisticheLuce.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#f1c40f'><u>" + getString(R.string.luce) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#e74c3c'>" + " più cara" + "</font>   "+" delle precedenti"));
+        } else if (ultimaLuce == (sommaLuce/cntLuce)) {
+            textStatisticheLuce.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#f1c40f'><u>" + getString(R.string.luce) + "</u></font>   "+" inserita è dello stesso costo delle precedenti"));
+
         }
 
         if (cntGas <= 0) {
@@ -441,17 +446,21 @@ public class FragmentProfilo extends Fragment {
         } else if (ultimaGas < (sommaGas/cntGas)){
             percentualeGas = (((sommaGas/cntGas) - ultimaGas)/(sommaGas/cntGas))*100;
             String percentualeTroncata = String.format ("%.1f", percentualeGas);
+
             textStatisticheGas.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#ff5722'><u>" + getString(R.string.gas) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#2ecc71'>" + " più economica" + "</font>   "+" delle precedenti"));
-        } else if (ultimaGas > (sommaLuce/cntGas)){
+        } else if (ultimaGas > (sommaGas/cntGas)){
             percentualeGas = ((ultimaGas -(sommaGas/cntGas))/(sommaGas/cntGas))*100;
             String percentualeTroncata = String.format ("%.1f", percentualeGas);
-            textStatisticheGas.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#ff5722'><u>" + getString(R.string.gas) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#e74c3c'>" + " più cara" + "</font>   "+" delle precedenti"));
-        }
 
-        if (cntInternet == 0) {
+            textStatisticheGas.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#ff5722'><u>" + getString(R.string.gas) + "</u></font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#e74c3c'>" + " più cara" + "</font>   "+" delle precedenti"));
+        } else if (ultimaGas == (sommaGas/cntGas)) {
+            textStatisticheGas.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#ff5722'><u>" + getString(R.string.gas) + "</u></font>   "+" inserita è dello stesso costo delle precedenti"));
+
+        }
+        if (cntInternet <= 0) {
             statisticheInternet.setVisibility(View.GONE);
             textStatisticheInternet.setVisibility(View.GONE);
-        } else if (ultimaInternet <= (sommaInternet/cntInternet)){
+        } else if (ultimaInternet < (sommaInternet/cntInternet)){
             percentualeInternet = (((sommaInternet/cntInternet) - ultimaInternet)/(sommaInternet/cntInternet))*100;
             String percentualeTroncata = String.format ("%.1f", percentualeInternet);
             textStatisticheInternet.setText(Html.fromHtml("L'ultima bolletta "+ "<font color='#80deea'><u>"+ getString(R.string.internet) + "</u></font>" + " inserita è stata il " + percentualeTroncata + "%"+ "<font color='#2ecc71'>" + " più economica" + "</font>   "+" delle precedenti"));
@@ -459,6 +468,9 @@ public class FragmentProfilo extends Fragment {
             percentualeInternet = ((ultimaInternet -(sommaInternet/cntInternet))/(sommaInternet/cntInternet))*100;
             String percentualeTroncata = String.format ("%.1f", percentualeInternet);
             textStatisticheInternet.setText(Html.fromHtml("L'ultima bolletta "+ "<font color='#80deea'>"+ getString(R.string.internet) + "</font>   "+" inserita è stata il " + percentualeTroncata + "%"+ "<font color='#e74c3c'>" + " più cara" + "</font>   "+" delle precedenti"));
+        } else if (ultimaInternet == (sommaInternet/cntInternet)) {
+            textStatisticheInternet.setText(Html.fromHtml("L'ultima bolletta " + "<font color='#80deea'>"+ getString(R.string.internet) + "</u></font>   "+" inserita è dello stesso costo delle precedenti"));
+
         }
 
     }
